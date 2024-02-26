@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BackgroundGradient
+  m_Name: WindowGradient
   m_Shader: {fileID: -6465566751694194690, guid: 3fb779cc663f36342928ca9d0ff286be, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -37,12 +37,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _LerpMultiplier: 1.9
+    - _LerpMultiplier: 1.09
     m_Colors:
-    - _BottomColour: {r: 1, g: 1, b: 1, a: 0}
-    - _TopColour: {r: 0, g: 0, b: 0, a: 0}
+    - _BottomColour: {r: 1, g: 1, b: 1, a: 1}
+    - _TopColour: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &511048319889898884
+--- !u!114 &4236578602635732235
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
