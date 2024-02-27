@@ -12,13 +12,18 @@ namespace UI
         public List<TextMeshProUGUI> AllTMPTexts;
         public Color OnHoverColour;
         public Color OffHoverColour;
-    
+        
         public void OnPointerEnter(PointerEventData eventData)
         {
             foreach (var text in AllTMPTexts) text.color = OnHoverColour;
         }
         
         public void OnPointerExit(PointerEventData eventData)
+        {
+            foreach (var text in AllTMPTexts) text.color = OffHoverColour;
+        }
+
+        private void OnDisable()
         {
             foreach (var text in AllTMPTexts) text.color = OffHoverColour;
         }

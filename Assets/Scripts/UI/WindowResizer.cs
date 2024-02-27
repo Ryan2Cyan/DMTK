@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -9,60 +10,117 @@ namespace UI
         HorizontalRight,
         HorizontalLeft,
         VerticalUp,
-        VerticalDown
+        VerticalDown,
+        DiagonalTopRight,
+        DiagonalBottomRight,
+        DiagonalTopLeft,
+        DiagonalBottomLeft
     }
     
-    public class WindowResizer : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
+    /// <summary> A "resizer" is one of the small click-and-drag icons that appear when transforming an image.
+    /// The resizer can adjust an image in a variety of directions depending on the type. Additionally it can
+    /// change colour depending on whether it is pressed, highlighted, or un-highlighted.</summary>
+    public class WindowResizer : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
+        [Header("Required")]
         public ResizerType ResizerType;
         public RectTransform WindowRectTransform;
-        private Vector3 _mouseClickPosition;
+        public Image ResizerImage;
+        
+        [Header("Colour Settings")]
+        
+        public Color Unhighlighted;
+        public Color Highlighted;
+        public Color Pressed;
+        
+        private Vector3 _mouseClickStartPosition;
         private bool _pressed;
+        private bool _cursorPresent;
+
+        private void Start()
+        {
+            ResizerImage.color = Unhighlighted;
+        }
 
         public void OnDrag(PointerEventData eventData)
         {
             if (!_pressed) return;
             
-            var distance = Input.mousePosition - _mouseClickPosition;
+            var distance = Input.mousePosition - _mouseClickStartPosition;
             var localPosition = WindowRectTransform.localPosition;
             var sizeDelta = WindowRectTransform.sizeDelta;
             switch (ResizerType)
             {
                 case ResizerType.HorizontalRight:
                 {
-                    sizeDelta = new Vector2(sizeDelta.x + distance.x * 2, sizeDelta.y);
-                    WindowRectTransform.sizeDelta = sizeDelta;
-                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x, localPosition.y, localPosition.z);
+                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + distance.x, sizeDelta.y);
+                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x / 2f, localPosition.y, localPosition.z);
                 } break;
                 case ResizerType.HorizontalLeft:
                 {
-                    WindowRectTransform.sizeDelta = new Vector2(-distance.x * 2f, WindowRectTransform.sizeDelta.y);
-                    WindowRectTransform.localPosition = new Vector3(localPosition.x - distance.x, localPosition.y, localPosition.z);
+                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + distance.x * -1, sizeDelta.y);
+                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x / 2f, localPosition.y, localPosition.z);
                 } break;
                 case ResizerType.VerticalUp:
                 {
-                    WindowRectTransform.sizeDelta = new Vector2(WindowRectTransform.sizeDelta.x,distance.y * 2f);
-                    WindowRectTransform.localPosition = new Vector3(localPosition.x, localPosition.y + distance.y, localPosition.z);
+                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x,sizeDelta.y + distance.y);
+                    WindowRectTransform.localPosition = new Vector3(localPosition.x, localPosition.y + distance.y / 2f, localPosition.z);
                 } break;
                 case ResizerType.VerticalDown:
                 {
-                    WindowRectTransform.sizeDelta = new Vector2(WindowRectTransform.sizeDelta.x,-distance.y * 2f);
-                    WindowRectTransform.localPosition = new Vector3(localPosition.x, localPosition.y - distance.y, localPosition.z);
+                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x, sizeDelta.y + distance.y * -1);
+                    WindowRectTransform.localPosition = new Vector3(localPosition.x, localPosition.y + distance.y / 2f, localPosition.z);
+                } break;
+                case ResizerType.DiagonalTopRight:
+                {
+                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + distance.x, sizeDelta.y + distance.y);
+                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x / 2f, localPosition.y + distance.y / 2f, localPosition.z);
+                }break;
+                case ResizerType.DiagonalBottomRight:
+                {
+                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + distance.x, sizeDelta.y + distance.y * -1);
+                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x / 2f, localPosition.y + distance.y / 2f, localPosition.z);
+                }break;
+                case ResizerType.DiagonalTopLeft:
+                {
+                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + distance.x * -1, sizeDelta.y + distance.y);
+                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x / 2f, localPosition.y + distance.y / 2f, localPosition.z);
+                } break;
+                case ResizerType.DiagonalBottomLeft:
+                {
+                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + distance.x * -1, sizeDelta.y + distance.y * -1);
+                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x / 2f, localPosition.y + distance.y / 2f, localPosition.z);
                 } break;
                 default: throw new ArgumentOutOfRangeException();
             }
-            _mouseClickPosition = Input.mousePosition;
+            _mouseClickStartPosition = Input.mousePosition;
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            _mouseClickPosition = Input.mousePosition;
+            _mouseClickStartPosition = Input.mousePosition;
             _pressed = true;
+            ResizerImage.color = Pressed;
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
             _pressed = false;
+            ResizerImage.color = _cursorPresent ? Highlighted : Unhighlighted;
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            _cursorPresent = true;
+            if (_pressed) return;
+            ResizerImage.color = Highlighted;
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            _cursorPresent = false;
+            if (_pressed) return;
+            ResizerImage.color = Unhighlighted;
         }
     }
 }
