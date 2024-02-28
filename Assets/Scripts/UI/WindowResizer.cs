@@ -26,25 +26,29 @@ namespace UI
         public ResizerType ResizerType;
         public RectTransform WindowRectTransform;
         public Image ResizerImage;
-        
+
         [Header("Colour Settings")]
-        
-        public Color Unhighlighted;
-        public Color Highlighted;
+        public Color NotPressed;
         public Color Pressed;
-        
+
+        private enum State
+        {
+            SelectedCursorPresent,
+            SelectedCursorNotPresent,
+            Idle,
+            Disabled
+        }
+        private State _currentState;
         private Vector3 _mouseClickStartPosition;
-        private bool _pressed;
-        private bool _cursorPresent;
 
         private void Start()
         {
-            ResizerImage.color = Unhighlighted;
+            ChangeState(State.Disabled);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            if (!_pressed) return;
+            if (_currentState != State.SelectedCursorPresent && _currentState != State.SelectedCursorNotPresent) return;
             
             var distance = Input.mousePosition - _mouseClickStartPosition;
             var localPosition = WindowRectTransform.localPosition;
@@ -95,32 +99,54 @@ namespace UI
             }
             _mouseClickStartPosition = Input.mousePosition;
         }
-
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if(_currentState == State.Disabled) ChangeState(State.Idle);
+            if(_currentState == State.SelectedCursorNotPresent) ChangeState(State.SelectedCursorPresent);
+        }
+        
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            ChangeState(_currentState == State.SelectedCursorPresent ? State.SelectedCursorNotPresent : State.Disabled);
+        }
+        
         public void OnPointerDown(PointerEventData eventData)
         {
-            _mouseClickStartPosition = Input.mousePosition;
-            _pressed = true;
-            ResizerImage.color = Pressed;
+            if (_currentState != State.Idle) return;
+            ChangeState(State.SelectedCursorPresent);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            _pressed = false;
-            ResizerImage.color = _cursorPresent ? Highlighted : Unhighlighted;
+            ChangeState(_currentState == State.SelectedCursorPresent ? State.Idle : State.Disabled);
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
+        private void ChangeState(State state)
         {
-            _cursorPresent = true;
-            if (_pressed) return;
-            ResizerImage.color = Highlighted;
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            _cursorPresent = false;
-            if (_pressed) return;
-            ResizerImage.color = Unhighlighted;
+            switch (state)
+            {
+                case State.SelectedCursorPresent:
+                {
+                    _mouseClickStartPosition = Input.mousePosition;
+                    ResizerImage.color = Pressed;   
+                } break;
+                case State.SelectedCursorNotPresent:
+                {
+                    
+                } break;
+                case State.Idle:
+                {
+                    ResizerImage.enabled = true;
+                    ResizerImage.color = NotPressed; 
+                } break;
+                case State.Disabled:
+                {
+                    ResizerImage.enabled = false;  
+                } break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+            _currentState = state;
         }
     }
 }
