@@ -99,7 +99,7 @@ namespace LobbyRelaySample
             catch (LobbyServiceException exception)
             {
                 SetGameState(GameState.JoinMenu);
-                LogHandlerSettings.Instance.SpawnErrorPopup($"Error creating lobby : ({exception.ErrorCode}) {exception.Message}");
+                // LogHandlerSettings.Instance.SpawnErrorPopup($"Error creating lobby : ({exception.ErrorCode}) {exception.Message}");
             }
         }
 
@@ -116,7 +116,7 @@ namespace LobbyRelaySample
             catch (LobbyServiceException exception)
             {
                 SetGameState(GameState.JoinMenu);
-                LogHandlerSettings.Instance.SpawnErrorPopup($"Error joining lobby : ({exception.ErrorCode}) {exception.Message}");
+                // LogHandlerSettings.Instance.SpawnErrorPopup($"Error joining lobby : ({exception.ErrorCode}) {exception.Message}");
             }
         }
 
@@ -150,8 +150,7 @@ namespace LobbyRelaySample
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                LogHandlerSettings.Instance.SpawnErrorPopup(
-                    "Empty Name not allowed."); // Lobby error type, then HTTP error type.
+                // LogHandlerSettings.Instance.SpawnErrorPopup("Empty Name not allowed."); // Lobby error type, then HTTP error type.
                 return;
             }
 
@@ -350,7 +349,7 @@ namespace LobbyRelaySample
             catch (LobbyServiceException exception)
             {
                 SetGameState(GameState.JoinMenu);
-                LogHandlerSettings.Instance.SpawnErrorPopup($"Couldn't join Lobby : ({exception.ErrorCode}) {exception.Message}");
+                // LogHandlerSettings.Instance.SpawnErrorPopup($"Couldn't join Lobby : ({exception.ErrorCode}) {exception.Message}");
             }
         }
 

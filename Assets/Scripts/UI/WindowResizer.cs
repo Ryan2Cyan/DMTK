@@ -16,6 +16,12 @@ namespace UI
         DiagonalTopLeft,
         DiagonalBottomLeft
     }
+
+    // public class ResizerData
+    // {
+    //     public Vector2 WindowSize;
+    //     public Vector2 WindowSize;
+    // }
     
     /// <summary> A "resizer" is one of the small click-and-drag icons that appear when transforming an image.
     /// The resizer can adjust an image in a variety of directions depending on the type. Additionally it can
@@ -26,127 +32,125 @@ namespace UI
         public ResizerType ResizerType;
         public RectTransform WindowRectTransform;
         public Image ResizerImage;
+        public RectTransform ParentTransform;
+        public Canvas ParentCanvas;
 
         [Header("Colour Settings")]
         public Color NotPressed;
         public Color Pressed;
+        
+        private Vector3 _mousePositionOnClick;
+        private Vector3 _windowPositionOnClick;
+        private Vector3 _resizeVector;
+        private Vector2 _sizeDeltaOnClick;
 
-        private enum State
-        {
-            SelectedCursorPresent,
-            SelectedCursorNotPresent,
-            Idle,
-            Disabled
-        }
-        private State _currentState;
-        private Vector3 _mouseClickStartPosition;
+        private bool _clicked;
+        private bool _pointerPresent;
 
         private void Start()
         {
-            ChangeState(State.Disabled);
+            TurnOff();
         }
 
-        public void OnDrag(PointerEventData eventData)
-        {
-            if (_currentState != State.SelectedCursorPresent && _currentState != State.SelectedCursorNotPresent) return;
-            
-            var distance = Input.mousePosition - _mouseClickStartPosition;
-            var localPosition = WindowRectTransform.localPosition;
-            var sizeDelta = WindowRectTransform.sizeDelta;
-            switch (ResizerType)
-            {
-                case ResizerType.HorizontalRight:
-                {
-                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + distance.x, sizeDelta.y);
-                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x / 2f, localPosition.y, localPosition.z);
-                } break;
-                case ResizerType.HorizontalLeft:
-                {
-                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + distance.x * -1, sizeDelta.y);
-                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x / 2f, localPosition.y, localPosition.z);
-                } break;
-                case ResizerType.VerticalUp:
-                {
-                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x,sizeDelta.y + distance.y);
-                    WindowRectTransform.localPosition = new Vector3(localPosition.x, localPosition.y + distance.y / 2f, localPosition.z);
-                } break;
-                case ResizerType.VerticalDown:
-                {
-                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x, sizeDelta.y + distance.y * -1);
-                    WindowRectTransform.localPosition = new Vector3(localPosition.x, localPosition.y + distance.y / 2f, localPosition.z);
-                } break;
-                case ResizerType.DiagonalTopRight:
-                {
-                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + distance.x, sizeDelta.y + distance.y);
-                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x / 2f, localPosition.y + distance.y / 2f, localPosition.z);
-                }break;
-                case ResizerType.DiagonalBottomRight:
-                {
-                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + distance.x, sizeDelta.y + distance.y * -1);
-                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x / 2f, localPosition.y + distance.y / 2f, localPosition.z);
-                }break;
-                case ResizerType.DiagonalTopLeft:
-                {
-                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + distance.x * -1, sizeDelta.y + distance.y);
-                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x / 2f, localPosition.y + distance.y / 2f, localPosition.z);
-                } break;
-                case ResizerType.DiagonalBottomLeft:
-                {
-                    WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + distance.x * -1, sizeDelta.y + distance.y * -1);
-                    WindowRectTransform.localPosition = new Vector3(localPosition.x + distance.x / 2f, localPosition.y + distance.y / 2f, localPosition.z);
-                } break;
-                default: throw new ArgumentOutOfRangeException();
-            }
-            _mouseClickStartPosition = Input.mousePosition;
-        }
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if(_currentState == State.Disabled) ChangeState(State.Idle);
-            if(_currentState == State.SelectedCursorNotPresent) ChangeState(State.SelectedCursorPresent);
+            if (_clicked) return;
+            if (_pointerPresent) return;
+
+            ResizerImage.enabled = true;
+            ResizerImage.color = NotPressed;
+            _pointerPresent = true;
         }
         
         public void OnPointerExit(PointerEventData eventData)
         {
-            ChangeState(_currentState == State.SelectedCursorPresent ? State.SelectedCursorNotPresent : State.Disabled);
+            _pointerPresent = false;
+            if (_clicked) return;
+            TurnOff();
         }
         
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (_currentState != State.Idle) return;
-            ChangeState(State.SelectedCursorPresent);
+            if (!_pointerPresent) return;
+            OnClick();
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            ChangeState(_currentState == State.SelectedCursorPresent ? State.Idle : State.Disabled);
+            if (_pointerPresent)
+            {
+                ResizerImage.enabled = true;
+                ResizerImage.color = NotPressed;
+            }
+            else TurnOff();
+            _clicked = false;
         }
 
-        private void ChangeState(State state)
+        private void OnClick()
         {
-            switch (state)
+            _mousePositionOnClick = Input.mousePosition / ParentCanvas.scaleFactor;
+            _windowPositionOnClick = WindowRectTransform.localPosition;
+            _sizeDeltaOnClick = WindowRectTransform.sizeDelta;
+            ResizerImage.color = Pressed;
+            _clicked = true;
+        }
+
+        private void TurnOff()
+        {
+            ResizerImage.enabled = false;
+            _clicked = false;
+            _pointerPresent = false;
+        }
+        
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (!_clicked) return;
+
+            _resizeVector = (Input.mousePosition / ParentCanvas.scaleFactor) - _mousePositionOnClick;
+            switch (ResizerType)
             {
-                case State.SelectedCursorPresent:
+                case ResizerType.HorizontalRight:
                 {
-                    _mouseClickStartPosition = Input.mousePosition;
-                    ResizerImage.color = Pressed;   
+                    WindowRectTransform.sizeDelta = new Vector2(_sizeDeltaOnClick.x + _resizeVector.x, WindowRectTransform.sizeDelta.y);
+                    WindowRectTransform.localPosition = new Vector3(_windowPositionOnClick.x + _resizeVector.x / 2f , _windowPositionOnClick.y, _windowPositionOnClick.z);
                 } break;
-                case State.SelectedCursorNotPresent:
-                {
-                    
-                } break;
-                case State.Idle:
-                {
-                    ResizerImage.enabled = true;
-                    ResizerImage.color = NotPressed; 
-                } break;
-                case State.Disabled:
-                {
-                    ResizerImage.enabled = false;  
-                } break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+                // case ResizerType.HorizontalLeft:
+                // {
+                //     WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + resizeVector.x * -1, sizeDelta.y);
+                //     WindowRectTransform.localPosition = new Vector3(localPosition.x + resizeVector.x / 2f, localPosition.y, localPosition.z);
+                // } break;
+                // case ResizerType.VerticalUp:
+                // {
+                //     WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x,sizeDelta.y + resizeVector.y);
+                //     WindowRectTransform.localPosition = new Vector3(localPosition.x, localPosition.y + resizeVector.y / 2f, localPosition.z);
+                // } break;
+                // case ResizerType.VerticalDown:
+                // {
+                //     WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x, sizeDelta.y + resizeVector.y * -1);
+                //     WindowRectTransform.localPosition = new Vector3(localPosition.x, localPosition.y + resizeVector.y / 2f, localPosition.z);
+                // } break;
+                // case ResizerType.DiagonalTopRight:
+                // {
+                //     WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + resizeVector.x, sizeDelta.y + resizeVector.y);
+                //     WindowRectTransform.localPosition = new Vector3(localPosition.x + resizeVector.x / 2f, localPosition.y + resizeVector.y / 2f, localPosition.z);
+                // }break;
+                // case ResizerType.DiagonalBottomRight:
+                // {
+                //     WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + resizeVector.x, sizeDelta.y + resizeVector.y * -1);
+                //     WindowRectTransform.localPosition = new Vector3(localPosition.x + resizeVector.x / 2f, localPosition.y + resizeVector.y / 2f, localPosition.z);
+                // }break;
+                // case ResizerType.DiagonalTopLeft:
+                // {
+                //     WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + resizeVector.x * -1, sizeDelta.y + resizeVector.y);
+                //     WindowRectTransform.localPosition = new Vector3(localPosition.x + resizeVector.x / 2f, localPosition.y + resizeVector.y / 2f, localPosition.z);
+                // } break;
+                // case ResizerType.DiagonalBottomLeft:
+                // {
+                //     WindowRectTransform.sizeDelta = new Vector2(sizeDelta.x + resizeVector.x * -1, sizeDelta.y + resizeVector.y * -1);
+                //     WindowRectTransform.localPosition = new Vector3(localPosition.x + resizeVector.x / 2f, localPosition.y + resizeVector.y / 2f, localPosition.z);
+                // } break;
+                default: throw new ArgumentOutOfRangeException();
             }
-            _currentState = state;
         }
     }
 }
