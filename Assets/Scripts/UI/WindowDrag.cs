@@ -8,16 +8,18 @@ namespace UI
     public class WindowDrag : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
         public Transform WindowTransform;
+        public Canvas ParentCanvas;
+        
         private Vector3 _mouseDownPosition;
         
         public void OnDrag(PointerEventData eventData)
         {
-            WindowTransform.localPosition = Input.mousePosition - _mouseDownPosition;
+            WindowTransform.localPosition = Input.mousePosition / ParentCanvas.scaleFactor - _mouseDownPosition;
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            _mouseDownPosition = Input.mousePosition - WindowTransform.localPosition;
+            _mouseDownPosition = Input.mousePosition / ParentCanvas.scaleFactor - WindowTransform.localPosition;
         }
     }
 }

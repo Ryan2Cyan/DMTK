@@ -1,0 +1,34 @@
+{
+    "name": "DMTKActions",
+    "maps": [
+        {
+            "name": "DMTKPlayer",
+            "id": "0fb9da05-fd55-4605-a725-89842b223a64",
+            "actions": [
+                {
+                    "name": "ConservativeResize",
+                    "type": "Button",
+                    "id": "cfc2c655-ab62-4864-8210-c81002541601",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e7142955-1320-488a-804a-6758e9bf16f0",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Hold(duration=0.01,pressPoint=0.01)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConservativeResize",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
