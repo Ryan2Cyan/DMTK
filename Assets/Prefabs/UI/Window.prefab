@@ -201,7 +201,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Window_Title
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 666f60eb5caaeef45b51f7d07ed8b77a, type: 2}
   m_sharedMaterial: {fileID: 654277090306158998, guid: 666f60eb5caaeef45b51f7d07ed8b77a, type: 2}
@@ -371,6 +371,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3431795686381009922}
+  - component: {fileID: 3360808899437334170}
   m_Layer: 5
   m_Name: Window
   m_TagString: Untagged
@@ -392,14 +393,31 @@ RectTransform:
   m_Children:
   - {fileID: 9001545514906069580}
   - {fileID: 2705012628949077151}
+  - {fileID: 7897707905190390363}
   m_Father: {fileID: 0}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.28128862, y: 0.323}
-  m_AnchorMax: {x: 0.52682215, y: 0.52900004}
-  m_AnchoredPosition: {x: -59.1335, y: 6.301605}
-  m_SizeDelta: {x: 411.3274, y: 265.1453}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 631.3274, y: 370.1453}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3360808899437334170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3251791548382623726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6273758eb474b4a419fcc870d72c9b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WindowTitle: 
+  TitleTMP: {fileID: 6771569737625489719}
+  MinimumSize: {x: 250, y: 250}
+  FixedSize: 1
 --- !u!1 &3306744329639439058
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,6 +738,42 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1.12
+--- !u!1 &5266635556533041281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7897707905190390363}
+  m_Layer: 5
+  m_Name: Content
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7897707905190390363
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5266635556533041281}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3431795686381009922}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.989, y: 1}
+  m_AnchoredPosition: {x: 0.7397461, y: 0.06109619}
+  m_SizeDelta: {x: 10.806055, y: -0.13930917}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7099578698739161958
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,7 +866,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WindowTransform: {fileID: 3431795686381009922}
-  ParentCanvas: {fileID: 0}
 --- !u!1 &7929246927375302126
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,6 +918,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2705012628949077151}
     m_Modifications:
+    - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
+      propertyPath: Window
+      value: 
+      objectReference: {fileID: 3360808899437334170}
     - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
       propertyPath: ResizerType
       value: 3
@@ -984,6 +1041,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2705012628949077151}
     m_Modifications:
     - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
+      propertyPath: Window
+      value: 
+      objectReference: {fileID: 3360808899437334170}
+    - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
       propertyPath: ResizerType
       value: 4
       objectReference: {fileID: 0}
@@ -1098,6 +1159,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2705012628949077151}
     m_Modifications:
     - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
+      propertyPath: Window
+      value: 
+      objectReference: {fileID: 3360808899437334170}
+    - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
       propertyPath: ResizerType
       value: 1
       objectReference: {fileID: 0}
@@ -1211,6 +1276,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2705012628949077151}
     m_Modifications:
+    - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
+      propertyPath: Window
+      value: 
+      objectReference: {fileID: 3360808899437334170}
     - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
       propertyPath: ResizerType
       value: 6
@@ -1333,6 +1402,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2705012628949077151}
     m_Modifications:
+    - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
+      propertyPath: Window
+      value: 
+      objectReference: {fileID: 3360808899437334170}
     - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
       propertyPath: WindowRectTransform
       value: 
@@ -1460,6 +1533,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2705012628949077151}
     m_Modifications:
     - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
+      propertyPath: Window
+      value: 
+      objectReference: {fileID: 3360808899437334170}
+    - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
       propertyPath: ResizerType
       value: 5
       objectReference: {fileID: 0}
@@ -1582,6 +1659,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2705012628949077151}
     m_Modifications:
     - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
+      propertyPath: Window
+      value: 
+      objectReference: {fileID: 3360808899437334170}
+    - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
       propertyPath: ResizerType
       value: 7
       objectReference: {fileID: 0}
@@ -1703,6 +1784,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2705012628949077151}
     m_Modifications:
+    - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
+      propertyPath: Window
+      value: 
+      objectReference: {fileID: 3360808899437334170}
     - target: {fileID: 1456777371624018355, guid: c54faeec42c88f046a6f9107372070ee, type: 3}
       propertyPath: ResizerType
       value: 2
