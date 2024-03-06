@@ -14,7 +14,7 @@ namespace UI
         private Canvas _parentCanvas;
         private RectTransform _rectTransform;
 
-        private void Start()
+        private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
             _parentCanvas = GetComponentInParent<Canvas>();
