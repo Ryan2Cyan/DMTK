@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,22 +8,29 @@ namespace Tabletop
         public Color TabletopColour;
         public Vector2Int TabletopSize;
         public float CellSpacing;
+        public float MiniatureScale;
+        public static Tabletop Instance;
         
+        private List<Miniature> _registeredMiniatures;
         private MeshFilter _meshFilter;
         private MeshRenderer _meshRenderer;
         private List<List<Vector2>> _gridPositions;
 
         [ContextMenu("Generate Grid")]
-        public void GenerateGrid()
+        private void GenerateGrid()
         {
-            _meshFilter = GetComponent<MeshFilter>();
-            _meshRenderer = GetComponent<MeshRenderer>();
+            if(_meshFilter == null) _meshFilter = GetComponent<MeshFilter>();
+            if(_meshRenderer == null) _meshRenderer = GetComponent<MeshRenderer>();
             _meshFilter.mesh = GenerateAsymmetricalGridMesh(TabletopSize, CellSpacing, ref _gridPositions);
             _meshRenderer.material = new Material(Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default")) { color = TabletopColour };
         }
-        
+
+        #region UnityFunctions
+
         private void Awake()
         {
+            Instance = this;
+            _registeredMiniatures ??= new List<Miniature>();
             GenerateGrid();
         }
 
@@ -39,6 +45,25 @@ namespace Tabletop
             }
         }
 
+        #endregion
+
+        #region TabletopFunctions
+
+        /// <summary>
+        /// Calculates the local scale modification value required to scale a miniature's mesh down to grid cell
+        /// size.
+        /// </summary>
+        /// <param name="currentSize">The current local size of the miniature's mesh [see Mesh.bounds.size]. </param>
+        /// <returns>Current scale to grid cell size local scale modifier.</returns>
+        public Vector3 GenerateMeshToGridScale(Vector3 currentSize)
+        {
+            return new Vector3(
+                1f / currentSize.x * MiniatureScale,
+                1f / currentSize.y * MiniatureScale,
+                1f / currentSize.z * MiniatureScale
+                );
+        }
+        
         /// <summary>
         /// Generates all points within the grid, with the origin being in the centre of the grid. Indices are
         /// incremented by one for each new vertex.
@@ -126,5 +151,22 @@ namespace Tabletop
             mesh.SetIndices(indices.ToArray(), MeshTopology.Lines, 0);
             return mesh;
         }
+        
+        #endregion
+        
+        
+        #region MiniatureRegistration
+
+        public void RegisterMiniature(Miniature miniature)
+        {
+            _registeredMiniatures.Add(miniature);
+        }
+
+        public void UnregisterMiniature(Miniature miniature)
+        {
+            _registeredMiniatures.Remove(miniature);
+        }
+
+        #endregion
     }
 }

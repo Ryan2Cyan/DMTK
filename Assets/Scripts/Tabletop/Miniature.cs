@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Tabletop
@@ -17,20 +19,37 @@ namespace Tabletop
         public Vector2 CurrentCell;
         public MiniatureType Type;
         public bool IsHidden;
-
-        private MeshFilter _meshFilter;
         
+        private MeshFilter _meshFilter;
+        private Transform _miniatureTransform;
+        
+        #region UnityFunctions
+
         private void Start()
         {
-            _meshFilter = GetComponentInChildren<MeshFilter>();
+            ApplyGridScale();
+            
+            // Register miniature to the Tabletop for saving purposes.
+            Tabletop.Instance.RegisterMiniature(this);
         }
 
-        private void FixedUpdate()
+        private void OnDestroy()
         {
-            Debug.Log(new Vector3(
-                _meshFilter.mesh.bounds.size.x * transform.localScale.x,
-                _meshFilter.mesh.bounds.size.x * transform.localScale.y,
-                _meshFilter.mesh.bounds.size.x * transform.localScale.z));
+            // Unregister this miniature from the tabletop as it no longer needs to be saved.
+            Tabletop.Instance.UnregisterMiniature(this);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Change the local scale of the GameObject containing the mesh to ensure it fits within a grid cell.
+        /// </summary>
+        private void ApplyGridScale()
+        {
+            if(_meshFilter == null) _meshFilter = GetComponentInChildren<MeshFilter>();
+            if(_miniatureTransform == null) _miniatureTransform = transform.GetChild(0).transform;
+            var mesh = _meshFilter.mesh;
+            _miniatureTransform.localScale = Tabletop.Instance.GenerateMeshToGridScale(mesh.bounds.size);
         }
     }
 }
