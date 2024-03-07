@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Tabletop
@@ -16,7 +14,7 @@ namespace Tabletop
     public class Miniature : MonoBehaviour
     {
         public string Label;
-        public Vector2 CurrentCell;
+        public TabletopCell CurrentCell;
         public MiniatureType Type;
         public bool IsHidden;
         
@@ -28,9 +26,12 @@ namespace Tabletop
         private void Start()
         {
             ApplyGridScale();
-            
-            // Register miniature to the Tabletop for saving purposes.
             Tabletop.Instance.RegisterMiniature(this);
+            if (!Tabletop.Instance.AssignClosestToGridCentre(ref CurrentCell)) 
+            {
+                Debug.Log("Unable" + " to spawn miniature as all grid cells are occupied.");
+            }
+            else SetCell(CurrentCell);
         }
 
         private void OnDestroy()
@@ -41,6 +42,18 @@ namespace Tabletop
 
         #endregion
 
+        /// <summary>
+        /// Sets the CurrentCell and updates the miniature to correspond to the cell assigned.
+        /// </summary>
+        /// <param name="cell">Assigned cell.</param>
+        public void SetCell(TabletopCell cell)
+        {
+            if (cell == null) return;
+            CurrentCell = cell;
+            CurrentCell.IsOccupied = true;
+            transform.position = new Vector3(cell.Position.x, 0f, cell.Position.y);
+        }
+        
         /// <summary>
         /// Change the local scale of the GameObject containing the mesh to ensure it fits within a grid cell.
         /// </summary>
