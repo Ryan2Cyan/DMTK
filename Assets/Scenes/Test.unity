@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TabletopColour: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
-  TabletopSize: {x: 10, y: 7}
+  TabletopSize: {x: 3, y: 2}
   CellSpacing: 1
 --- !u!1 &1988792636
 GameObject:
