@@ -50,7 +50,7 @@ namespace Tabletop
         {
             if (cell == null) return;
             CurrentCell = cell;
-            CurrentCell.IsOccupied = true;
+            CurrentCell.SetState(CellState.Occupied);
             transform.position = new Vector3(cell.Position.x, 0f, cell.Position.y);
         }
         

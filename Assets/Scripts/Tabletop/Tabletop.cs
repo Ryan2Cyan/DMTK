@@ -1,4 +1,4 @@
-using System;
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,11 +11,12 @@ namespace Tabletop
         public Vector2Int TabletopSize;
         public float CellSpacing;
         public float MiniatureScale;
-        public static Tabletop Instance;
+        public GameObject CellPrefab;
         
         [Header("Cells")] 
         private List<List<TabletopCell>> _gridCells;
         
+        public static Tabletop Instance;
         private List<Miniature> _registeredMiniatures;
         private MeshFilter _meshFilter;
         private MeshRenderer _meshRenderer;
@@ -77,7 +78,7 @@ namespace Tabletop
         /// <param name="spacing">The distance between each cell, determining the overall surface size of the grid.</param>
         /// <param name="positions">Stores the central grid position corresponding to each grid cell. </param>
         /// <returns>Generated asymmetrical grid mesh. Can be assigned to the mesh of a MeshFilter component.</returns>
-        private static Mesh GenerateAsymmetricalGridMesh(Vector2Int gridSize, float spacing, ref List<List<TabletopCell>> positions)
+        private Mesh GenerateAsymmetricalGridMesh(Vector2Int gridSize, float spacing, ref List<List<TabletopCell>> positions)
         {
             // Source: https://gist.github.com/mdomrach/a66602ee85ce45f8860c36b2ad31ea14
             
@@ -111,7 +112,16 @@ namespace Tabletop
                     if (!capturePosition) continue;
                     var topLeft = new Vector2(X.x, Z.y);
                     var bottomRight = new Vector2(X.y, Z.x);
-                    jPositions.Add(new TabletopCell(topLeft + (bottomRight - topLeft) / 2f));
+                    var cellPosition = topLeft + (bottomRight - topLeft) / 2f;
+                    
+                    // Spawn in prefab to have visual representation of the cell in-game.
+                    var newCell = Instantiate(CellPrefab, transform).GetComponent<TabletopCell>();
+                    newCell.Position = cellPosition;
+                    newCell.transform.position = new Vector3(cellPosition.x, 0f, cellPosition.y);
+                    newCell.name = "Cell_[" + i + "," + j + "]";
+                    newCell.SetState(CellState.Unoccupied);
+                    jPositions.Add(newCell);
+                    
                 }
                 positions.Add(jPositions);
             }
