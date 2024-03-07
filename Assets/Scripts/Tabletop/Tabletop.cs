@@ -14,12 +14,18 @@ namespace Tabletop
         private MeshRenderer _meshRenderer;
         private List<List<Vector2>> _gridPositions;
 
-        private void Awake()
+        [ContextMenu("Generate Grid")]
+        public void GenerateGrid()
         {
             _meshFilter = GetComponent<MeshFilter>();
             _meshRenderer = GetComponent<MeshRenderer>();
             _meshFilter.mesh = GenerateAsymmetricalGridMesh(TabletopSize, CellSpacing, ref _gridPositions);
             _meshRenderer.material = new Material(Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default")) { color = TabletopColour };
+        }
+        
+        private void Awake()
+        {
+            GenerateGrid();
         }
 
         private void FixedUpdate()
