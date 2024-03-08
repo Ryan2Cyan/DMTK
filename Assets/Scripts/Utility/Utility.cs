@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +17,12 @@ namespace Utility
         {
             if (Camera.main == null) return new RaycastHit();
             return Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out var hit) ? hit : new RaycastHit();
+        }
+        
+        public static RaycastHit PhysicsMouseRayCast(LayerMask layerMask)
+        {
+            if (Camera.main == null) return new RaycastHit();
+            return Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out var hit, layerMask) ? hit : new RaycastHit();
         }
     }
 }

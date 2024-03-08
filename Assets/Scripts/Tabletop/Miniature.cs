@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
-using SaveData;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Tabletop
 {
@@ -23,7 +23,7 @@ namespace Tabletop
         private MeshFilter _meshFilter;
         private IEnumerator _currentRoutine;
         private Transform _miniatureTransform;
-        private const float GrabbedYOffset = 0.5f;
+        private const float _grabbedYOffset = 0.5f;
 
         #region UnityFunctions
 
@@ -33,7 +33,10 @@ namespace Tabletop
             if(_miniatureTransform == null) _miniatureTransform = transform.GetChild(0).transform;
             if (_miniatureTransform.GetComponent<BoxCollider>() == null) Collider = _miniatureTransform.gameObject.AddComponent<BoxCollider>();
             
-            ApplyGridScale();
+            // Scale the miniature to be coherent with the tabletop grid:
+            var mesh = _meshFilter.mesh;
+            _miniatureTransform.localScale = Tabletop.Instance.GenerateMeshToGridScale(mesh.bounds.size);
+            
             MiniatureManager.Instance.RegisterMiniature(this);
             if (!Tabletop.Instance.AssignClosestToGridCentre(ref CurrentCell)) Debug.Log("Unable" + " to spawn miniature as all grid cells are occupied.");
             else SetCell(CurrentCell);
@@ -52,11 +55,11 @@ namespace Tabletop
         /// </summary>
         public void OnGrab()
         {
-            Debug.Log("Grabbed");
+            // Debug.Log("Grabbed");
             Grabbed = true;
             var cellPosition = CurrentCell.Position;
             _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
-                new Vector3(cellPosition.x, GrabbedYOffset, cellPosition.y), 0.2f);
+                new Vector3(cellPosition.x, _grabbedYOffset, cellPosition.y), 0.2f);
             StopCoroutine(_currentRoutine);
             StartCoroutine(_currentRoutine);
         }
@@ -66,7 +69,7 @@ namespace Tabletop
         /// </summary>
         public void OnRelease()
         {
-            Debug.Log("Released");
+            // Debug.Log("Released");
             Grabbed = false;
             var cellPosition = CurrentCell.Position;
             _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
@@ -87,12 +90,31 @@ namespace Tabletop
             var elapsedTime = 0f;
             while (elapsedTime < executionTime)
             {
-                Debug.Log("Move Y: " + transform.position.y);
+                // Debug.Log("Move Y: " + transform.position.y);
                 transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / executionTime);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }  
             transform.position = endPosition;
+            if (Grabbed) StartCoroutine(MoveToGrabbedPosition());
+            yield return null;   
+        }
+        
+        private IEnumerator MoveToGrabbedPosition()
+        {
+            while (Grabbed)
+            {
+                var mousePosition = transform.position;
+                var valid = Tabletop.Instance.GetTabletopMousePosition(ref mousePosition);
+                Debug.Log("Move to Mouse: " + mousePosition);
+                if (valid)
+                {
+                    var position = transform.position;
+                    transform.position = new Vector3(mousePosition.x, position.y, mousePosition.z);
+                }
+
+                yield return null;
+            }  
             yield return null;   
         }
         
@@ -106,15 +128,6 @@ namespace Tabletop
             CurrentCell = cell;
             CurrentCell.SetState(CellState.Occupied);
             transform.position = new Vector3(cell.Position.x, 0f, cell.Position.y);
-        }
-        
-        /// <summary>
-        /// Change the local scale of the GameObject containing the mesh to ensure it fits within a grid cell.
-        /// </summary>
-        private void ApplyGridScale()
-        {
-            var mesh = _meshFilter.mesh;
-            _miniatureTransform.localScale = Tabletop.Instance.GenerateMeshToGridScale(mesh.bounds.size);
         }
     }
 }

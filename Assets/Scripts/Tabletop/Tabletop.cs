@@ -1,6 +1,5 @@
 
 using System.Collections.Generic;
-using Input;
 using UnityEngine;
 using Utility;
 
@@ -14,6 +13,7 @@ namespace Tabletop
         public float CellSpacing;
         public float MiniatureScale;
         public GameObject CellPrefab;
+        public LayerMask TabletopLayerMask;
         
         [Header("Cells")] 
         private List<List<TabletopCell>> _gridCells;
@@ -190,6 +190,21 @@ namespace Tabletop
 
             return miniatureCell != null;
         }
+
+        /// <summary>
+        /// Returns the mouse's current position in relation the the tabletop grid/collider.
+        /// </summary>
+        /// <returns>If the cursor intersects the tabletop then the intersection point is returned, otherwise
+        /// returns Vector3.negativeInfinity.</returns>
+        public bool GetTabletopMousePosition(ref Vector3 position)
+        {
+            var hit = DMTKPhysicsUtility.PhysicsMouseRayCast(TabletopLayerMask);
+            Debug.Log(hit.point);
+            if (!hit.collider) return false;
+            position = hit.point;
+            return true;
+        }
+        
         #endregion
     }
 }
