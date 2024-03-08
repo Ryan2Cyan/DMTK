@@ -24,13 +24,13 @@ namespace UI
         public void OnDrag(PointerEventData eventData)
         {
             if (_window.FixedPosition) return;
-            WindowTransform.localPosition = Input.mousePosition / _parentCanvas.scaleFactor - _mouseDownPosition;
+            // WindowTransform.localPosition = Input.mousePosition / _parentCanvas.scaleFactor - _mouseDownPosition;
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
             if (_window.FixedPosition) return;
-            _mouseDownPosition = Input.mousePosition / _parentCanvas.scaleFactor - WindowTransform.localPosition;
+            // _mouseDownPosition = Input.mousePosition / _parentCanvas.scaleFactor - WindowTransform.localPosition;
         }
     }
 }

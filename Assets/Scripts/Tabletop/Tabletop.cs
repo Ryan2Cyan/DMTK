@@ -1,6 +1,9 @@
 
 using System.Collections.Generic;
+using Input;
+using SaveData;
 using UnityEngine;
+using Utility;
 
 namespace Tabletop
 {
@@ -17,9 +20,9 @@ namespace Tabletop
         private List<List<TabletopCell>> _gridCells;
         
         public static Tabletop Instance;
-        private List<Miniature> _registeredMiniatures;
         private MeshFilter _meshFilter;
         private MeshRenderer _meshRenderer;
+        private SceneData _sceneData;
 
         [ContextMenu("Generate Grid")]
         private void GenerateGrid()
@@ -35,8 +38,20 @@ namespace Tabletop
         private void Awake()
         {
             Instance = this;
-            _registeredMiniatures ??= new List<Miniature>();
+            _sceneData = new SceneData();
             GenerateGrid();
+        }
+
+        private void OnEnable()
+        {
+            // Register to input events:
+            InputManager.OnMouseDown += SelectMiniature;
+        }
+
+        private void OnDisable()
+        {
+            // Unregister to input events:
+            InputManager.OnMouseDown -= SelectMiniature;
         }
 
         private void FixedUpdate()
@@ -190,32 +205,17 @@ namespace Tabletop
 
             return miniatureCell != null;
         }
-        
-        #endregion
-        
-        
-        #region MiniatureRegistration
 
         /// <summary>
-        /// Registers miniature into the current scene's database. This means the miniature's position and details
-        /// will be saved.
+        /// Event listener function that performs a physics ray cast, checking if the user's cursor is selecting
+        /// a miniature within the scene.
         /// </summary>
-        /// <param name="miniature">The registered miniature.</param>
-        public void RegisterMiniature(Miniature miniature)
+        private static void SelectMiniature()
         {
-            _registeredMiniatures.Add(miniature);
+            var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
+            foreach (var miniature in SceneData.Instance.RegisteredMiniatures) if(miniature.Collider == hit.collider) miniature.OnSelect();
         }
-
-        /// <summary>
-        /// Will unregister miniature from the current scene's database. It has been removed and its data will no longer be
-        /// saved.
-        /// </summary>
-        /// <param name="miniature">The unregistered miniature.</param>
-        public void UnregisterMiniature(Miniature miniature)
-        {
-            _registeredMiniatures.Remove(miniature);
-        }
-
+        
         #endregion
     }
 }

@@ -35,6 +35,15 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""d8604eda-6c72-40fe-93f6-4718adb0f6df"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -48,6 +57,17 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
                     ""action"": ""ConservativeResize"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4fb7f80-3e8a-4999-bb53-7351f0fcc58f"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -57,6 +77,7 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
         // DMTKPlayer
         m_DMTKPlayer = asset.FindActionMap("DMTKPlayer", throwIfNotFound: true);
         m_DMTKPlayer_ConservativeResize = m_DMTKPlayer.FindAction("ConservativeResize", throwIfNotFound: true);
+        m_DMTKPlayer_MouseDown = m_DMTKPlayer.FindAction("MouseDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -119,11 +140,13 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_DMTKPlayer;
     private List<IDMTKPlayerActions> m_DMTKPlayerActionsCallbackInterfaces = new List<IDMTKPlayerActions>();
     private readonly InputAction m_DMTKPlayer_ConservativeResize;
+    private readonly InputAction m_DMTKPlayer_MouseDown;
     public struct DMTKPlayerActions
     {
         private @DMTKActions m_Wrapper;
         public DMTKPlayerActions(@DMTKActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @ConservativeResize => m_Wrapper.m_DMTKPlayer_ConservativeResize;
+        public InputAction @MouseDown => m_Wrapper.m_DMTKPlayer_MouseDown;
         public InputActionMap Get() { return m_Wrapper.m_DMTKPlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -136,6 +159,9 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
             @ConservativeResize.started += instance.OnConservativeResize;
             @ConservativeResize.performed += instance.OnConservativeResize;
             @ConservativeResize.canceled += instance.OnConservativeResize;
+            @MouseDown.started += instance.OnMouseDown;
+            @MouseDown.performed += instance.OnMouseDown;
+            @MouseDown.canceled += instance.OnMouseDown;
         }
 
         private void UnregisterCallbacks(IDMTKPlayerActions instance)
@@ -143,6 +169,9 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
             @ConservativeResize.started -= instance.OnConservativeResize;
             @ConservativeResize.performed -= instance.OnConservativeResize;
             @ConservativeResize.canceled -= instance.OnConservativeResize;
+            @MouseDown.started -= instance.OnMouseDown;
+            @MouseDown.performed -= instance.OnMouseDown;
+            @MouseDown.canceled -= instance.OnMouseDown;
         }
 
         public void RemoveCallbacks(IDMTKPlayerActions instance)
@@ -163,5 +192,6 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
     public interface IDMTKPlayerActions
     {
         void OnConservativeResize(InputAction.CallbackContext context);
+        void OnMouseDown(InputAction.CallbackContext context);
     }
 }

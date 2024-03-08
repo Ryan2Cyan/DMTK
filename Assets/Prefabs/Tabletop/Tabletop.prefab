@@ -99,3 +99,5 @@ MonoBehaviour:
   TabletopColour: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
   TabletopSize: {x: 10, y: 10}
   CellSpacing: 1
+  MiniatureScale: 0.8
+  CellPrefab: {fileID: 6563521407825104279, guid: 97ed98b457f2fce41abcf30e13287f6f, type: 3}
