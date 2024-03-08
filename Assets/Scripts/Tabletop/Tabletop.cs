@@ -1,7 +1,6 @@
 
 using System.Collections.Generic;
 using Input;
-using SaveData;
 using UnityEngine;
 using Utility;
 
@@ -22,7 +21,6 @@ namespace Tabletop
         public static Tabletop Instance;
         private MeshFilter _meshFilter;
         private MeshRenderer _meshRenderer;
-        private SceneData _sceneData;
 
         [ContextMenu("Generate Grid")]
         private void GenerateGrid()
@@ -38,20 +36,7 @@ namespace Tabletop
         private void Awake()
         {
             Instance = this;
-            _sceneData = new SceneData();
             GenerateGrid();
-        }
-
-        private void OnEnable()
-        {
-            // Register to input events:
-            InputManager.OnMouseDown += SelectMiniature;
-        }
-
-        private void OnDisable()
-        {
-            // Unregister to input events:
-            InputManager.OnMouseDown -= SelectMiniature;
         }
 
         private void FixedUpdate()
@@ -205,17 +190,6 @@ namespace Tabletop
 
             return miniatureCell != null;
         }
-
-        /// <summary>
-        /// Event listener function that performs a physics ray cast, checking if the user's cursor is selecting
-        /// a miniature within the scene.
-        /// </summary>
-        private static void SelectMiniature()
-        {
-            var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
-            foreach (var miniature in SceneData.Instance.RegisteredMiniatures) if(miniature.Collider == hit.collider) miniature.OnSelect();
-        }
-        
         #endregion
     }
 }

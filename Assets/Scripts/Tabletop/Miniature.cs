@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using SaveData;
 using UnityEngine;
 
@@ -15,15 +16,15 @@ namespace Tabletop
     // [CreateAssetMenu(menuName = "DMTK/Miniature", fileName = "Miniature", order = 0)]
     public class Miniature : MonoBehaviour
     {
-        public string Label;
-        public TabletopCell CurrentCell;
-        public MiniatureType Type;
-        public bool IsHidden;
         [NonSerialized] public BoxCollider Collider;
+        public TabletopCell CurrentCell;
+        public bool Grabbed;
         
         private MeshFilter _meshFilter;
+        private IEnumerator _currentRoutine;
         private Transform _miniatureTransform;
-        
+        private const float GrabbedYOffset = 0.5f;
+
         #region UnityFunctions
 
         private void Start()
@@ -33,7 +34,7 @@ namespace Tabletop
             if (_miniatureTransform.GetComponent<BoxCollider>() == null) Collider = _miniatureTransform.gameObject.AddComponent<BoxCollider>();
             
             ApplyGridScale();
-            SceneData.Instance.RegisterMiniature(this);
+            MiniatureManager.Instance.RegisterMiniature(this);
             if (!Tabletop.Instance.AssignClosestToGridCentre(ref CurrentCell)) Debug.Log("Unable" + " to spawn miniature as all grid cells are occupied.");
             else SetCell(CurrentCell);
         }
@@ -41,7 +42,7 @@ namespace Tabletop
         private void OnDestroy()
         {
             // Unregister this miniature from the tabletop as it no longer needs to be saved.
-            SceneData.Instance.UnregisterMiniature(this);
+            MiniatureManager.Instance.UnregisterMiniature(this);
         }
 
         #endregion
@@ -49,9 +50,50 @@ namespace Tabletop
         /// <summary>
         /// Called when the user selects with left-mouse click.
         /// </summary>
-        public void OnSelect()
+        public void OnGrab()
         {
-            Debug.Log("Selected");    
+            Debug.Log("Grabbed");
+            Grabbed = true;
+            var cellPosition = CurrentCell.Position;
+            _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
+                new Vector3(cellPosition.x, GrabbedYOffset, cellPosition.y), 0.2f);
+            StopCoroutine(_currentRoutine);
+            StartCoroutine(_currentRoutine);
+        }
+        
+        /// <summary>
+        /// Called when the user unselects with left-mouse click.
+        /// </summary>
+        public void OnRelease()
+        {
+            Debug.Log("Released");
+            Grabbed = false;
+            var cellPosition = CurrentCell.Position;
+            _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
+                new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f);
+            StopCoroutine(_currentRoutine);
+            StartCoroutine(_currentRoutine);
+        }
+        
+        /// <summary>
+        /// Coroutine that lerps the position of the miniature to a specified new position over a specified execution time.
+        /// </summary>
+        /// <param name="startPosition">Starting position of the lerp.</param>
+        /// <param name="endPosition">End position of the lerp.</param>
+        /// <param name="executionTime">Duration of the lerp.</param>
+        /// <returns></returns>
+        private IEnumerator LerpPosition(Vector3 startPosition, Vector3 endPosition, float executionTime)
+        {
+            var elapsedTime = 0f;
+            while (elapsedTime < executionTime)
+            {
+                Debug.Log("Move Y: " + transform.position.y);
+                transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / executionTime);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }  
+            transform.position = endPosition;
+            yield return null;   
         }
         
         /// <summary>

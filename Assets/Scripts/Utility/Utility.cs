@@ -1,11 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Utility
 {
-    public class Utility : MonoBehaviour
+    public static class Utility
     {
-      
     }
 
     public static class DMTKPhysicsUtility
