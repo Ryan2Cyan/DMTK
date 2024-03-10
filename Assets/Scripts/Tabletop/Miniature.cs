@@ -16,7 +16,7 @@ namespace Tabletop
     // [CreateAssetMenu(menuName = "DMTK/Miniature", fileName = "Miniature", order = 0)]
     public class Miniature : MonoBehaviour
     {
-        [NonSerialized] public BoxCollider Collider;
+        [NonSerialized] public BoxCollider Collider; 
         public TabletopCell CurrentCell;
         public bool Grabbed;
         
@@ -39,7 +39,11 @@ namespace Tabletop
             
             MiniatureManager.Instance.RegisterMiniature(this);
             if (!Tabletop.Instance.AssignClosestToGridCentre(ref CurrentCell)) Debug.Log("Unable" + " to spawn miniature as all grid cells are occupied.");
-            else SetCell(CurrentCell);
+            else
+            {
+                SetCell(CurrentCell);
+                transform.position = new Vector3(CurrentCell.Position.x, 0f, CurrentCell.Position.y);
+            }
         }
 
         private void OnDestroy()
@@ -55,7 +59,6 @@ namespace Tabletop
         /// </summary>
         public void OnGrab()
         {
-            // Debug.Log("Grabbed");
             Grabbed = true;
             var cellPosition = CurrentCell.Position;
             _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
@@ -69,7 +72,6 @@ namespace Tabletop
         /// </summary>
         public void OnRelease()
         {
-            // Debug.Log("Released");
             Grabbed = false;
             var cellPosition = CurrentCell.Position;
             _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
@@ -90,7 +92,6 @@ namespace Tabletop
             var elapsedTime = 0f;
             while (elapsedTime < executionTime)
             {
-                // Debug.Log("Move Y: " + transform.position.y);
                 transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / executionTime);
                 elapsedTime += Time.deltaTime;
                 yield return null;
@@ -106,11 +107,11 @@ namespace Tabletop
             {
                 var mousePosition = transform.position;
                 var valid = Tabletop.Instance.GetTabletopMousePosition(ref mousePosition);
-                Debug.Log("Move to Mouse: " + mousePosition);
                 if (valid)
                 {
-                    var position = transform.position;
-                    transform.position = new Vector3(mousePosition.x, position.y, mousePosition.z);
+                    transform.position = new Vector3(mousePosition.x, transform.position.y, mousePosition.z);
+                    var newCell = Tabletop.Instance.GetClosestNeighboringCell(CurrentCell, new Vector2(transform.position.x, transform.position.z));
+                    if (newCell != CurrentCell) SetCell(newCell);
                 }
 
                 yield return null;
@@ -125,9 +126,9 @@ namespace Tabletop
         private void SetCell(TabletopCell cell)
         {
             if (cell == null) return;
+            if(CurrentCell != null) CurrentCell.SetState(CellState.Unoccupied);
             CurrentCell = cell;
             CurrentCell.SetState(CellState.Occupied);
-            transform.position = new Vector3(cell.Position.x, 0f, cell.Position.y);
         }
     }
 }

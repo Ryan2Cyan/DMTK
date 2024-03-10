@@ -12,6 +12,7 @@ namespace Tabletop
     public class TabletopCell : MonoBehaviour
     {
         public Color OccupiedColour;
+        public Vector2Int Coordinate;
         public Vector2 Position;
         public bool IsOccupied;
         

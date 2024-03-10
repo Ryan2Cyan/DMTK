@@ -119,6 +119,7 @@ namespace Tabletop
                     newCell.Position = cellPosition;
                     newCell.transform.position = new Vector3(cellPosition.x, 0f, cellPosition.y);
                     newCell.name = "Cell_[" + i + "," + j + "]";
+                    newCell.Coordinate = new Vector2Int(i, j);
                     newCell.SetState(CellState.Unoccupied);
                     jPositions.Add(newCell);
                     
@@ -175,7 +176,7 @@ namespace Tabletop
         public bool AssignClosestToGridCentre(ref TabletopCell miniatureCell)
         {
             var closestDistance = float.PositiveInfinity;
-            var tabletopPosition = Tabletop.Instance.transform.position;
+            var tabletopPosition = transform.position;
             foreach (var rows in _gridCells)
             {
                 foreach (var cell in rows)
@@ -191,6 +192,54 @@ namespace Tabletop
             return miniatureCell != null;
         }
 
+        public TabletopCell GetClosestNeighboringCell(TabletopCell currentCell, Vector2 currentPosition)
+        {
+            var cellModifiers = new List<Vector2Int>
+            {
+                new(-1, 1),
+                new(0, 1),
+                new(1, 1),
+
+                new(-1, 0),
+                new(0, 0),
+                new(1, 0),
+
+                new(-1, -1),
+                new(0, -1),
+                new(1, -1)
+            };
+            
+            var closestDistance = float.PositiveInfinity;
+            TabletopCell closestCell = null;
+            var foundCell = false;
+            foreach (var modifier in cellModifiers)
+            {
+                // Apply coordinate modifier and check the coordinate is still within the grid:
+                var newCoordinate = new Vector2Int(currentCell.Coordinate.x + modifier.x, currentCell.Coordinate.y + modifier.y);
+                if (newCoordinate.x < 0) continue;
+                if(newCoordinate.x >= TabletopSize.x) continue;
+                if (newCoordinate.y < 0) continue;
+                if(newCoordinate.y >= TabletopSize.x) continue;
+
+                // Check if the cell is occupied:
+                var newCell = _gridCells[newCoordinate.x][newCoordinate.y];
+                if(newCell.IsOccupied) continue;
+                
+                var distance = Vector2.Distance(new Vector2(currentPosition.x, currentPosition.y), newCell.Position);
+                if (distance >= closestDistance) continue;
+                closestDistance = distance;
+                closestCell = newCell;
+                foundCell = true;
+            }
+
+            if (foundCell)
+            {
+                Debug.Log(closestCell.Coordinate + " " + closestDistance);
+                return closestCell;
+            }
+            return currentCell;
+        }
+
         /// <summary>
         /// Returns the mouse's current position in relation the the tabletop grid/collider.
         /// </summary>
@@ -199,7 +248,6 @@ namespace Tabletop
         public bool GetTabletopMousePosition(ref Vector3 position)
         {
             var hit = DMTKPhysicsUtility.PhysicsMouseRayCast(TabletopLayerMask);
-            Debug.Log(hit.point);
             if (!hit.collider) return false;
             position = hit.point;
             return true;
