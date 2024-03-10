@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Input;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Tabletop
             // NOTE: Will most likely need to load in the miniature's data from a scene save slot later:
             RegisteredMiniatures ??= new List<Miniature>();
         }
-    
+        
         private void OnEnable()
         {
             // Register to input events:

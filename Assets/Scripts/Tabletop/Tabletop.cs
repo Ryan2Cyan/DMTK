@@ -7,6 +7,8 @@ namespace Tabletop
 {
     public class Tabletop : MonoBehaviour
     {
+        public static Tabletop Instance;
+        
         [Header("Settings")]
         public Color TabletopColour;
         public Vector2Int TabletopSize;
@@ -15,10 +17,7 @@ namespace Tabletop
         public GameObject CellPrefab;
         public LayerMask TabletopLayerMask;
         
-        [Header("Cells")] 
         private List<List<TabletopCell>> _gridCells;
-        
-        public static Tabletop Instance;
         private MeshFilter _meshFilter;
         private MeshRenderer _meshRenderer;
 
@@ -120,7 +119,7 @@ namespace Tabletop
                     newCell.transform.position = new Vector3(cellPosition.x, 0f, cellPosition.y);
                     newCell.name = "Cell_[" + i + "," + j + "]";
                     newCell.Coordinate = new Vector2Int(i, j);
-                    newCell.SetState(CellState.Unoccupied);
+                    newCell.SetState(CellState.Disabled);
                     jPositions.Add(newCell);
                     
                 }
@@ -192,6 +191,14 @@ namespace Tabletop
             return miniatureCell != null;
         }
 
+        /// <summary>
+        /// Finds the closest neighboring cell (including diagonals) to the 'currentPosition'. Neighboring cells
+        /// are derived from the 'currentCell' parameter. Used to reduce the amount of cells searched when
+        /// moving miniatures.
+        /// </summary>
+        /// <param name="currentCell">Central cell of which neighboring cells will derive from.</param>
+        /// <param name="currentPosition">Position to conduct distance checks.</param>
+        /// <returns>The closest cell to the inputted 'currentPosition'.</returns>
         public TabletopCell GetClosestNeighboringCell(TabletopCell currentCell, Vector2 currentPosition)
         {
             var cellModifiers = new List<Vector2Int>
@@ -220,10 +227,9 @@ namespace Tabletop
                 if(newCoordinate.x >= TabletopSize.x) continue;
                 if (newCoordinate.y < 0) continue;
                 if(newCoordinate.y >= TabletopSize.x) continue;
-
-                // Check if the cell is occupied:
+                
+                // Check if the cell is closer that the current closest:
                 var newCell = _gridCells[newCoordinate.x][newCoordinate.y];
-                if(newCell.IsOccupied) continue;
                 
                 var distance = Vector2.Distance(new Vector2(currentPosition.x, currentPosition.y), newCell.Position);
                 if (distance >= closestDistance) continue;
@@ -232,12 +238,7 @@ namespace Tabletop
                 foundCell = true;
             }
 
-            if (foundCell)
-            {
-                Debug.Log(closestCell.Coordinate + " " + closestDistance);
-                return closestCell;
-            }
-            return currentCell;
+            return !foundCell ? currentCell : closestCell;
         }
 
         /// <summary>
@@ -252,7 +253,6 @@ namespace Tabletop
             position = hit.point;
             return true;
         }
-        
         #endregion
     }
 }

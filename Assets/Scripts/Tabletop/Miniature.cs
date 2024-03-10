@@ -12,8 +12,7 @@ namespace Tabletop
         Prop,
         NPC
     }
-
-    // [CreateAssetMenu(menuName = "DMTK/Miniature", fileName = "Miniature", order = 0)]
+    
     public class Miniature : MonoBehaviour
     {
         [NonSerialized] public BoxCollider Collider; 
@@ -74,9 +73,10 @@ namespace Tabletop
         {
             Grabbed = false;
             var cellPosition = CurrentCell.Position;
+            CurrentCell.SetState(CellState.Enabled);
+            StopCoroutine(_currentRoutine);
             _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
                 new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f);
-            StopCoroutine(_currentRoutine);
             StartCoroutine(_currentRoutine);
         }
         
@@ -101,8 +101,13 @@ namespace Tabletop
             yield return null;   
         }
         
+        /// <summary>
+        /// Moves to the current mouse position on the tabletop if a valid position is found. Cannot move to an already
+        /// occupied cell.
+        /// </summary>
         private IEnumerator MoveToGrabbedPosition()
         {
+            var currentCell = CurrentCell;
             while (Grabbed)
             {
                 var mousePosition = transform.position;
@@ -110,8 +115,13 @@ namespace Tabletop
                 if (valid)
                 {
                     transform.position = new Vector3(mousePosition.x, transform.position.y, mousePosition.z);
-                    var newCell = Tabletop.Instance.GetClosestNeighboringCell(CurrentCell, new Vector2(transform.position.x, transform.position.z));
-                    if (newCell != CurrentCell) SetCell(newCell);
+                    var newCell = Tabletop.Instance.GetClosestNeighboringCell(currentCell, new Vector2(transform.position.x, transform.position.z));
+                    if (newCell != currentCell)
+                    {
+                        // Ensure the cell isn't taken by another miniature:
+                        if (!newCell.IsOccupied) SetCell(newCell);
+                        currentCell = newCell;
+                    }
                 }
 
                 yield return null;
@@ -126,9 +136,9 @@ namespace Tabletop
         private void SetCell(TabletopCell cell)
         {
             if (cell == null) return;
-            if(CurrentCell != null) CurrentCell.SetState(CellState.Unoccupied);
+            if(CurrentCell != null) CurrentCell.SetState(CellState.Disabled);
             CurrentCell = cell;
-            CurrentCell.SetState(CellState.Occupied);
+            CurrentCell.SetState(CellState.Enabled);
         }
     }
 }

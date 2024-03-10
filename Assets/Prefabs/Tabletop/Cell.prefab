@@ -97,6 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c9f9f8cffe7984186837b0527b26aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OccupiedColour: {r: 1, g: 1, b: 1, a: 0.19607843}
+  EnabledColour: {r: 1, g: 1, b: 1, a: 0.19607843}
+  OccupiedColour: {r: 1, g: 0, b: 0, a: 0.19607843}
+  Coordinate: {x: 0, y: 0}
   Position: {x: 0, y: 0}
   IsOccupied: 0
