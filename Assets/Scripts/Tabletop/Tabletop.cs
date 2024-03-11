@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Utility;
 
@@ -252,6 +253,46 @@ namespace Tabletop
             if (!hit.collider) return false;
             position = hit.point;
             return true;
+        }
+
+        public List<TabletopCell> GetShortestPath(TabletopCell start, TabletopCell end)
+        {
+            return DistanceArrowPathfinder.AStarPathfinder(start, end, TabletopSize, GridCells);
+        }
+
+        public static void DisplayDistanceArrow(List<TabletopCell> path)
+        {
+            if (path.Count < 1) return;
+            if (path.Count <= 1)
+            {
+                path.First().SetState(CellAppearance.PathStartIdle);
+                return;
+            }
+
+            var lastIndex = path.Count - 1;
+            path.First().SetState(CellAppearance.PathStart, GetCellTraverseDirection(path[0].Coordinate, path[1].Coordinate));
+            path.Last().SetState(CellAppearance.PathEnd, GetCellTraverseDirection(path[lastIndex - 1].Coordinate, path[lastIndex].Coordinate));
+            for (var i = 1; i < lastIndex; i++) path[i].SetState(CellAppearance.Path, GetCellTraverseDirection(path[i - 1].Coordinate, path[i].Coordinate));
+        }
+
+        private static Direction GetCellTraverseDirection(Vector2Int start, Vector2Int end)
+        {
+            var difference = new Vector2Int(end.x - start.x, end.y - start.y);
+            
+            // Non-diagonal movement:
+            if (difference == Vector2Int.zero) return Direction.None;
+            if (difference.x == 0) return difference.y < 0 ? Direction.Down : Direction.Up;
+            if (difference.y == 0) return difference.x < 0 ? Direction.Left : Direction.Right;
+
+            // Diagonal movement:
+            return difference switch
+            {
+                { x: < 0, y: > 0 } => Direction.TopLeft,
+                { x: < 0, y: < 0 } => Direction.BottomLeft,
+                { x: > 0, y: > 0 } => Direction.TopRight,
+                { x: > 0, y: < 0 } => Direction.BottomRight,
+                _ => Direction.None
+            };
         }
         #endregion
     }

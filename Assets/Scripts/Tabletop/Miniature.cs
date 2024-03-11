@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Tabletop
 {
@@ -108,9 +107,9 @@ namespace Tabletop
         /// </summary>
         private IEnumerator MoveToGrabbedPosition()
         {
-            var startingCell = CurrentCell.Coordinate;
+            var startingCell = CurrentCell;
             var currentCell = CurrentCell;
-            var path = new List<Vector2Int>();
+            var path = new List<TabletopCell>{ startingCell };
             
             // Execute every frame whilst the user is grabbing this mini:
             while (Grabbed)
@@ -135,33 +134,20 @@ namespace Tabletop
                             currentCell = newCell;
                             
                             // Calculate the path the miniature has travelled (AStar):
-                            path = DistanceArrowPathfinder.AStarPathfinder(startingCell, currentCell.Coordinate, Tabletop.Instance.TabletopSize);
+                            foreach (var cell in path) cell.SetState(CellAppearance.Disabled);
+                            path = Tabletop.Instance.GetShortestPath(startingCell, currentCell);
                         }
-                    }
-
-                    Debug.Log(path.Count);
-                    foreach (var gridCells in Tabletop.Instance.GridCells)
-                    {
-                        foreach (var cell in gridCells)
-                        {
-                            cell.SetState(CellAppearance.Disabled);
-                        }
-                    }
-                    foreach (var coord in path)
-                    {
-                        Tabletop.Instance.GridCells[coord.x][coord.y].SetState(CellAppearance.Path);
                     }
                 }
-
+                
+                Tabletop.DisplayDistanceArrow(path);
                 yield return null;
             }  
-            foreach (var gridCells in Tabletop.Instance.GridCells)
-            {
-                foreach (var cell in gridCells)
-                {
-                    cell.SetState(CellAppearance.Disabled);
-                }
-            }
+            
+            // Reset all cells within the path:
+            foreach (var cell in path) cell.SetState(CellAppearance.Disabled);
+            
+            // Set new current cell and lerp down on the y-axis onto its position.
             SetCell(currentCell);
             var cellPosition = CurrentCell.Position;
             _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 

@@ -6,33 +6,36 @@ namespace Tabletop
 {
     public class PathfindingNode
     {
-        public PathfindingNode(Vector2Int coordinate)
+        public PathfindingNode(Vector2Int coordinate, bool occupied)
         {
             Coordinate = coordinate;
             GCost = 0;
             HCost = 0;
             FCost = 0;
+            Occupied = occupied;
         }
         
+        public PathfindingNode Parent;
         public Vector2Int Coordinate;
         public int GCost;
         public int HCost;
         public int FCost;
-        public PathfindingNode Parent;
+        public bool Occupied;
     }
     
     public static class DistanceArrowPathfinder
     {
-        public static List<Vector2Int> AStarPathfinder(Vector2Int start, Vector2Int end, Vector2Int gridSize)
+        public static List<TabletopCell> AStarPathfinder(TabletopCell start, TabletopCell end, Vector2Int gridSize, List<List<TabletopCell>> grid)
         {
-            var startNode = new PathfindingNode(start);
-            var endNode = new PathfindingNode(end);
+            var startNode = new PathfindingNode(start.Coordinate, start.IsOccupied);
+            var endNode = new PathfindingNode(end.Coordinate, end.IsOccupied);
             
             var openSet = new List<PathfindingNode> { startNode };
             var closedSet = new HashSet<PathfindingNode>();
 
             while (openSet.Count > 0)
             {
+                if (openSet.Count > 1000) return new List<TabletopCell>();
                 var current = openSet.First();
                 foreach (var node in openSet)
                 {
@@ -46,13 +49,13 @@ namespace Tabletop
                 if (current.Coordinate == endNode.Coordinate)
                 {
                     // return retraced path:
-                    var path = new List<Vector2Int>();
+                    var path = new List<TabletopCell>();
                     endNode.Parent = current.Parent;
                     
                     var currentNode = endNode;
                     while (currentNode.Coordinate != startNode.Coordinate)
                     {
-                        path.Add(currentNode.Coordinate);
+                        path.Add(grid[currentNode.Coordinate.x][currentNode.Coordinate.y]);
                         currentNode = currentNode.Parent;
                     }
                     path.Add(start);
@@ -68,17 +71,16 @@ namespace Tabletop
                             continue;
 
                         var check = new Vector2Int(current.Coordinate.x + x, current.Coordinate.y + y);
-
                         if (check.x >= 0 && check.x < gridSize.x && check.y >= 0 && check.y < gridSize.y) 
                         {
-                            neighbours.Add(new PathfindingNode(check));
+                            neighbours.Add(new PathfindingNode(check, grid[check.x][check.y].IsOccupied));
                         }
                     }
                 }
 
                 foreach (var node in neighbours)
                 {
-                    if (closedSet.Contains(node)) continue;
+                    if (node.Occupied || closedSet.Contains(node)) continue;
                     var newCostToNeighbour = current.GCost + CalculateNodeDistance(current.Coordinate, node.Coordinate);
 
                     var openSetContainsNeighbour = openSet.Contains(node);

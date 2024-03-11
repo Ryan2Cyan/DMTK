@@ -19,12 +19,17 @@ namespace Tabletop
         Up,
         Down,
         Right,
-        Left
+        Left,
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
     }
     
     public class TabletopCell : MonoBehaviour
     {
         public Color EnabledColour;
+        public Sprite EnabledSprite;
         public Vector2Int Coordinate;
         public Vector2 Position;
         public bool IsOccupied;
@@ -57,7 +62,7 @@ namespace Tabletop
             {
                 case CellAppearance.Enabled:
                 {
-                    _spriteRenderer.color = EnabledColour;
+                    SetSprite(EnabledSprite, EnabledColour);
                     IsOccupied = true;
                 } break;
                 
@@ -69,12 +74,13 @@ namespace Tabletop
                 
                 case CellAppearance.PathStartIdle:
                 {
+                    transform.localScale = new Vector3(0.75f, 0.75f, 1f);
                     SetSprite(PathStartIdle, PathColour);
                 } break;
                 
                 case CellAppearance.PathStart:
                 {
-                    transform.localScale = new Vector3(0.75f, 0.75f, 1f);
+                    transform.localScale = new Vector3(0.3f, 0.3f, 1f);
                     _spriteRenderer.size = new Vector2(1.25f, 1f);
                     SetSprite(PathStart, PathColour);
                     RotateSprite(direction);
@@ -82,23 +88,38 @@ namespace Tabletop
                 
                 case CellAppearance.Path:
                 {
-                    // _spriteRenderer.size = new Vector2(1f, 0.4f);
+                    if (IsOccupied) return;
+                    transform.localScale = new Vector3(1f, 0.4f, 1f);
                     SetSprite(Path, PathColour);
                     var eulerAngles = transform.eulerAngles;
-                    eulerAngles = direction switch
+                    var rotAngle = 0f;
+                    switch (direction)
                     {
-                        Direction.Up or Direction.Down => new Vector3(eulerAngles.x, 0,
-                            eulerAngles.z),
-                        Direction.Right or Direction.Left => new Vector3(eulerAngles.x, 90,
-                            eulerAngles.z),
-                        _ => eulerAngles
-                    };
-                    transform.eulerAngles = eulerAngles;
+                        case Direction.None: break;
+                        case Direction.Up: rotAngle = 90f;
+                            break;
+                        case Direction.Down: rotAngle = 90f;
+                            break;
+                        case Direction.Right: break;
+                        case Direction.Left: break;
+                        case Direction.TopLeft: rotAngle = 45f;
+                            break;
+                        case Direction.TopRight: rotAngle = -45f;
+                            break;
+                        case Direction.BottomLeft: rotAngle = -45f;
+                            break;
+                        case Direction.BottomRight: rotAngle = 45f;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
+                    }
+                    transform.eulerAngles = new Vector3(eulerAngles.x, rotAngle, eulerAngles.z);
                 } break;
                 
                 case CellAppearance.PathEnd:
                 {
-                    transform.localScale = new Vector3(0.75f, 0.75f, 1f);
+                    if (IsOccupied) return;
+                    transform.localScale = new Vector3(0.3f, 0.3f, 1f);
                     SetSprite(PathEnd, PathColour);
                     RotateSprite(direction);
                 } break;
@@ -127,6 +148,14 @@ namespace Tabletop
                 case Direction.Right: yRotation = 180f;
                     break;
                 case Direction.Left: yRotation = 0f;
+                    break;
+                case Direction.TopLeft: yRotation = 45f;
+                    break;
+                case Direction.TopRight: yRotation = 135f;
+                    break;
+                case Direction.BottomLeft: yRotation = -45f;
+                    break;
+                case Direction.BottomRight: yRotation = 225f;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
