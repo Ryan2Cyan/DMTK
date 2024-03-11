@@ -28,7 +28,7 @@ namespace Tabletop
             var startNode = new PathfindingNode(start);
             var endNode = new PathfindingNode(end);
             
-            var openSet = new List<PathfindingNode> { new (start) };
+            var openSet = new List<PathfindingNode> { startNode };
             var closedSet = new HashSet<PathfindingNode>();
 
             while (openSet.Count > 0)
@@ -43,16 +43,19 @@ namespace Tabletop
                 openSet.Remove(current);
                 closedSet.Add(current);
 
-                if (current == endNode)
+                if (current.Coordinate == endNode.Coordinate)
                 {
                     // return retraced path:
                     var path = new List<Vector2Int>();
+                    endNode.Parent = current.Parent;
+                    
                     var currentNode = endNode;
-                    while (currentNode != startNode)
+                    while (currentNode.Coordinate != startNode.Coordinate)
                     {
                         path.Add(currentNode.Coordinate);
                         currentNode = currentNode.Parent;
                     }
+                    path.Add(start);
                     path.Reverse();
                     return path;
                 }
@@ -76,17 +79,31 @@ namespace Tabletop
                 foreach (var node in neighbours)
                 {
                     if (closedSet.Contains(node)) continue;
-                    var newCostToNeighbour = current.GCost + (int)Vector2Int.Distance(current.Coordinate, node.Coordinate);
+                    var newCostToNeighbour = current.GCost + CalculateNodeDistance(current.Coordinate, node.Coordinate);
 
                     var openSetContainsNeighbour = openSet.Contains(node);
                     if (newCostToNeighbour >= node.GCost && openSetContainsNeighbour) continue;
                     node.GCost = newCostToNeighbour;
-                    node.HCost = (int)Vector2Int.Distance(node.Coordinate, end);
+                    node.HCost = CalculateNodeDistance(node.Coordinate, endNode.Coordinate);
                     node.Parent = current;
                     if(!openSetContainsNeighbour) openSet.Add(node);
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Calculates the distance between two node coordinates. Horizontal and vertical movements are 10 per node,
+        /// whereas diagonal movements are 10 * sqrt(2).
+        /// </summary>
+        /// <param name="node1">First node coordinates.</param>
+        /// <param name="node2">Second node coordinates.</param>
+        /// <returns>Distance between the two nodes.</returns>
+        private static int CalculateNodeDistance(Vector2Int node1, Vector2Int node2)
+        {
+            var difference = new Vector2Int(Mathf.Abs(node1.x - node2.x), Mathf.Abs(node1.y - node2.y));
+            if (difference.x != 0 && difference.y != 0) return (int)(difference.x * Mathf.Sqrt(2) * 10 + difference.y * Mathf.Sqrt(2) * 10);
+            return difference.x * 10 + difference.y * 10;
         }
     }
 }

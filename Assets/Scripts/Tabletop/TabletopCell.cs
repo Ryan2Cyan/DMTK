@@ -51,12 +51,12 @@ namespace Tabletop
         {
             transform.localScale = new Vector3(1f, 1f, 1f);
             _spriteRenderer.size = new Vector2(1f, 1f);
+            gameObject.SetActive(true);
             
             switch (state)
             {
                 case CellAppearance.Enabled:
                 {
-                    gameObject.SetActive(true);
                     _spriteRenderer.color = EnabledColour;
                     IsOccupied = true;
                 } break;
@@ -82,16 +82,18 @@ namespace Tabletop
                 
                 case CellAppearance.Path:
                 {
-                    _spriteRenderer.size = new Vector2(1f, 0.4f);
+                    // _spriteRenderer.size = new Vector2(1f, 0.4f);
                     SetSprite(Path, PathColour);
-                    transform.eulerAngles = direction switch
+                    var eulerAngles = transform.eulerAngles;
+                    eulerAngles = direction switch
                     {
-                        Direction.Up or Direction.Down => new Vector3(transform.eulerAngles.x, 0,
-                            transform.eulerAngles.z),
-                        Direction.Right or Direction.Left => new Vector3(transform.eulerAngles.x, 90,
-                            transform.eulerAngles.z),
-                        _ => transform.eulerAngles
+                        Direction.Up or Direction.Down => new Vector3(eulerAngles.x, 0,
+                            eulerAngles.z),
+                        Direction.Right or Direction.Left => new Vector3(eulerAngles.x, 90,
+                            eulerAngles.z),
+                        _ => eulerAngles
                     };
+                    transform.eulerAngles = eulerAngles;
                 } break;
                 
                 case CellAppearance.PathEnd:

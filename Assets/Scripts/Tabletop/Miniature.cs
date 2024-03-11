@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -72,12 +73,12 @@ namespace Tabletop
         public void OnRelease()
         {
             Grabbed = false;
-            var cellPosition = CurrentCell.Position;
-            CurrentCell.SetState(CellAppearance.Enabled);
-            StopCoroutine(_currentRoutine);
-            _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
-                new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f);
-            StartCoroutine(_currentRoutine);
+            // var cellPosition = CurrentCell.Position;
+            // CurrentCell.SetState(CellAppearance.Enabled);
+            // StopCoroutine(_currentRoutine);
+            // _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
+            //     new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f);
+            // StartCoroutine(_currentRoutine);
         }
         
         /// <summary>
@@ -109,29 +110,63 @@ namespace Tabletop
         {
             var startingCell = CurrentCell.Coordinate;
             var currentCell = CurrentCell;
+            var path = new List<Vector2Int>();
+            
+            // Execute every frame whilst the user is grabbing this mini:
             while (Grabbed)
             {
-                var mousePosition = transform.position;
+                // Fetch the tabletop position of the mouse and check that the mouse is actually on the tabletop:
+                var mousePosition = Vector3.zero;
                 var valid = Tabletop.Instance.GetTabletopMousePosition(ref mousePosition);
+                
                 if (valid)
                 {
+                    // Move mini to the mouse's position:
                     transform.position = new Vector3(mousePosition.x, transform.position.y, mousePosition.z);
+                    
+                    // Check if the mini has moved cell:
                     var newCell = Tabletop.Instance.GetClosestNeighboringCell(currentCell, new Vector2(transform.position.x, transform.position.z));
                     if (newCell != currentCell)
                     {
                         // Ensure the cell isn't taken by another miniature:
-                        if (!newCell.IsOccupied) SetCell(newCell);
-                        currentCell = newCell;
-                        var path = DistanceArrowPathfinder.AStarPathfinder(startingCell, currentCell.Coordinate, Tabletop.Instance.TabletopSize);
-                        foreach (var coord in path)
+                        if (!newCell.IsOccupied)
                         {
-                            Debug.Log(coord);
+                            // SetCell(newCell);
+                            currentCell = newCell;
+                            
+                            // Calculate the path the miniature has travelled (AStar):
+                            path = DistanceArrowPathfinder.AStarPathfinder(startingCell, currentCell.Coordinate, Tabletop.Instance.TabletopSize);
                         }
+                    }
+
+                    Debug.Log(path.Count);
+                    foreach (var gridCells in Tabletop.Instance.GridCells)
+                    {
+                        foreach (var cell in gridCells)
+                        {
+                            cell.SetState(CellAppearance.Disabled);
+                        }
+                    }
+                    foreach (var coord in path)
+                    {
+                        Tabletop.Instance.GridCells[coord.x][coord.y].SetState(CellAppearance.Path);
                     }
                 }
 
                 yield return null;
             }  
+            foreach (var gridCells in Tabletop.Instance.GridCells)
+            {
+                foreach (var cell in gridCells)
+                {
+                    cell.SetState(CellAppearance.Disabled);
+                }
+            }
+            SetCell(currentCell);
+            var cellPosition = CurrentCell.Position;
+            _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
+                new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f);
+            StartCoroutine(_currentRoutine);
             yield return null;   
         }
         
