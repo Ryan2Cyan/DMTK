@@ -119,7 +119,7 @@ namespace Tabletop
                     newCell.transform.position = new Vector3(cellPosition.x, 0f, cellPosition.y);
                     newCell.name = "Cell_[" + i + "," + j + "]";
                     newCell.Coordinate = new Vector2Int(i, j);
-                    newCell.SetState(CellState.Disabled);
+                    newCell.SetState(CellAppearance.Disabled);
                     jPositions.Add(newCell);
                     
                 }

@@ -73,7 +73,7 @@ namespace Tabletop
         {
             Grabbed = false;
             var cellPosition = CurrentCell.Position;
-            CurrentCell.SetState(CellState.Enabled);
+            CurrentCell.SetState(CellAppearance.Enabled);
             StopCoroutine(_currentRoutine);
             _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
                 new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f);
@@ -136,9 +136,9 @@ namespace Tabletop
         private void SetCell(TabletopCell cell)
         {
             if (cell == null) return;
-            if(CurrentCell != null) CurrentCell.SetState(CellState.Disabled);
+            if(CurrentCell != null) CurrentCell.SetState(CellAppearance.Disabled);
             CurrentCell = cell;
-            CurrentCell.SetState(CellState.Enabled);
+            CurrentCell.SetState(CellAppearance.Enabled);
         }
     }
 }
