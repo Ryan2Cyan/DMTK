@@ -107,6 +107,7 @@ namespace Tabletop
         /// </summary>
         private IEnumerator MoveToGrabbedPosition()
         {
+            var startingCell = CurrentCell.Coordinate;
             var currentCell = CurrentCell;
             while (Grabbed)
             {
@@ -121,6 +122,11 @@ namespace Tabletop
                         // Ensure the cell isn't taken by another miniature:
                         if (!newCell.IsOccupied) SetCell(newCell);
                         currentCell = newCell;
+                        var path = DistanceArrowPathfinder.AStarPathfinder(startingCell, currentCell.Coordinate, Tabletop.Instance.TabletopSize);
+                        foreach (var coord in path)
+                        {
+                            Debug.Log(coord);
+                        }
                     }
                 }
 
