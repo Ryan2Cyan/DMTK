@@ -120,7 +120,7 @@ namespace Tabletop
                     newCell.transform.position = new Vector3(cellPosition.x, 0f, cellPosition.y);
                     newCell.name = "Cell_[" + i + "," + j + "]";
                     newCell.Coordinate = new Vector2Int(i, j);
-                    newCell.SetState(CellAppearance.Disabled);
+                    newCell.SetCellState(newCell.DisabledState);
                     jPositions.Add(newCell);
                     
                 }
@@ -134,38 +134,7 @@ namespace Tabletop
             mesh.SetIndices(indices.ToArray(), MeshTopology.Lines, 0);
             return mesh;
         }
-
-        /// <summary>
-        /// Generates vertices around the edge of the grid. Indices are incremented by one for each new vertex.
-        /// Additionally the origin for the grid generated will be at the grid’s centre. Can only create
-        /// symmetrical grids [see "GenerateAsymmetricalGridMesh()"].
-        /// </summary>
-        /// <param name="size">The width (x) and depth (z) of the symmetrical grid.</param>
-        /// <returns>Generated symmetrical grid mesh. Can be assigned to the mesh of a MeshFilter component.</returns>
-        private static Mesh GenerateSymmetricalGridMesh(int size)
-        {
-            // Source: https://gist.github.com/mdomrach/a66602ee85ce45f8860c36b2ad31ea14
-            
-            var mesh = new Mesh();
-            var vertices = new List<Vector3>();
-            var indices = new List<int>();
-
-            for (var i = 0; i <= size; i++)
-            {
-                vertices.Add(new Vector3(i, 0f, 0f));
-                vertices.Add(new Vector3(i, 0f, size));
-                indices.Add(4 * i);
-                indices.Add(4 * i + 1);
-                vertices.Add(new Vector3(0f, 0f, i));
-                vertices.Add(new Vector3(size, 0f, i));
-                indices.Add(4 * i + 2);
-                indices.Add(4 * i + 3);
-            }
-            
-            mesh.vertices = vertices.ToArray();
-            mesh.SetIndices(indices.ToArray(), MeshTopology.Lines, 0);
-            return mesh;
-        }
+        
 
         /// <summary>
         /// Attempts to assign the closest unoccupied cell within the grid. This is done via distance checks
@@ -262,17 +231,33 @@ namespace Tabletop
 
         public static void DisplayDistanceArrow(List<TabletopCell> path)
         {
-            if (path.Count < 1) return;
-            if (path.Count <= 1)
+            switch (path.Count)
             {
-                path.First().SetState(CellAppearance.PathStartIdle);
-                return;
+                case < 1:
+                    return;
+                case <= 1:
+                    path.First().SetCellState(path.First().PathStartIdleState);
+                    return;
             }
 
             var lastIndex = path.Count - 1;
-            path.First().SetState(CellAppearance.PathStart, GetCellTraverseDirection(path[0].Coordinate, path[1].Coordinate));
-            path.Last().SetState(CellAppearance.PathEnd, GetCellTraverseDirection(path[lastIndex - 1].Coordinate, path[lastIndex].Coordinate));
-            for (var i = 1; i < lastIndex; i++) path[i].SetState(CellAppearance.Path, GetCellTraverseDirection(path[i - 1].Coordinate, path[i].Coordinate));
+            
+            // Set beginning of arrow:
+            path.First().PathStartState.Direction = GetCellTraverseDirection(path[0].Coordinate, path[1].Coordinate);
+            path.First().SetCellState(path.First().PathStartState);
+
+            // Set end of arrow:
+            path.Last().PathEndState.Direction = GetCellTraverseDirection(path[lastIndex - 1].Coordinate, path[lastIndex].Coordinate);
+            path.Last().SetCellState(path.Last().PathEndState);
+            
+            // Set body of arrow:
+            for (var i = 1; i < lastIndex; i++)
+            {
+                var currentCell = path[i];
+                currentCell.PathState.Direction0 = GetCellTraverseDirection(path[i - 1].Coordinate, currentCell.Coordinate);
+                currentCell.PathState.Direction1 = GetCellTraverseDirection(currentCell.Coordinate, path[i + 1].Coordinate);
+                currentCell.SetCellState(currentCell.PathState);
+            }
         }
 
         private static Direction GetCellTraverseDirection(Vector2Int start, Vector2Int end)

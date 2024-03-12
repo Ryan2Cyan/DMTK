@@ -134,7 +134,7 @@ namespace Tabletop
                             currentCell = newCell;
                             
                             // Calculate the path the miniature has travelled (AStar):
-                            foreach (var cell in path) cell.SetState(CellAppearance.Disabled);
+                            foreach (var cell in path) cell.SetCellState(cell.DisabledState);
                             path = Tabletop.Instance.GetShortestPath(startingCell, currentCell);
                         }
                     }
@@ -145,7 +145,7 @@ namespace Tabletop
             }  
             
             // Reset all cells within the path:
-            foreach (var cell in path) cell.SetState(CellAppearance.Disabled);
+            foreach (var cell in path) cell.SetCellState(cell.DisabledState);
             
             // Set new current cell and lerp down on the y-axis onto its position.
             SetCell(currentCell);
@@ -163,9 +163,9 @@ namespace Tabletop
         private void SetCell(TabletopCell cell)
         {
             if (cell == null) return;
-            if(CurrentCell != null) CurrentCell.SetState(CellAppearance.Disabled);
+            if(CurrentCell != null) CurrentCell.SetCellState(CurrentCell.DisabledState);
             CurrentCell = cell;
-            CurrentCell.SetState(CellAppearance.Enabled);
+            CurrentCell.SetCellState(CurrentCell.OccupiedState);
         }
     }
 }
