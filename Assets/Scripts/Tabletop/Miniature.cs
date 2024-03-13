@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 namespace Tabletop
@@ -110,6 +111,7 @@ namespace Tabletop
             var startingCell = CurrentCell;
             var currentCell = CurrentCell;
             var path = new List<TabletopCell>{ startingCell };
+            var distanceIndicator = (DistanceTravelled) Tabletop.Instance.DistanceIndicatorsPool.GetPooledObject();
             
             // Execute every frame whilst the user is grabbing this mini:
             while (Grabbed)
@@ -136,6 +138,7 @@ namespace Tabletop
                             // Calculate the path the miniature has travelled (AStar):
                             foreach (var cell in path) cell.SetCellState(cell.DisabledState);
                             path = Tabletop.Instance.GetShortestPath(startingCell, currentCell);
+                            distanceIndicator.Distance = (path.Count - 1) * Tabletop.Instance.DistancePerCell;
                         }
                     }
                 }
@@ -153,6 +156,8 @@ namespace Tabletop
             _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
                 new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f);
             StartCoroutine(_currentRoutine);
+            Tabletop.Instance.DistanceIndicatorsPool.ReleasePooledObject(distanceIndicator);
+            
             yield return null;   
         }
         

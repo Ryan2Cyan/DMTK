@@ -15,10 +15,14 @@ namespace Tabletop
         public Vector2Int TabletopSize;
         public float CellSpacing;
         public float MiniatureScale;
+        public float DistancePerCell;
+        
+        [Header("Required")]
+        public ObjectPool DistanceIndicatorsPool;
         public GameObject CellPrefab;
         public LayerMask TabletopLayerMask;
-        public List<List<TabletopCell>> GridCells;
         
+        private List<List<TabletopCell>> _gridCells;
         private MeshFilter _meshFilter;
         private MeshRenderer _meshRenderer;
 
@@ -27,7 +31,7 @@ namespace Tabletop
         {
             if(_meshFilter == null) _meshFilter = GetComponent<MeshFilter>();
             if(_meshRenderer == null) _meshRenderer = GetComponent<MeshRenderer>();
-            _meshFilter.mesh = GenerateAsymmetricalGridMesh(TabletopSize, CellSpacing, ref GridCells);
+            _meshFilter.mesh = GenerateAsymmetricalGridMesh(TabletopSize, CellSpacing, ref _gridCells);
             _meshRenderer.material = new Material(Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default")) { color = TabletopColour };
         }
 
@@ -41,7 +45,7 @@ namespace Tabletop
 
         private void FixedUpdate()
         {
-            foreach (var gridPositionList in GridCells)
+            foreach (var gridPositionList in _gridCells)
             {
                 foreach (var cell in gridPositionList)
                 {
@@ -146,7 +150,7 @@ namespace Tabletop
         {
             var closestDistance = float.PositiveInfinity;
             var tabletopPosition = transform.position;
-            foreach (var rows in GridCells)
+            foreach (var rows in _gridCells)
             {
                 foreach (var cell in rows)
                 {
@@ -199,7 +203,7 @@ namespace Tabletop
                 if(newCoordinate.y >= TabletopSize.x) continue;
                 
                 // Check if the cell is closer that the current closest:
-                var newCell = GridCells[newCoordinate.x][newCoordinate.y];
+                var newCell = _gridCells[newCoordinate.x][newCoordinate.y];
                 
                 var distance = Vector2.Distance(new Vector2(currentPosition.x, currentPosition.y), newCell.Position);
                 if (distance >= closestDistance) continue;
@@ -226,7 +230,7 @@ namespace Tabletop
 
         public List<TabletopCell> GetShortestPath(TabletopCell start, TabletopCell end)
         {
-            return DistanceArrowPathfinder.AStarPathfinder(start, end, TabletopSize, GridCells);
+            return DistanceArrowPathfinder.AStarPathfinder(start, end, TabletopSize, _gridCells);
         }
 
         public static void DisplayDistanceArrow(List<TabletopCell> path)
@@ -254,10 +258,13 @@ namespace Tabletop
             for (var i = 1; i < lastIndex; i++)
             {
                 var currentCell = path[i];
-                currentCell.PathState.Direction0 = GetCellTraverseDirection(path[i - 1].Coordinate, currentCell.Coordinate);
+                currentCell.PathState.Direction0 = GetCellTraverseDirection(currentCell.Coordinate, path[i - 1].Coordinate);
                 currentCell.PathState.Direction1 = GetCellTraverseDirection(currentCell.Coordinate, path[i + 1].Coordinate);
                 currentCell.SetCellState(currentCell.PathState);
             }
+            
+            // Set distance indicator:
+            
         }
 
         private static Direction GetCellTraverseDirection(Vector2Int start, Vector2Int end)
