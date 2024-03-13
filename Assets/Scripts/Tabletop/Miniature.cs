@@ -112,6 +112,7 @@ namespace Tabletop
             var currentCell = CurrentCell;
             var path = new List<TabletopCell>{ startingCell };
             var distanceIndicator = (DistanceTravelled) Tabletop.Instance.DistanceIndicatorsPool.GetPooledObject();
+            distanceIndicator.Target = transform;
             
             // Execute every frame whilst the user is grabbing this mini:
             while (Grabbed)

@@ -25,11 +25,13 @@ namespace Tabletop
     
     public static class DistanceArrowPathfinder
     {
+        private static int _diagonalMoveValue = 14;
+        private static int _nonDiagonalMoveValue = 10;
+        
         public static List<TabletopCell> AStarPathfinder(TabletopCell start, TabletopCell end, Vector2Int gridSize, List<List<TabletopCell>> grid)
         {
             var startNode = new PathfindingNode(start.Coordinate, start.IsOccupied);
             var endNode = new PathfindingNode(end.Coordinate, end.IsOccupied);
-            
             var openSet = new List<PathfindingNode> { startNode };
             var closedSet = new HashSet<PathfindingNode>();
 
@@ -37,12 +39,13 @@ namespace Tabletop
             {
                 if (openSet.Count > 1000) return new List<TabletopCell>();
                 var current = openSet.First();
+                
+                // Check all open set nodes for the node with the lowest F-Cost and H-Cost: 
                 foreach (var node in openSet)
                 {
                     if (node.FCost > current.FCost) continue;
                     if(node.HCost < current.HCost) current = node;
                 }
-
                 openSet.Remove(current);
                 closedSet.Add(current);
 
@@ -71,10 +74,10 @@ namespace Tabletop
                             continue;
 
                         var check = new Vector2Int(current.Coordinate.x + x, current.Coordinate.y + y);
-                        if (check.x >= 0 && check.x < gridSize.x && check.y >= 0 && check.y < gridSize.y) 
-                        {
-                            neighbours.Add(new PathfindingNode(check, grid[check.x][check.y].IsOccupied));
-                        }
+                        
+                        if (check.x < 0 || check.x >= gridSize.x || check.y < 0 || check.y >= gridSize.y) continue;
+                        if (grid[check.x][check.y].IsOccupied) continue;
+                        neighbours.Add(new PathfindingNode(check, false));
                     }
                 }
 
@@ -87,6 +90,7 @@ namespace Tabletop
                     if (newCostToNeighbour >= node.GCost && openSetContainsNeighbour) continue;
                     node.GCost = newCostToNeighbour;
                     node.HCost = CalculateNodeDistance(node.Coordinate, endNode.Coordinate);
+                    node.FCost = node.GCost + node.HCost;
                     node.Parent = current;
                     if(!openSetContainsNeighbour) openSet.Add(node);
                 }
@@ -104,8 +108,8 @@ namespace Tabletop
         private static int CalculateNodeDistance(Vector2Int node1, Vector2Int node2)
         {
             var difference = new Vector2Int(Mathf.Abs(node1.x - node2.x), Mathf.Abs(node1.y - node2.y));
-            if (difference.x != 0 && difference.y != 0) return (int)(difference.x * Mathf.Sqrt(2) * 10 + difference.y * Mathf.Sqrt(2) * 10);
-            return difference.x * 10 + difference.y * 10;
+            if (difference.x > difference.y) return difference.y * _diagonalMoveValue + (difference.x - difference.y) * _nonDiagonalMoveValue;
+            return difference.x * _diagonalMoveValue + (difference.y - difference.x) * _nonDiagonalMoveValue;
         }
     }
 }

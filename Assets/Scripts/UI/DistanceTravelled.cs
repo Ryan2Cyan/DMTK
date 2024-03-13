@@ -1,5 +1,4 @@
 using System.Globalization;
-using Input;
 using TMPro;
 using UnityEngine;
 using Utility;
@@ -10,6 +9,7 @@ namespace UI
     {
         [Header("Settings")] 
         public float Distance = 20f;
+        public Transform Target;
         public TMP_FontAsset Font;
         public float FontSize = 20f;
         public Vector2 Offset = new Vector2(1f, 1f);
@@ -27,8 +27,8 @@ namespace UI
         private void Update()
         {
             if (!_instantiated) return;
-            var mousePosition = InputManager.MousePosition;
-            transform.position = new Vector3(mousePosition.x + Offset.x, mousePosition.y + Offset.y, transform.position.z);
+            var targetPosition = Camera.main.WorldToScreenPoint(Target.position);
+            transform.position = new Vector3(targetPosition.x + Offset.x, targetPosition.y + Offset.y, transform.position.z);
             _tmp.text = Distance.ToString(CultureInfo.InvariantCulture) + " ft";
         }
 
