@@ -35,8 +35,16 @@ namespace Tabletop
             
             // Scale the miniature to be coherent with the tabletop grid:
             var mesh = _meshFilter.mesh;
-            _miniatureTransform.localScale = Tabletop.Instance.GenerateMeshToGridScale(mesh.bounds.size);
+            var newScale = Tabletop.Instance.GenerateMeshToGridScale(mesh.bounds.size);
+            _miniatureTransform.localScale = newScale;
+
+            // Move miniature so the bottom plane aligns with the grid on the y-axis:
+            var position = _miniatureTransform.position;
+            var bottomPlaneY = position.y - mesh.bounds.size.y * newScale.y / 2f;
+            position = new Vector3(position.x, position.y + Tabletop.Instance.transform.position.y - bottomPlaneY, position.z);
+            _miniatureTransform.position = position;
             
+            // Register miniature and assign it the closest available cell to the centre.
             MiniatureManager.Instance.RegisterMiniature(this);
             if (!Tabletop.Instance.AssignClosestToGridCentre(ref CurrentCell)) Debug.Log("Unable" + " to spawn miniature as all grid cells are occupied.");
             else

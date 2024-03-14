@@ -43,16 +43,16 @@ namespace Tabletop
             GenerateGrid();
         }
 
-        private void FixedUpdate()
-        {
-            foreach (var gridPositionList in _gridCells)
-            {
-                foreach (var cell in gridPositionList)
-                {
-                    Debug.DrawLine(new Vector3(cell.Position.x, 0f, cell.Position.y), new Vector3(cell.Position.x, 1f, cell.Position.y), Color.yellow);                    
-                }
-            }
-        }
+        // private void FixedUpdate()
+        // {
+        //     foreach (var gridPositionList in _gridCells)
+        //     {
+        //         foreach (var cell in gridPositionList)
+        //         {
+        //             Debug.DrawLine(new Vector3(cell.Position.x, 0f, cell.Position.y), new Vector3(cell.Position.x, 1f, cell.Position.y), Color.yellow);                    
+        //         }
+        //     }
+        // }
 
         #endregion
 

@@ -20,14 +20,14 @@ namespace Tabletop
         public int GCost;
         public int HCost;
         public int FCost;
-        public bool Occupied;
+        public readonly bool Occupied;
     }
     
     public static class DistanceArrowPathfinder
     {
-        private static int _diagonalMoveValue = 14;
-        private static int _nonDiagonalMoveValue = 10;
-        
+        private const int _diagonalMoveValue = 14;
+        private const int _nonDiagonalMoveValue = 10;
+
         public static List<TabletopCell> AStarPathfinder(TabletopCell start, TabletopCell end, Vector2Int gridSize, List<List<TabletopCell>> grid)
         {
             var startNode = new PathfindingNode(start.Coordinate, start.IsOccupied);
@@ -49,6 +49,7 @@ namespace Tabletop
                 openSet.Remove(current);
                 closedSet.Add(current);
 
+                // If the current node is the end node return the path:
                 if (current.Coordinate == endNode.Coordinate)
                 {
                     // return retraced path:
@@ -66,7 +67,7 @@ namespace Tabletop
                     return path;
                 }
                 
-                // Get neighbors:
+                // Get neighbors for the current cell:
                 var neighbours = new List<PathfindingNode>();
                 for (var x = -1; x <= 1; x++) {
                     for (var y = -1; y <= 1; y++) {
@@ -81,6 +82,7 @@ namespace Tabletop
                     }
                 }
 
+                // Calculate the GCost, HCost, and FCost for each neighbour:
                 foreach (var node in neighbours)
                 {
                     if (node.Occupied || closedSet.Contains(node)) continue;
