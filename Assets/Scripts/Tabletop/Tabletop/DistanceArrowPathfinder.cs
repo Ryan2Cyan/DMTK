@@ -2,17 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Tabletop
+namespace Tabletop.Tabletop
 {
     public class PathfindingNode
     {
-        public PathfindingNode(Vector2Int coordinate, bool occupied)
+        public PathfindingNode(Vector2Int coordinate)
         {
             Coordinate = coordinate;
             GCost = 0;
             HCost = 0;
             FCost = 0;
-            Occupied = occupied;
         }
         
         public PathfindingNode Parent;
@@ -20,27 +19,28 @@ namespace Tabletop
         public int GCost;
         public int HCost;
         public int FCost;
-        public readonly bool Occupied;
     }
     
     public static class DistanceArrowPathfinder
     {
-        private const int _diagonalMoveValue = 14;
-        private const int _nonDiagonalMoveValue = 10;
-
-        public static List<TabletopCell> AStarPathfinder(TabletopCell start, TabletopCell end, Vector2Int gridSize, List<List<TabletopCell>> grid)
+        /// <summary>Finds shortest path between two tabletop cells./// </summary>
+        /// <param name="start">Starting cell.</param>
+        /// <param name="end">Destination cell.</param>
+        /// <param name="grid">2D grid of tabletop cells.</param>
+        /// <returns>Path of tabletop cells from specified start to end cells.</returns>
+        /// <remarks>Sources: https://github.com/SebLague/Pathfinding/tree/master/Episode%2003%20-%20astar/Assets/Scripts</remarks>
+        public static List<TabletopCell> AStarPathfinder(TabletopCell start, TabletopCell end, List<List<TabletopCell>> grid)
         {
-            var startNode = new PathfindingNode(start.Coordinate, start.IsOccupied);
-            var endNode = new PathfindingNode(end.Coordinate, end.IsOccupied);
+            var startNode = new PathfindingNode(start.Coordinate);
+            var endNode = new PathfindingNode(end.Coordinate);
             var openSet = new List<PathfindingNode> { startNode };
             var closedSet = new HashSet<PathfindingNode>();
 
             while (openSet.Count > 0)
             {
-                if (openSet.Count > 1000) return new List<TabletopCell>();
                 var current = openSet.First();
                 
-                // Check all open set nodes for the node with the lowest F-Cost and H-Cost: 
+                // Check open set for the node with the lowest F-Cost and H-Cost: 
                 foreach (var node in openSet)
                 {
                     if (node.FCost > current.FCost) continue;
@@ -49,13 +49,11 @@ namespace Tabletop
                 openSet.Remove(current);
                 closedSet.Add(current);
 
-                // If the current node is the end node return the path:
+                // If current node is the end node return the path:
                 if (current.Coordinate == endNode.Coordinate)
                 {
-                    // return retraced path:
                     var path = new List<TabletopCell>();
                     endNode.Parent = current.Parent;
-                    
                     var currentNode = endNode;
                     while (currentNode.Coordinate != startNode.Coordinate)
                     {
@@ -68,50 +66,31 @@ namespace Tabletop
                 }
                 
                 // Get neighbors for the current cell:
-                var neighbours = new List<PathfindingNode>();
-                for (var x = -1; x <= 1; x++) {
-                    for (var y = -1; y <= 1; y++) {
-                        if (x == 0 && y == 0)
-                            continue;
-
-                        var check = new Vector2Int(current.Coordinate.x + x, current.Coordinate.y + y);
-                        
-                        if (check.x < 0 || check.x >= gridSize.x || check.y < 0 || check.y >= gridSize.y) continue;
-                        if (grid[check.x][check.y].IsOccupied) continue;
-                        neighbours.Add(new PathfindingNode(check, false));
-                    }
-                }
-
-                // Calculate the GCost, HCost, and FCost for each neighbour:
-                foreach (var node in neighbours)
+                foreach (var neighbourCoordinate in Tabletop.GetNeighbouringCellCoordinates(current.Coordinate, -1, 1, -1, 1 ))
                 {
-                    if (node.Occupied || closedSet.Contains(node)) continue;
-                    var newCostToNeighbour = current.GCost + CalculateNodeDistance(current.Coordinate, node.Coordinate);
-
-                    var openSetContainsNeighbour = openSet.Contains(node);
-                    if (newCostToNeighbour >= node.GCost && openSetContainsNeighbour) continue;
-                    node.GCost = newCostToNeighbour;
-                    node.HCost = CalculateNodeDistance(node.Coordinate, endNode.Coordinate);
-                    node.FCost = node.GCost + node.HCost;
-                    node.Parent = current;
-                    if(!openSetContainsNeighbour) openSet.Add(node);
+                    // If occupied, skip:
+                    var neighbourCell = grid[neighbourCoordinate.x][neighbourCoordinate.y];
+                    if(neighbourCell.IsOccupied) continue;
+                    
+                    var neighbourPathfinderNode = new PathfindingNode(neighbourCoordinate);
+                    if (closedSet.Contains(neighbourPathfinderNode)) continue;
+                    
+                    // Calculate GCost (distance from start), check if neighbour is already in open list:
+                    var neighbourGCost = current.GCost + Tabletop.CalculateCellDistance(current.Coordinate, neighbourPathfinderNode.Coordinate);
+                    var openSetContainsNeighbour = openSet.Contains(neighbourPathfinderNode);
+                    if (neighbourGCost >= neighbourPathfinderNode.GCost && openSetContainsNeighbour) continue;
+                    
+                    // Assign GCost, HCost (distance from end), and FCost:
+                    neighbourPathfinderNode.GCost = neighbourGCost;
+                    neighbourPathfinderNode.HCost = Tabletop.CalculateCellDistance(neighbourPathfinderNode.Coordinate, endNode.Coordinate);
+                    neighbourPathfinderNode.FCost = neighbourPathfinderNode.GCost + neighbourPathfinderNode.HCost;
+                    neighbourPathfinderNode.Parent = current;
+                    
+                    // Add to open set:
+                    openSet.Add(neighbourPathfinderNode);
                 }
             }
             return null;
-        }
-
-        /// <summary>
-        /// Calculates the distance between two node coordinates. Horizontal and vertical movements are 10 per node,
-        /// whereas diagonal movements are 10 * sqrt(2).
-        /// </summary>
-        /// <param name="node1">First node coordinates.</param>
-        /// <param name="node2">Second node coordinates.</param>
-        /// <returns>Distance between the two nodes.</returns>
-        private static int CalculateNodeDistance(Vector2Int node1, Vector2Int node2)
-        {
-            var difference = new Vector2Int(Mathf.Abs(node1.x - node2.x), Mathf.Abs(node1.y - node2.y));
-            if (difference.x > difference.y) return difference.y * _diagonalMoveValue + (difference.x - difference.y) * _nonDiagonalMoveValue;
-            return difference.x * _diagonalMoveValue + (difference.y - difference.x) * _nonDiagonalMoveValue;
         }
     }
 }

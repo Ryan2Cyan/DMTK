@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +9,8 @@ namespace Input
         
         public static event DMTKInputAction OnMouseDown;
         public static event DMTKInputAction OnMouseUp;
-        public static event DMTKInputAction OnConserverSize;
+        public static event DMTKInputAction OnConserveSize;
+        public static event DMTKInputAction OnConserveSizeCancel;
         public static Vector2 MousePosition;
         
         private DMTKActions _inputActions;
@@ -29,6 +29,7 @@ namespace Input
             _inputActions.DMTKPlayer.MouseDown.performed += MouseDown;
             _inputActions.DMTKPlayer.MouseDown.canceled += MouseUp;
             _inputActions.DMTKPlayer.ConservativeResize.performed += ConserveSize;
+            _inputActions.DMTKPlayer.ConservativeResize.canceled += ConserveSizeCancel;
         }
 
         private void OnDisable()
@@ -39,6 +40,7 @@ namespace Input
             _inputActions.DMTKPlayer.MouseDown.performed -= MouseDown;
             _inputActions.DMTKPlayer.MouseDown.canceled -= MouseUp;
             _inputActions.DMTKPlayer.ConservativeResize.performed -= ConserveSize;
+            _inputActions.DMTKPlayer.ConservativeResize.canceled -= ConserveSizeCancel;
         }
 
         private void Update()
@@ -48,6 +50,7 @@ namespace Input
 
         private static void MouseDown(InputAction.CallbackContext context) { OnMouseDown?.Invoke(); }
         private static void MouseUp(InputAction.CallbackContext context) { OnMouseUp?.Invoke(); }
-        private static void ConserveSize(InputAction.CallbackContext context) { OnConserverSize?.Invoke(); }
+        private static void ConserveSize(InputAction.CallbackContext context) { OnConserveSize?.Invoke(); }
+        private static void ConserveSizeCancel(InputAction.CallbackContext context) { OnConserveSizeCancel?.Invoke(); }
     }
 }

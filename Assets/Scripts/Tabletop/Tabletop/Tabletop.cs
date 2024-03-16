@@ -1,10 +1,11 @@
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 using Utility;
 
-namespace Tabletop
+namespace Tabletop.Tabletop
 {
     public class Tabletop : MonoBehaviour
     {
@@ -14,7 +15,6 @@ namespace Tabletop
         public Color TabletopColour;
         public Vector2Int TabletopSize;
         public float CellSpacing;
-        public float MiniatureScale;
         public float DistancePerCell;
         
         [Header("Required")]
@@ -25,121 +25,22 @@ namespace Tabletop
         private List<List<TabletopCell>> _gridCells;
         private MeshFilter _meshFilter;
         private MeshRenderer _meshRenderer;
-
-        [ContextMenu("Generate Grid")]
-        private void GenerateGrid()
-        {
-            if(_meshFilter == null) _meshFilter = GetComponent<MeshFilter>();
-            if(_meshRenderer == null) _meshRenderer = GetComponent<MeshRenderer>();
-            _meshFilter.mesh = GenerateAsymmetricalGridMesh(TabletopSize, CellSpacing, ref _gridCells);
-            _meshRenderer.material = new Material(Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default")) { color = TabletopColour };
-        }
-
+        private const int _diagonalMoveValue = 14;
+        private const int _nonDiagonalMoveValue = 10;
+        
         #region UnityFunctions
-
         private void Awake()
         {
             Instance = this;
-            GenerateGrid();
+            if(_meshFilter == null) _meshFilter = GetComponent<MeshFilter>();
+            if(_meshRenderer == null) _meshRenderer = GetComponent<MeshRenderer>();
+            _gridCells = new List<List<TabletopCell>>();
+            _meshFilter.mesh = GenerateAsymmetricalGridMesh(TabletopSize, CellSpacing, ref _gridCells);
+            _meshRenderer.material = new Material(Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default")) { color = TabletopColour };
         }
-
-        // private void FixedUpdate()
-        // {
-        //     foreach (var gridPositionList in _gridCells)
-        //     {
-        //         foreach (var cell in gridPositionList)
-        //         {
-        //             Debug.DrawLine(new Vector3(cell.Position.x, 0f, cell.Position.y), new Vector3(cell.Position.x, 1f, cell.Position.y), Color.yellow);                    
-        //         }
-        //     }
-        // }
-
         #endregion
 
-        #region TabletopFunctions
-
-        /// <summary>
-        /// Calculates the local scale modification value required to scale a miniature's mesh down to grid cell
-        /// size.
-        /// </summary>
-        /// <param name="currentSize">The current local size of the miniature's mesh [see Mesh.bounds.size]. </param>
-        /// <returns>Current scale to grid cell size local scale modifier.</returns>
-        public Vector3 GenerateMeshToGridScale(Vector3 currentSize)
-        {
-            return new Vector3(
-                1f / currentSize.x * MiniatureScale,
-                1f / currentSize.y * MiniatureScale,
-                1f / currentSize.z * MiniatureScale
-                );
-        }
-        
-        /// <summary>
-        /// Generates all points within the grid, with the origin being in the centre of the grid. Indices are
-        /// incremented by one for each new vertex.
-        /// </summary>
-        /// <param name="gridSize">Dimensions of the asymmetrical grid, the size.x component corresponding to the
-        /// width (x), and size.y corresponding to the depth (z).</param>
-        /// <param name="spacing">The distance between each cell, determining the overall surface size of the grid.</param>
-        /// <param name="positions">Stores the central grid position corresponding to each grid cell. </param>
-        /// <returns>Generated asymmetrical grid mesh. Can be assigned to the mesh of a MeshFilter component.</returns>
-        private Mesh GenerateAsymmetricalGridMesh(Vector2Int gridSize, float spacing, ref List<List<TabletopCell>> positions)
-        {
-            // Source: https://gist.github.com/mdomrach/a66602ee85ce45f8860c36b2ad31ea14
-            
-            var mesh = new Mesh();
-            var vertices = new List<Vector3>();
-            var indices = new List<int>();
-            positions = new List<List<TabletopCell>>();
-            
-            var minimum = new Vector2(spacing * gridSize.x / 2f, spacing * gridSize.y / 2f);
-
-            for (var i = 0; i <= gridSize.x; i++)
-            {
-                var jPositions = new List<TabletopCell>();
-                for (var j = 0; j <= gridSize.y; j++)
-                {
-                    var capturePosition = true;
-                    var X = new Vector2(i * spacing - minimum.x, (i + 1) * spacing - minimum.x);
-                    var Z = new Vector2(j * spacing - minimum.y, (j + 1) * spacing - minimum.y);
-
-                    if (i != gridSize.x)
-                    {
-                        vertices.Add(new Vector3(X.x, 0f, Z.x));
-                        vertices.Add(new Vector3(X.y, 0, Z.x));
-                    }
-                    else capturePosition = false;
-
-                    if (j == gridSize.y) continue;
-                    vertices.Add(new Vector3(X.x, 0, Z.x));
-                    vertices.Add(new Vector3(X.x, 0, Z.y));
-
-                    if (!capturePosition) continue;
-                    var topLeft = new Vector2(X.x, Z.y);
-                    var bottomRight = new Vector2(X.y, Z.x);
-                    var cellPosition = topLeft + (bottomRight - topLeft) / 2f;
-                    
-                    // Spawn in prefab to have visual representation of the cell in-game.
-                    var newCell = Instantiate(CellPrefab, transform).GetComponent<TabletopCell>();
-                    newCell.Position = cellPosition;
-                    newCell.transform.position = new Vector3(cellPosition.x, 0f, cellPosition.y);
-                    newCell.name = "Cell_[" + i + "," + j + "]";
-                    newCell.Coordinate = new Vector2Int(i, j);
-                    newCell.SetCellState(newCell.DisabledState);
-                    jPositions.Add(newCell);
-                    
-                }
-                positions.Add(jPositions);
-            }
-
-            var indicesCount = vertices.Count;
-            for (var i = 0; i < indicesCount; i++) indices.Add(i);
-            
-            mesh.vertices = vertices.ToArray();
-            mesh.SetIndices(indices.ToArray(), MeshTopology.Lines, 0);
-            return mesh;
-        }
-        
-
+        #region PublicFunctions
         /// <summary>
         /// Attempts to assign the closest unoccupied cell within the grid. This is done via distance checks
         /// using each cell's central position and comparing it to the centre of the tabletop grid.
@@ -165,82 +66,62 @@ namespace Tabletop
             return miniatureCell != null;
         }
 
-        /// <summary>
-        /// Finds the closest neighboring cell (including diagonals) to the 'currentPosition'. Neighboring cells
-        /// are derived from the 'currentCell' parameter. Used to reduce the amount of cells searched when
-        /// moving miniatures.
-        /// </summary>
+        /// <summary>Finds closest neighboring cell relative to a cell position.</summary>
         /// <param name="currentCell">Central cell of which neighboring cells will derive from.</param>
-        /// <param name="currentPosition">Position to conduct distance checks.</param>
+        /// <param name="currentPosition">Current world position.</param>
+        /// <param name="minX"></param>
+        /// <param name="maxX"></param>
+        /// <param name="minY"></param>
+        /// <param name="maxY"></param>
         /// <returns>The closest cell to the inputted 'currentPosition'.</returns>
-        public TabletopCell GetClosestNeighboringCell(TabletopCell currentCell, Vector2 currentPosition)
+        public TabletopCell GetClosestNeighboringCell(TabletopCell currentCell, Vector2 currentPosition, int minX, int maxX, int minY, int maxY)
         {
-            var cellModifiers = new List<Vector2Int>
-            {
-                new(-1, 1),
-                new(0, 1),
-                new(1, 1),
-
-                new(-1, 0),
-                new(0, 0),
-                new(1, 0),
-
-                new(-1, -1),
-                new(0, -1),
-                new(1, -1),
-                
-                new(-2, 2),
-                new(-1, 2),
-                new(0, 2),
-                new(1, 2),
-                new(2, 2),
-                
-                new(-2, 1),
-                new(2, 1),
-                
-                new(-2, 0),
-                new(2, 0),
-                
-                new(-2, -1),
-                new(2, -1),
-                
-                new(-2, -2),
-                new(-1, -2),
-                new(0, -2),
-                new(1, -2),
-                new(2, -2),
-            };
+            // Get neighbours function excludes the current cell, so using it as a base:
+            var closestDistance = Vector2.Distance(currentPosition, currentCell.Position);
+            var closestCell = currentCell.Coordinate;
             
-            var closestDistance = float.PositiveInfinity;
-            TabletopCell closestCell = null;
             var foundCell = false;
-            foreach (var modifier in cellModifiers)
+            foreach (var neighbour in GetNeighbouringCellCoordinates(currentCell.Coordinate, minX, maxX, minY, maxY))
             {
-                // Apply coordinate modifier and check the coordinate is still within the grid:
-                var newCoordinate = new Vector2Int(currentCell.Coordinate.x + modifier.x, currentCell.Coordinate.y + modifier.y);
-                if (newCoordinate.x < 0) continue;
-                if(newCoordinate.x >= TabletopSize.x) continue;
-                if (newCoordinate.y < 0) continue;
-                if(newCoordinate.y >= TabletopSize.x) continue;
-                
-                // Check if the cell is closer that the current closest:
-                var newCell = _gridCells[newCoordinate.x][newCoordinate.y];
-                
-                var distance = Vector2.Distance(new Vector2(currentPosition.x, currentPosition.y), newCell.Position);
+                // Check if closer that the current closest:
+                var distance = Vector2.Distance(currentPosition, _gridCells[neighbour.x][neighbour.y].Position);
                 if (distance >= closestDistance) continue;
+                
+                // If closer, cache neighbour:
                 closestDistance = distance;
-                closestCell = newCell;
+                closestCell = neighbour;
                 foundCell = true;
             }
 
-            return !foundCell ? currentCell : closestCell;
+            return !foundCell ? currentCell : _gridCells[closestCell.x][closestCell.y];
         }
 
-        /// <summary>
-        /// Returns the mouse's current position in relation the the tabletop grid/collider.
-        /// </summary>
-        /// <returns>If the cursor intersects the tabletop then the intersection point is returned, otherwise
-        /// returns Vector3.negativeInfinity.</returns>
+        /// <summary>For a given coordinate, get all neighboring cell coordinates.</summary>
+        /// <param name="currentCellCoordinate">Origin coordinate to begin search.</param>
+        /// <param name="minX">Minimum x-axis search range.</param>
+        /// <param name="maxX">Maximum x-axis search range.</param>
+        /// <param name="minY">Minimum y-axis search range.</param>
+        /// <param name="maxY">Maximum y-axis search range.</param>
+        /// <returns>All valid neighbouring cell coordinates within search range.</returns>
+        /// <remarks>Source: https://github.com/SebLague/Pathfinding/blob/master/Episode%2003%20-%20astar/Assets/Scripts/Grid.cs#L35</remarks>
+        public static List<Vector2Int> GetNeighbouringCellCoordinates(Vector2Int currentCellCoordinate, int minX, int maxX, int minY, int maxY)
+        {
+            var neighbours = new List<Vector2Int>();
+            for (var x = minX; x <= maxX; x++)
+            {
+                for (var y = minY; y <= maxY; y++)
+                {
+                    if(x == 0 && y == 0) continue;
+                    var check = new Vector2Int(currentCellCoordinate.x + x, currentCellCoordinate.y + y);
+                    if(check.x >= 0 && check.x < Instance.TabletopSize.x && check.y >= 0 && check.y < Instance.TabletopSize.y) neighbours.Add(check);
+                }
+            }
+            return neighbours;
+        }
+        
+        /// <summary>Attempt to return mouse position in tabletop grid space.</summary>
+        /// <param name="position">Store result tabletop space position.</param>
+        /// <returns>True if tabletop space position is found, false otherwise.</returns>
         public bool GetTabletopMousePosition(ref Vector3 position)
         {
             var hit = DMTKPhysicsUtility.PhysicsMouseRayCast(TabletopLayerMask);
@@ -248,10 +129,14 @@ namespace Tabletop
             position = hit.point;
             return true;
         }
-
+        
+        /// <summary>Get shortest path between two cells.</summary>
+        /// <param name="start">Starting cell.</param>
+        /// <param name="end">End cell.</param>
+        /// <returns>Each cell within the shortest path.</returns>
         public List<TabletopCell> GetShortestPath(TabletopCell start, TabletopCell end)
         {
-            return DistanceArrowPathfinder.AStarPathfinder(start, end, TabletopSize, _gridCells);
+            return DistanceArrowPathfinder.AStarPathfinder(start, end, _gridCells);
         }
 
         public static void DisplayDistanceArrow(List<TabletopCell> path)
@@ -283,11 +168,83 @@ namespace Tabletop
                 currentCell.PathState.Direction1 = GetCellTraverseDirection(currentCell.Coordinate, path[i + 1].Coordinate);
                 currentCell.SetCellState(currentCell.PathState);
             }
+        }
+        
+        #endregion
+        
+        #region PrivateFunctions
+        /// <summary>Generate asymmetrical grid mesh with at the centre. Unique index generated for each vertex.</summary>
+        /// <param name="gridSize">Grid dimensions, the size.x being width (x), size.y being depth (z).</param>
+        /// <param name="spacing">Distance between cells.</param>
+        /// <param name="cellPositions">Store position of each cell. </param>
+        /// <returns>Generated asymmetrical grid mesh. Can be assigned to the mesh of a MeshFilter component.</returns>
+        /// <remarks>Source: https://gist.github.com/mdomrach/a66602ee85ce45f8860c36b2ad31ea14</remarks>
+        private Mesh GenerateAsymmetricalGridMesh(Vector2Int gridSize, float spacing, [NotNull] ref List<List<TabletopCell>> cellPositions)
+        {
+            if (cellPositions == null) throw new ArgumentNullException(nameof(cellPositions));
+            var mesh = new Mesh();
+            var vertices = new List<Vector3>();
+            var indices = new List<int>();
             
-            // Set distance indicator:
+            // Calculate bottom-left corner of first cell: 
+            var minimum = new Vector2(spacing * gridSize.x / 2f, spacing * gridSize.y / 2f);
+            for (var i = 0; i <= gridSize.x; i++)
+            {
+                var jPositions = new List<TabletopCell>();
+                for (var j = 0; j <= gridSize.y; j++)
+                {
+                    // Only store cell position if all corners are drawn:
+                    var capturePosition = true;
+                    
+                    // Find coordinates for bottom-left, bottom-right, and top-left vertices:
+                    var X = new Vector2(i * spacing - minimum.x, (i + 1) * spacing - minimum.x);
+                    var Z = new Vector2(j * spacing - minimum.y, (j + 1) * spacing - minimum.y);
+
+                    // Generate line on x-axis:
+                    if (i != gridSize.x)
+                    {
+                        vertices.Add(new Vector3(X.x, 0f, Z.x));    // Bottom-left 
+                        vertices.Add(new Vector3(X.y, 0, Z.x));     // Bottom-right
+                    }
+                    else capturePosition = false;
+
+                    // Generate line on z-axis:
+                    if (j == gridSize.y) continue;
+                    vertices.Add(new Vector3(X.x, 0, Z.x));         // Bottom-left
+                    vertices.Add(new Vector3(X.x, 0, Z.y));         // Top-left
+
+                    if (!capturePosition) continue;
+                    
+                    // Find centre position of cell:
+                    var topLeft = new Vector2(X.x, Z.y);
+                    var bottomRight = new Vector2(X.y, Z.x);
+                    var cellPosition = topLeft + (bottomRight - topLeft) / 2f;
+                    
+                    // Spawn cell prefab:
+                    var newCell = Instantiate(CellPrefab, transform).GetComponent<TabletopCell>();
+                    newCell.Position = cellPosition;
+                    newCell.transform.position = new Vector3(cellPosition.x, 0f, cellPosition.y);
+                    newCell.name = "Cell_[" + i + "," + j + "]";
+                    newCell.Coordinate = new Vector2Int(i, j);
+                    newCell.SetCellState(newCell.DisabledState);
+                    jPositions.Add(newCell);
+                    
+                }
+                cellPositions.Add(jPositions);
+            }
+
+            var indicesCount = vertices.Count;
+            for (var i = 0; i < indicesCount; i++) indices.Add(i);
             
+            mesh.vertices = vertices.ToArray();
+            mesh.SetIndices(indices.ToArray(), MeshTopology.Lines, 0);
+            return mesh;
         }
 
+        /// <summary>Get direction from one coordinate relative to another.</summary>
+        /// <param name="start">Starting point coordinates.</param>
+        /// <param name="end">End point coordinates.</param>
+        /// <returns>Direction of the end coordinates relative to the start coordinates.</returns>
         private static Direction GetCellTraverseDirection(Vector2Int start, Vector2Int end)
         {
             var difference = new Vector2Int(end.x - start.x, end.y - start.y);
@@ -306,6 +263,18 @@ namespace Tabletop
                 { x: > 0, y: < 0 } => Direction.BottomRight,
                 _ => Direction.None
             };
+        }
+        
+        /// <summary>Calculate distance between two cell coordinates. Horizontal and vertical movements are 10 per node, whereas diagonal
+        /// movements are 10 * sqrt(2).</summary>
+        /// <param name="node1">First node coordinates.</param>
+        /// <param name="node2">Second node coordinates.</param>
+        /// <returns>Distance between node1 and node2.</returns>
+        public static int CalculateCellDistance(Vector2Int node1, Vector2Int node2)
+        {
+            var difference = new Vector2Int(Mathf.Abs(node1.x - node2.x), Mathf.Abs(node1.y - node2.y));
+            if (difference.x > difference.y) return difference.y * _diagonalMoveValue + (difference.x - difference.y) * _nonDiagonalMoveValue;
+            return difference.x * _diagonalMoveValue + (difference.y - difference.x) * _nonDiagonalMoveValue;
         }
         #endregion
     }

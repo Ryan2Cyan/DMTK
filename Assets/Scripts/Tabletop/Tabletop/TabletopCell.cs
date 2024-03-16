@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Tabletop
+namespace Tabletop.Tabletop
 {
     public enum Direction
     {
@@ -36,18 +36,19 @@ namespace Tabletop
         [HideInInspector] public SpriteRenderer Sprite1;
 
         // Cell States:
-        public readonly OccupiedCell OccupiedState = new OccupiedCell();
-        public readonly DisabledCell DisabledState = new DisabledCell();
-        public readonly PathCell PathState = new PathCell();
-        public readonly PathStartCell PathStartState = new PathStartCell();
-        public readonly PathStartIdleCell PathStartIdleState = new PathStartIdleCell();
-        public readonly PathEndCell PathEndState = new PathEndCell();
+        public readonly OccupiedCell OccupiedState = new ();
+        public readonly DisabledCell DisabledState = new ();
+        public readonly PathCell PathState = new ();
+        public readonly PathStartCell PathStartState = new ();
+        public readonly PathStartIdleCell PathStartIdleState = new ();
+        public readonly PathEndCell PathEndState = new ();
         
         private ITableTopCellState _currentState;
-        
+
+        #region UnityFunctions
         private void Awake()
         {
-            // Two sprite renders for distance path (need two lines with separate rotations):
+            // Two sprite renders needed for distance path (need two lines with separate rotations):
             Sprite0 = transform.GetChild(0).GetComponent<SpriteRenderer>();
             var transform0 = Sprite0.transform;
             var eulerAngles0 = transform0.eulerAngles;
@@ -61,7 +62,9 @@ namespace Tabletop
             transform1.eulerAngles = eulerAngles1;
             _currentState = DisabledState;
         }
+        #endregion
 
+        #region PublicFunctions
         public void SetCellState(ITableTopCellState state)
         {
             _currentState?.OnExit(this);
@@ -69,16 +72,19 @@ namespace Tabletop
             _currentState.OnStart(this);
         }
         
-        public static void SetSprite(SpriteRenderer spriteRenderer, Sprite sprite, Color color)
+        internal static void SetSprite(SpriteRenderer spriteRenderer, Sprite sprite, Color color)
         {
             spriteRenderer.enabled = true;
             spriteRenderer.sprite = sprite;
             spriteRenderer.color = color;
         }
 
-        public static float GetGrabbedSpriteRotation(Direction direction)
+        /// <summary>Get tabletop space rotation corresponding to a direction. Rotations only occur on y-axis.</summary>
+        /// <param name="direction">Facing direction.</param>
+        /// <returns>Y-axis tabletop space rotation.</returns>
+        internal static float GetTabletopSpaceRotation(Direction direction)
         {
-            var yRotation = 0f;
+            float yRotation;
             switch (direction)
             {
                 case Direction.None: return 0;
@@ -120,11 +126,15 @@ namespace Tabletop
             return yRotation;
         }
 
-        public static void RotateSprite(Transform transform, float angle)
+        /// <summary>Rotate sprite in tabletop space (y-axis only).</summary>
+        /// <param name="transform">Sprite transform.</param>
+        /// <param name="angle">Tabletop space y-axis rotation [see TabletopCell.GetTabletopSpaceRotation].</param>
+        internal static void RotateSprite(Transform transform, float angle)
         {
             var eulerAngles = transform.eulerAngles;
             transform.eulerAngles = new Vector3(eulerAngles.x, angle, eulerAngles.z);
         }
+        #endregion
     }
 
     public interface ITableTopCellState
@@ -159,15 +169,15 @@ namespace Tabletop
         
         public void OnStart(TabletopCell cell)
         {
-            // Handle first path sprite:
+            // Handle first sprite:
             cell.Sprite0.transform.localScale = new Vector3(1f, 0.4f, 1f);
             TabletopCell.SetSprite(cell.Sprite0, cell.PathSprite, cell.PathColour);
-            TabletopCell.RotateSprite(cell.Sprite0.transform, TabletopCell.GetGrabbedSpriteRotation(Direction0));
+            TabletopCell.RotateSprite(cell.Sprite0.transform, TabletopCell.GetTabletopSpaceRotation(Direction0));
             
-            // Handle second path sprite:
+            // Handle second sprite:
             cell.Sprite1.transform.localScale = new Vector3(1f, 0.4f, 1f);
             TabletopCell.SetSprite(cell.Sprite1, cell.PathSprite, cell.PathColour);
-            TabletopCell.RotateSprite(cell.Sprite1.transform, TabletopCell.GetGrabbedSpriteRotation(Direction1));
+            TabletopCell.RotateSprite(cell.Sprite1.transform, TabletopCell.GetTabletopSpaceRotation(Direction1));
         }
         
         public void OnExit(TabletopCell cell)
@@ -204,7 +214,7 @@ namespace Tabletop
         {
             cell.Sprite0.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
             TabletopCell.SetSprite(cell.Sprite0, cell.PathStart, cell.PathColour);
-            TabletopCell.RotateSprite(cell.Sprite0.transform, TabletopCell.GetGrabbedSpriteRotation(Direction));
+            TabletopCell.RotateSprite(cell.Sprite0.transform, TabletopCell.GetTabletopSpaceRotation(Direction));
         }
         
         public void OnExit(TabletopCell cell)
@@ -222,7 +232,7 @@ namespace Tabletop
         {
             cell.Sprite0.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
             TabletopCell.SetSprite(cell.Sprite0, cell.PathEnd, cell.PathColour);
-            TabletopCell.RotateSprite(cell.Sprite0.transform, TabletopCell.GetGrabbedSpriteRotation(Direction));
+            TabletopCell.RotateSprite(cell.Sprite0.transform, TabletopCell.GetTabletopSpaceRotation(Direction));
         }
         
         public void OnExit(TabletopCell cell)

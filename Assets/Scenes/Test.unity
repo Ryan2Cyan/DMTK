@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Window
       objectReference: {fileID: 0}
+    - target: {fileID: 3251791548382623726, guid: 2c05d9a0cf9ac4740bfbe1da725e23f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3431795686381009922, guid: 2c05d9a0cf9ac4740bfbe1da725e23f7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1143,14 +1147,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 571579100}
-    - target: {fileID: 8201146924780092784, guid: 8add2983dc29e50408479495fd0f93ed, type: 3}
-      propertyPath: TabletopSize.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 8201146924780092784, guid: 8add2983dc29e50408479495fd0f93ed, type: 3}
-      propertyPath: TabletopSize.y
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 8201146924780092784, guid: 8add2983dc29e50408479495fd0f93ed, type: 3}
       propertyPath: DistanceIndicatorsPool
       value: 

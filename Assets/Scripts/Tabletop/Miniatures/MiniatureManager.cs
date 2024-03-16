@@ -3,7 +3,7 @@ using Input;
 using UnityEngine;
 using Utility;
 
-namespace Tabletop
+namespace Tabletop.Miniatures
 {
     public class MiniatureManager : MonoBehaviour
     {
@@ -20,42 +20,33 @@ namespace Tabletop
         
         private void OnEnable()
         {
-            // Register to input events:
             InputManager.OnMouseDown += CheckGrabMiniature;
             InputManager.OnMouseUp += CheckReleaseMiniature;
         }
 
         private void OnDisable()
         {
-            // Unregister to input events:
             InputManager.OnMouseDown -= CheckGrabMiniature;
             InputManager.OnMouseUp -= CheckReleaseMiniature;
         }
 
-        /// <summary>
-        /// Registers miniature into the current scene's database. This means the miniature's position and details
-        /// will be saved.
-        /// </summary>
-        /// <param name="miniature">The registered miniature.</param>
+        /// <summary>Cache miniature to be saved.</summary>
+        /// <param name="miniature">Miniature to register.</param>
         public void RegisterMiniature(Miniature miniature)
         {
             RegisteredMiniatures.Add(miniature);
         }
 
         /// <summary>
-        /// Will unregister miniature from the current scene's database. It has been removed and its data will no longer be
-        /// saved.
-        /// </summary>
-        /// <param name="miniature">The unregistered miniature.</param>
+        /// Remove miniature from cache (will no longer be saved).</summary>
+        /// <param name="miniature">Miniature to unregister.</param>
         public void UnregisterMiniature(Miniature miniature)
         {
             RegisteredMiniatures.Remove(miniature);
         }
     
-        /// <summary>
-        /// Event listener function that performs a physics ray cast, checking if the user's cursor is selecting
-        /// a miniature within the scene.
-        /// </summary>
+        /// <summary> Perform physics ray cast and check if a cursor is selecting a registered miniature. If selected
+        /// grab it.</summary>
         private void CheckGrabMiniature()
         {
             var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
@@ -67,10 +58,7 @@ namespace Tabletop
             }
         }
         
-        /// <summary>
-        /// Event listener function that performs a physics ray cast, checking if the user's cursor is selecting
-        /// a miniature within the scene.
-        /// </summary>
+        /// <summary> If any miniature is grabbed, release it.</summary>
         private void CheckReleaseMiniature()
         {
             foreach (var miniature in RegisteredMiniatures)

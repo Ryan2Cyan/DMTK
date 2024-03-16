@@ -1,24 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tabletop.Tabletop;
 using UI;
 using UnityEngine;
+using Utility;
 
-namespace Tabletop
+namespace Tabletop.Miniatures
 {
-    public enum MiniatureType
-    {
-        Player,
-        Monster,
-        Prop,
-        NPC
-    }
-    
     public class Miniature : MonoBehaviour
     {
         [NonSerialized] public BoxCollider Collider; 
         public TabletopCell CurrentCell;
         public bool Grabbed;
+        public float MiniatureScale = 0.8f;
         
         private MeshFilter _meshFilter;
         private IEnumerator _currentRoutine;
@@ -26,7 +21,6 @@ namespace Tabletop
         private const float _grabbedYOffset = 0.5f;
 
         #region UnityFunctions
-
         private void Start()
         {
             if(_meshFilter == null) _meshFilter = GetComponentInChildren<MeshFilter>();
@@ -41,36 +35,39 @@ namespace Tabletop
                 gameObject.SetActive(false);
                 return;
             }
-            var newScale = Tabletop.Instance.GenerateMeshToGridScale(mesh.bounds.size);
+            var newScale = new Vector3(
+                1f / mesh.bounds.size.x * MiniatureScale,
+                1f / mesh.bounds.size.y * MiniatureScale,
+                1f / mesh.bounds.size.z * MiniatureScale
+            );
             _miniatureTransform.localScale = newScale;
 
             // Move miniature so the bottom plane aligns with the grid on the y-axis:
             var position = _miniatureTransform.position;
             var bottomPlaneY = position.y - mesh.bounds.size.y * newScale.y / 2f;
-            position = new Vector3(position.x, position.y + Tabletop.Instance.transform.position.y - bottomPlaneY, position.z);
+            position = new Vector3(position.x, position.y + Tabletop.Tabletop.Instance.transform.position.y - bottomPlaneY, position.z);
             _miniatureTransform.position = position;
             
-            // Register miniature and assign it the closest available cell to the centre.
-            MiniatureManager.Instance.RegisterMiniature(this);
-            if (!Tabletop.Instance.AssignClosestToGridCentre(ref CurrentCell)) Debug.Log("Unable" + " to spawn miniature as all grid cells are occupied.");
+            // Assign to the closest available cell to the centre:
+            if (!Tabletop.Tabletop.Instance.AssignClosestToGridCentre(ref CurrentCell)) Debug.Log("Unable" + " to spawn miniature as all grid cells are occupied.");
             else
             {
-                SetCell(CurrentCell);
+                SetCurrentCell(CurrentCell);
                 transform.position = new Vector3(CurrentCell.Position.x, 0f, CurrentCell.Position.y);
             }
+            
+            MiniatureManager.Instance.RegisterMiniature(this);
         }
 
         private void OnDestroy()
         {
-            // Unregister this miniature from the tabletop as it no longer needs to be saved.
             MiniatureManager.Instance.UnregisterMiniature(this);
         }
 
         #endregion
 
-        /// <summary>
-        /// Called when the user selects with left-mouse click.
-        /// </summary>
+        #region PublicFunctions
+        /// <summary> Called when the user selects with left-mouse, moving up on the y-axis.</summary>
         public void OnGrab()
         {
             Grabbed = true;
@@ -81,27 +78,18 @@ namespace Tabletop
             StartCoroutine(_currentRoutine);
         }
         
-        /// <summary>
-        /// Called when the user unselects with left-mouse click.
-        /// </summary>
+        /// <summary>Called when the user releases left-mouse.</summary>
         public void OnRelease()
         {
             Grabbed = false;
-            // var cellPosition = CurrentCell.Position;
-            // CurrentCell.SetState(CellAppearance.Enabled);
-            // StopCoroutine(_currentRoutine);
-            // _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
-            //     new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f);
-            // StartCoroutine(_currentRoutine);
         }
-        
-        /// <summary>
-        /// Coroutine that lerps the position of the miniature to a specified new position over a specified execution time.
-        /// </summary>
-        /// <param name="startPosition">Starting position of the lerp.</param>
-        /// <param name="endPosition">End position of the lerp.</param>
-        /// <param name="executionTime">Duration of the lerp.</param>
-        /// <returns></returns>
+        #endregion
+
+        #region PrivateFunctions
+        /// <summary>Smoothly move to new position over a specified time.</summary>
+        /// <param name="startPosition">Starting position before moving.</param>
+        /// <param name="endPosition">Resulting position after moving.</param>
+        /// <param name="executionTime">Duration of time the move occurs.</param>
         private IEnumerator LerpPosition(Vector3 startPosition, Vector3 endPosition, float executionTime)
         {
             var elapsedTime = 0f;
@@ -116,76 +104,70 @@ namespace Tabletop
             yield return null;   
         }
         
-        /// <summary>
-        /// Moves to the current mouse position on the tabletop if a valid position is found. Cannot move to an already
-        /// occupied cell.
-        /// </summary>
+        /// <summary> Move to mouse position (if valid). Cannot move to occupied cells.</summary>
         private IEnumerator MoveToGrabbedPosition()
         {
             var startingCell = CurrentCell;
             var currentCell = CurrentCell;
+            
+            // Fetch distance arrow UI to display traversed path:
             var path = new List<TabletopCell>{ startingCell };
-            var distanceIndicator = (DistanceTravelled) Tabletop.Instance.DistanceIndicatorsPool.GetPooledObject();
+            var distanceIndicator = (DistanceTravelled) Tabletop.Tabletop.Instance.DistanceIndicatorsPool.GetPooledObject();
             distanceIndicator.Target = transform;
             
-            // Execute every frame whilst the user is grabbing this mini:
             while (Grabbed)
             {
-                // Fetch the tabletop position of the mouse and check that the mouse is actually on the tabletop:
+                // Check mouse position is valid (on the tabletop):
                 var mousePosition = Vector3.zero;
-                var valid = Tabletop.Instance.GetTabletopMousePosition(ref mousePosition);
-                
+                var valid = Tabletop.Tabletop.Instance.GetTabletopMousePosition(ref mousePosition);
                 if (valid)
                 {
-                    // Move mini to the mouse's position:
-                    transform.position = new Vector3(mousePosition.x, transform.position.y, mousePosition.z);
-                    
-                    // Check if the mini has moved cell:
-                    var newCell = Tabletop.Instance.GetClosestNeighboringCell(currentCell, new Vector2(transform.position.x, transform.position.z));
+                    // Move to mouse position:
+                    var miniTransform = transform;
+                    var miniPosition = miniTransform.position;
+                    miniPosition = new Vector3(mousePosition.x, miniPosition.y, mousePosition.z);
+                    miniTransform.position = miniPosition;
+
+                    // Check mouse position is in different cell:
+                    var newCell = Tabletop.Tabletop.Instance.GetClosestNeighboringCell(currentCell, new Vector2(mousePosition.x, mousePosition.z), -2, 2, -2, 2);
                     if (newCell != currentCell)
                     {
-                        // Ensure the cell isn't taken by another miniature:
                         if (!newCell.IsOccupied)
                         {
-                            // SetCell(newCell);
                             currentCell = newCell;
                             
-                            // Calculate the path the miniature has travelled (AStar):
+                            // Calculate the path the miniature has traversed (AStar):
                             foreach (var cell in path) cell.SetCellState(cell.DisabledState);
-                            path = Tabletop.Instance.GetShortestPath(startingCell, currentCell);
-                            distanceIndicator.Distance = (path.Count - 1) * Tabletop.Instance.DistancePerCell;
+                            path = Tabletop.Tabletop.Instance.GetShortestPath(startingCell, currentCell);
+                            distanceIndicator.Distance = (path.Count - 1) * Tabletop.Tabletop.Instance.DistancePerCell;
                         }
                     }
                 }
                 
-                Tabletop.DisplayDistanceArrow(path);
+                Tabletop.Tabletop.DisplayDistanceArrow(path);
                 yield return null;
             }  
             
-            // Reset all cells within the path:
+            // Reset cells within the path:
             foreach (var cell in path) cell.SetCellState(cell.DisabledState);
             
-            // Set new current cell and lerp down on the y-axis onto its position.
-            SetCell(currentCell);
+            // Set new current cell once dropped:
+            SetCurrentCell(currentCell);
             var cellPosition = CurrentCell.Position;
             _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
                 new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f);
             StartCoroutine(_currentRoutine);
-            Tabletop.Instance.DistanceIndicatorsPool.ReleasePooledObject(distanceIndicator);
-            
+            Tabletop.Tabletop.Instance.DistanceIndicatorsPool.ReleasePooledObject(distanceIndicator);
             yield return null;   
         }
         
-        /// <summary>
-        /// Sets the CurrentCell and updates the miniature to correspond to the cell assigned.
-        /// </summary>
-        /// <param name="cell">Assigned cell.</param>
-        private void SetCell(TabletopCell cell)
+        private void SetCurrentCell(TabletopCell cell)
         {
             if (cell == null) return;
             if(CurrentCell != null) CurrentCell.SetCellState(CurrentCell.DisabledState);
             CurrentCell = cell;
             CurrentCell.SetCellState(CurrentCell.OccupiedState);
         }
+        #endregion
     }
 }
