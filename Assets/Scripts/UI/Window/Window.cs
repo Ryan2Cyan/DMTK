@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace UI
+namespace UI.Window
 {
     public class Window : MonoBehaviour
     {

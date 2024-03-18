@@ -1,18 +1,16 @@
+using Input;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UI
+namespace UI.Window
 {
-    /// <summary>
-    /// Clicking on the object attached to this script will move the object to the
-    /// dragged cursor's position.
-    /// </summary>
+    /// <summary>Enables window GUI dragging. Object holding this script can be clicked, moving parent window. </summary>
     public class WindowDrag : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
         public Transform WindowTransform;
         
         private Canvas _parentCanvas;
-        private Vector3 _mouseDownPosition;
+        private Vector2 _mouseDownPosition;
         private Window _window;
         
         private void Start()
@@ -24,13 +22,17 @@ namespace UI
         public void OnDrag(PointerEventData eventData)
         {
             if (_window.FixedPosition) return;
-            // WindowTransform.localPosition = Input.mousePosition / _parentCanvas.scaleFactor - _mouseDownPosition;
+            var moveVector = InputManager.MousePosition / _parentCanvas.scaleFactor - _mouseDownPosition;
+            var windowPosition = WindowTransform.localPosition;
+            windowPosition = new Vector3(moveVector.x, moveVector.y, windowPosition.z);
+            WindowTransform.localPosition = windowPosition;
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
             if (_window.FixedPosition) return;
-            // _mouseDownPosition = Input.mousePosition / _parentCanvas.scaleFactor - WindowTransform.localPosition;
+            var windowPosition = WindowTransform.localPosition;
+            _mouseDownPosition = InputManager.MousePosition / _parentCanvas.scaleFactor - new Vector2(windowPosition.x, windowPosition.y);
         }
     }
 }

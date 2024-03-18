@@ -49,7 +49,7 @@ namespace UI
         public Color NotPressed;
         public Color Pressed;
 
-        private Window _window;
+        private Window.Window _window;
         
         private OnClickData _onClickData;
         private RectTransform _windowRectTransform;
@@ -63,7 +63,7 @@ namespace UI
 
         private void Start()
         {
-            _window = GetComponentInParent<Window>();
+            _window = GetComponentInParent<Window.Window>();
             _windowRectTransform = _window.GetRectTransform();
             _canvas = _window.GetCanvas();
         }
