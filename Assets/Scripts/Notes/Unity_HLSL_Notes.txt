@@ -1,4 +1,8 @@
 ﻿HLSL in Unity:
+Source: https://www.youtube.com/watch?v=zCkC5e_Pkz4&list=PLX2vGYjWbI0RS_lkb68ApE2YPcZMC4Ohz&index=1&ab_channel=Unity
+
+To Look: https://catlikecoding.com/unity/tutorials/
+To Look: https://www.youtube.com/@DanMoranGameDev
 
 Rendering in Unity:
 -------------------------
@@ -54,11 +58,50 @@ Writing Your First Shader in Unity:
             return o;                                       // Return vert-to-frag struct
         }
     * Fragment Function: 
+        fixed4 frag (const v2f i) : SV_Target
+        {
+            fixed4 col = tex2D(_MainTex, i.uv);             // Sample texture colour at UV coordinate
+            return col;                                     // Return sampled texture colour
+        }
         
-        
-Vertex Function:
+Adding Variables:
 -------------------------
-    * 
+    (1) Add variable to Properties struct:
+        Properties
+        {
+            // ValueName("InspectorName", type) = value
+            _TintColour("Tint Colour", Color) = (1,1,1,1)
+        } 
+    (2) Add variable to shader source:
+        float4 _TintColour;
+    (3) Use variable in shader stage:
+        fixed4 frag (const v2f i) : SV_Target
+        {
+            fixed4 col = tex2D(_MainTex, i.uv) + _TintColour;
+            return col;
+        }
+        
+Transparency:
+-------------------------        
+    (1) Change Tags. Queue changed to render the transparent object last:
+        Tags { "Queue" = "Transparent" "RenderType"="Transparent" }
+    (2) Add "ZWrite Off" keyword to remove Z (Depth) Buffer rendering:
+        ZWrite Off
+    (3) Add blending mode:
+        Blend SrcAlpha OneMinusSrcAlpha
+    (4) Modify fragment stage's colour output alpha:
+        fixed4 frag (const v2f i) : SV_Target
+        {
+            fixed4 col = tex2D(_MainTex, i.uv) + _TintColour;
+            col.a = _Transparency;
+            return col;
+        }
+        
+ShaderLab Function: Clip:
+-------------------------        
+    * Discards colours/fragments given a condition:
+        // if(col.r < _CutoutThresh) discard;
+        clip(col.r - _CutoutThresh);
      
 Shader Semantics:
 -------------------------

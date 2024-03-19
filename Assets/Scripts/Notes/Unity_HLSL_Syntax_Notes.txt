@@ -1,0 +1,52 @@
+﻿HLSL/ShaderLab Syntax:
+
+Data Types:
+-------------------------
+    * Float [float]:            Floating-point.
+    * Toggle:                   Boolean toggle.
+    * Color [fixed4]:           Low precision RGBA color.
+     
+Tags:
+-------------------------
+    * Queue:                    Use named render queue. Can  be changed via inspector. 
+                                    States: (1) From Shader, (2) Geometry, (3) Alpha Test, (4) Transparent.
+    * Ignore Projector:         Disable interaction with Projectors (e.g. decal or stylised lighting effects, and blob shadows).
+                                Excludes semi-transparent geometry.
+    * RenderType:               Override Shader object behaviour. SubShaders can be swapped at runtime (shader replacement) only
+                                with matching RenderType values.
+    * PreviewType:              Tell Unity Editor how to display a material (Material Inspector). 
+                                    States: (1) Sphere, (2) Plane, (3) Skybox
+    * CanUseSpriteAtlas:        Shader needs LegacySpritePacker (original texture coordinates), should not pack textures into atlases.
+                                    States: (1) True, (2) False
+    
+Semantics:
+-------------------------
+    * POSITION [float4]:        Object space mesh vertices.
+    * COLOR [float4]:           Diffuse or specular colour [float4].
+    * TEXCOORD[n] [float2]:     Texture Coordinate.
+    * SV_POSITION [float4]:     Pixel position (screen space).
+    * 
+
+Keywords:
+-------------------------
+    * PerRendererData:          In Material Inspector value will be queried from Renderer's MaterialPropertyBlock instead
+                                of from the Material. Also read-only.
+    * Stencil:                  Configure GPU stencil buffer. Stores 8bit integer per pixel in frame buffer. Before fragment
+                                stage, the pixel's current value is compared with the stencil's (stencil test), if passes
+                                the depth test is performed, if fails processing is skipped. Stencil is a mask determining
+                                which pixels to draw. Usually used on special effects (e.g. portals or mirrors).
+                                    Parameters: (1) Ref, (2) ReadMask, (3) Comp, (4) WriteMask, (5) Pass, (6) Fail, (7) ZFail      
+    * Cull:                     Polygons GPU should cull based on camera direction (relative to camera). 
+                                    States: (1) Back [not facing camera], (2) Front [facing camera], (3) Off
+    * Lighting:                 Whether to integrate with Unity lights:
+                                    States: (1) On, (2) Off
+    * ZTest:                    Depth test (correct ordering of geometry. 
+                                    States: (1) Disabled, (2) Never [no geometry], (3) Less [draw when in-front], 
+                                    (4) Equal [draw when same distance], (5) LEqual [draw when in-front or same distance],
+                                    (6) Greater [draw behind], (7) NotEqual [draw when not same distance], (8) GEqual
+                                    [draw when behind or same distance], (8) Always
+    * Blend:                    How output fragments combine with render target.
+                                    States: (1) Off, (2) One, (3) Zero, (4) SrcColor (5) SrcAlpha, (6) SrcAlphaSaturate, 
+                                    (7) DstColor, (8) DstAlpha, (9) OneMinusSrcColor, (10) OneMinusSrcAlpha, (11) OneMinusDistColor,
+                                    (12) OneMinusDstAlpha
+                                                                                                                                                                     

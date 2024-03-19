@@ -2,13 +2,40 @@ Shader "Unlit/DMTK UI/UI Gradient"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
+        _Color ("Tint", Color) = (1,1,1,1)
+        _StencilComp("Stencil Composition", Float) = 8
+        _Stencil("Stencil ID", Float) = 0                               // Stencil IDs can range from 0 to 255
+        _StencilOp("Stencil Operation", Float) = 0                      
+        _StencilWriteMask("Stencil Write Mask", Float) = 255
+        _StencilReadMask("Stencil Read Mask", Float) = 255
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
-
+        Tags 
+        { 
+            "Queue" = "Transparent" "RenderType"="Transparent" 
+            "IgnoreProjector" = "True"
+            "RenderType" = "Transparent"
+            "PreviewType" = "Plane"
+            "CanUseSpriteAtlas" = "True"
+        }
+        
+        Stencil
+        {
+            Ref [_Stencil]                      // Reference Value: compares contents of stencil buffer against this value.
+            Comp [_StencilComp]                 // Comparison Operation: stencil test operation for all pixels [0 means keep contents]
+            Pass [_StencilOp]                   // Pass Operation: operation GPU performs to pass stencil & depth tests.
+            ReadMask [_StencilReadMask]         // ReadMask: Used as mask for stencil test.
+            WriteMask [_StencilWriteMask]       // WriteMask: Used as mask for stencil test.
+        }
+        
+        Cull Off
+        Lighting Off
+        ZWrite Off
+        ZTest Always
+        Blend SrcAlpha OneMinusSrcAlpha
+        
         Pass
         {
             CGPROGRAM
