@@ -2,7 +2,10 @@
 
 Data Types:
 -------------------------
-    * Float [float]:            Floating-point.
+    * Float:                    32-bit floating-point value (highest precision).
+    * Half:                     16-bit floating-point value (medium precision).
+    * Fixed:                    11-bit floating-point value (lowest precision).
+    
     * Toggle:                   Boolean toggle.
     * Color [fixed4]:           Low precision RGBA color.
      
@@ -49,4 +52,7 @@ Keywords:
                                     States: (1) Off, (2) One, (3) Zero, (4) SrcColor (5) SrcAlpha, (6) SrcAlphaSaturate, 
                                     (7) DstColor, (8) DstAlpha, (9) OneMinusSrcColor, (10) OneMinusSrcAlpha, (11) OneMinusDistColor,
                                     (12) OneMinusDstAlpha
-                                                                                                                                                                     
+    * ColorMask                 Sets which colour channels to render. By default GPU writes to all (RGBA) channels. 
+                                    Channels: (1) 0, (2) R, (3) G, (4) B, (5) A                               
+    * Name:                     Used to define name of a Pass.
+                                                                                                                                                                         
