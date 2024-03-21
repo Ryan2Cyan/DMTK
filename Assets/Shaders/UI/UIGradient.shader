@@ -16,7 +16,8 @@ Shader "Unlit/DMTK UI/UI Gradient"
     {
         Tags 
         { 
-            "Queue" = "Transparent" "RenderType"="Transparent" 
+            "Queue" = "Transparent" 
+            "RenderType"="Transparent" 
             "IgnoreProjector" = "True"
             "RenderType" = "Transparent"
             "PreviewType" = "Plane"
@@ -25,9 +26,9 @@ Shader "Unlit/DMTK UI/UI Gradient"
         
         Stencil
         {
-            Ref [_Stencil]                      // Reference Value: compares contents of stencil buffer against this value.
-            Comp [_StencilComp]                 // Comparison Operation: stencil test operation for all pixels [0 means keep contents]
-            Pass [_StencilOp]                   // Pass Operation: operation GPU performs to pass stencil & depth tests.
+            Ref [_Stencil]                      // Reference Value: passed into stencil buffer
+            Comp [_StencilComp]                 // Comparison Operation: comparison operation on Ref to determine Pass/Fail.
+            Pass [_StencilOp]                   // Pass Operation: operation GPU performs on fragment on pass.
             ReadMask [_StencilReadMask]         // ReadMask: Used as mask for stencil test.
             WriteMask [_StencilWriteMask]       // WriteMask: Used as mask for stencil test.
         }
@@ -73,11 +74,11 @@ Shader "Unlit/DMTK UI/UI Gradient"
             };
 
             // shader parameters:
-            sampler2D _MainTex;             // main texture
+            sampler2D _MainTex;             
             float4 _MainTex_ST;             
-            fixed4 _Color;                  // color
-            fixed4 _TextureSampleAdd;       //
-            float4 _ClipRect;               //
+            fixed4 _Color;                  
+            fixed4 _TextureSampleAdd;       
+            float4 _ClipRect;               
 
             v2f vert (appdata_t v)
             {
