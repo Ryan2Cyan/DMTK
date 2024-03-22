@@ -17,7 +17,7 @@ Shader "Unlit/DMTK UI/UI Gradient"
         Tags 
         { 
             "Queue" = "Transparent" 
-            "RenderType"="Transparent" 
+            "RenderType"= "Transparent" 
             "IgnoreProjector" = "True"
             "RenderType" = "Transparent"
             "PreviewType" = "Plane"

@@ -63,23 +63,25 @@ Shader "Unlit/NewUnlitShader"
 
             #pragma multi_compile_local _UNITY_UI_CLIP_ALPHACLIP
             #pragma multi_compile_local _UNITY_UI_CLIP_RECT
-            
+
+            // vertex shader inputs:
             struct appdata
             {
-                float4 vertex : POSITION;
-                float2 texCoord : TEXCOORD0;
-                float4 vertexColor : COLOR;
+                float4 vertex : POSITION;       // vertex positions (object-space)
+                float2 texCoord : TEXCOORD0;    // texture coordinate [0] - where on a texture (which pixel) corresponds with this vertex.
+                float4 vertexColor : COLOR;     // vertex color
             };
 
+            // vertex shader outputs & fragment shader inputs:
             struct v2f
             {
-                float4 vertex : SV_POSITION;
-                float4 color : COLOR;
-                float2 texCoord : TEXCOORD0;
-                float4 worldPosition : TEXCOORD1;
+                float4 vertex : SV_POSITION;        // fragment position (screen-space)
+                float4 color : COLOR;               // fragment colour
+                float2 texCoord : TEXCOORD0;        // fragment texture coordinate
+                float4 worldPosition : TEXCOORD1;   // fragment world position
             };
 
-            sampler2D _MainTex;
+            sampler2D _MainTex;             // main texture assigned to the material
             float4 _MainTex_ST;
             fixed4 _Color;                  // base color
             fixed4 _TextureSampleAdd;       // color added onto final frag color
@@ -88,7 +90,9 @@ Shader "Unlit/NewUnlitShader"
             v2f vert (appdata v) 
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
+                UNITY_SETUP_INSTANCE_ID(v);                         // Set up per instance ID to be accessed within the shader
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(out);         // VR related functionality
+                o.vertex = UnityObjectToClipPos(v.vertex);          
                 o.texCoord = TRANSFORM_TEX(v.texCoord, _MainTex);
                 o.color = v.vertexColor * _Color;
                 return o;

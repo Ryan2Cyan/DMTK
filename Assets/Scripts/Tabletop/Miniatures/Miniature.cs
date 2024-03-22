@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Tabletop.Tabletop;
 using UI;
 using UnityEngine;
-using Utility;
 
 namespace Tabletop.Miniatures
 {
@@ -35,6 +34,15 @@ namespace Tabletop.Miniatures
                 gameObject.SetActive(false);
                 return;
             }
+            
+            // Reset transforms:
+            transform.localScale = Vector3.one;
+            transform.position = Vector3.zero;
+            transform.eulerAngles = Vector3.zero;
+            _miniatureTransform.localScale = Vector3.one;
+            _miniatureTransform.position = Vector3.zero;
+            _miniatureTransform.eulerAngles = Vector3.zero;
+            
             var newScale = new Vector3(
                 1f / mesh.bounds.size.x * MiniatureScale,
                 1f / mesh.bounds.size.y * MiniatureScale,
