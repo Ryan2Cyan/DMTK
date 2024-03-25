@@ -418,6 +418,7 @@ MonoBehaviour:
   TitleTMP: {fileID: 6771569737625489719}
   MinimumSize: {x: 250, y: 250}
   FixedSize: 1
+  FixedPosition: 0
 --- !u!1 &3306744329639439058
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,7 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 9b68e239ed0670649ae190b7289d0fc5, type: 2}
+  m_Material: {fileID: 2100000, guid: 7ee3036c81a4dfc47891c52abfc3ff83, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}

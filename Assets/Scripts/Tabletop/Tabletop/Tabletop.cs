@@ -36,7 +36,7 @@ namespace Tabletop.Tabletop
             if(_meshRenderer == null) _meshRenderer = GetComponent<MeshRenderer>();
             _gridCells = new List<List<TabletopCell>>();
             _meshFilter.mesh = GenerateAsymmetricalGridMesh(TabletopSize, CellSpacing, ref _gridCells);
-            _meshRenderer.material = new Material(Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default")) { color = TabletopColour };
+            _meshRenderer.material = new Material(Shader.Find("Unlit/NewUnlitShader")) { color = TabletopColour };
         }
         #endregion
 
