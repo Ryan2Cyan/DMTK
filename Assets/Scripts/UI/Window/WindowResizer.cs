@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.Window
 {
     public enum ResizerType
     {
@@ -34,11 +34,8 @@ namespace UI
         public readonly float HeightRatio;
     }
     
-    /// <summary>
-    /// A "resizer" is one of the small click-and-drag icons that appear when transforming an image.
-    /// The resizer can adjust an image in a variety of directions depending on the type. Additionally it can
-    /// change colour depending on whether it is pressed, highlighted, or un-highlighted.
-    /// </summary>
+    /// <summary>A "resizer" is a small click-and-drag icon that appear when transforming an DMTK window. The resizer can adjust a
+    /// window depending on the resizer type. Also changes colour depending on whether it is pressed, highlighted, or un-highlighted.</summary>
     public class WindowResizer : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [Header("Settings")]
@@ -49,7 +46,7 @@ namespace UI
         public Color NotPressed;
         public Color Pressed;
 
-        private Window.Window _window;
+        private Window _window;
         
         private OnClickData _onClickData;
         private RectTransform _windowRectTransform;
@@ -63,7 +60,7 @@ namespace UI
 
         private void Start()
         {
-            _window = GetComponentInParent<Window.Window>();
+            _window = GetComponentInParent<Window>();
             _windowRectTransform = _window.GetRectTransform();
             _canvas = _window.GetCanvas();
         }
