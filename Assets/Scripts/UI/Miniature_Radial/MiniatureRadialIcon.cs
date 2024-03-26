@@ -17,36 +17,50 @@ namespace UI.Miniature_Radial
         public Color BaseUnselectedColour;
         public Color IconSelectedColour;
         public Color IconUnselectedColour;
-        public float NameOffsetPosition = 1f;
 
         [Header("On Press")] 
         public UnityEvent OnPressEvent;
-        
+
+        private Transform _labelTransform;
         private TextMeshProUGUI _nameTMP;
-        private SpriteRenderer _baseSprite;
-        private Material _spriteMaterial;
-        
+        private Image _baseImage;
+        private Material _iconMaterial;
+        private IEnumerator _currentRoutine;
+
+        private const float _nameStartPositionX = -70;
+        private const float _nameEndPositionX = 30;
+
         private static readonly int BaseColour = Shader.PropertyToID("_BaseColour");
 
         private void Awake()
         {
+            _labelTransform = transform.GetChild(0).GetChild(0).transform;
             _nameTMP = GetComponentInChildren<TextMeshProUGUI>();
-            _baseSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
-            _spriteMaterial = transform.GetChild(2).GetComponent<CanvasRenderer>().GetMaterial();
+            _baseImage = transform.GetChild(1).GetComponent<Image>();
+            var iconImage = transform.GetChild(2).GetComponent<Image>();
+            
+            // Create new instance of the material for each radial icon:
+            _iconMaterial = new Material(iconImage.material);
+            iconImage.material = _iconMaterial;
+            _nameTMP.text = Name;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             // Icon highlighted:
-            _baseSprite.color = BaseSelectedColour;
-            _spriteMaterial.SetColor(BaseColour, IconSelectedColour);
+            _baseImage.color = BaseSelectedColour;
+            _iconMaterial.SetColor(BaseColour, IconSelectedColour);
+            if(_currentRoutine != null) StopCoroutine(_currentRoutine);
+            StartCoroutine(_currentRoutine = MoveNameBar(_labelTransform.localPosition, new Vector3(_nameEndPositionX, 0, 0), 0.25f));
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             // Icon un-highlighted:
-            _baseSprite.color = BaseUnselectedColour;
-            _spriteMaterial.SetColor(BaseColour, IconUnselectedColour);
+            _baseImage.color = BaseUnselectedColour;
+            _iconMaterial.SetColor(BaseColour, IconUnselectedColour);
+            if(_currentRoutine != null) StopCoroutine(_currentRoutine);
+            StartCoroutine(_currentRoutine = MoveNameBar(_labelTransform.localPosition, new Vector3(_nameStartPositionX, 0, 0), 0.25f));
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -56,14 +70,15 @@ namespace UI.Miniature_Radial
 
         private IEnumerator MoveNameBar(Vector3 startPosition, Vector3 endPosition, float executionTime)
         {
+            Debug.Log("Move to: " + endPosition.x);
             var elapsedTime = 0f;
             while (elapsedTime < executionTime)
             {
-                transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / executionTime);
+                _labelTransform.localPosition = Vector3.Lerp(startPosition, endPosition, elapsedTime / executionTime);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }  
-            transform.position = endPosition;
+            _labelTransform.localPosition = endPosition;
             yield return null;
         }
     }
