@@ -93,7 +93,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4344157270260653071
 RectTransform:
   m_ObjectHideFlags: 0
@@ -264,11 +264,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Blindness
-  BaseSelectedColour: {r: 0, g: 0, b: 0, a: 1}
-  BaseUnselectedColour: {r: 1, g: 1, b: 1, a: 1}
-  IconSelectedColour: {r: 1, g: 1, b: 1, a: 1}
-  IconUnselectedColour: {r: 0, g: 0, b: 0, a: 1}
-  MaskX: 0
+  BaseHighlightedColour: {r: 0, g: 0, b: 0, a: 1}
+  BaseUnhighlightedColour: {r: 1, g: 1, b: 1, a: 1}
+  IconHighlightedColour: {r: 1, g: 1, b: 1, a: 1}
+  IconUnhighlightedColour: {r: 0, g: 0, b: 0, a: 1}
   Direction: 0
   OnPressEvent:
     m_PersistentCalls:
@@ -360,6 +359,7 @@ GameObject:
   - component: {fileID: 3758422183215533127}
   - component: {fileID: 3411705330295183932}
   - component: {fileID: 7552469213924444057}
+  - component: {fileID: 5152801734383070551}
   m_Layer: 5
   m_Name: Label_Base
   m_TagString: Untagged
@@ -403,7 +403,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7876448062536801355}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -426,3 +426,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &5152801734383070551
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7876448062536801355}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9e9fc9266afba2a459e17d16d5786ed3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

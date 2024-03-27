@@ -53,6 +53,15 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""74eeea71-0112-47b1-aec9-299e1e2f7295"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -88,6 +97,17 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
                     ""action"": ""MousePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da07cb64-c313-464f-9eb6-04da24d17817"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Hold(duration=0.1,pressPoint=0.2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -99,6 +119,7 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
         m_DMTKPlayer_ConservativeResize = m_DMTKPlayer.FindAction("ConservativeResize", throwIfNotFound: true);
         m_DMTKPlayer_MouseDown = m_DMTKPlayer.FindAction("MouseDown", throwIfNotFound: true);
         m_DMTKPlayer_MousePosition = m_DMTKPlayer.FindAction("MousePosition", throwIfNotFound: true);
+        m_DMTKPlayer_MouseHold = m_DMTKPlayer.FindAction("MouseHold", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -163,6 +184,7 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_DMTKPlayer_ConservativeResize;
     private readonly InputAction m_DMTKPlayer_MouseDown;
     private readonly InputAction m_DMTKPlayer_MousePosition;
+    private readonly InputAction m_DMTKPlayer_MouseHold;
     public struct DMTKPlayerActions
     {
         private @DMTKActions m_Wrapper;
@@ -170,6 +192,7 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
         public InputAction @ConservativeResize => m_Wrapper.m_DMTKPlayer_ConservativeResize;
         public InputAction @MouseDown => m_Wrapper.m_DMTKPlayer_MouseDown;
         public InputAction @MousePosition => m_Wrapper.m_DMTKPlayer_MousePosition;
+        public InputAction @MouseHold => m_Wrapper.m_DMTKPlayer_MouseHold;
         public InputActionMap Get() { return m_Wrapper.m_DMTKPlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -188,6 +211,9 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
+            @MouseHold.started += instance.OnMouseHold;
+            @MouseHold.performed += instance.OnMouseHold;
+            @MouseHold.canceled += instance.OnMouseHold;
         }
 
         private void UnregisterCallbacks(IDMTKPlayerActions instance)
@@ -201,6 +227,9 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
+            @MouseHold.started -= instance.OnMouseHold;
+            @MouseHold.performed -= instance.OnMouseHold;
+            @MouseHold.canceled -= instance.OnMouseHold;
         }
 
         public void RemoveCallbacks(IDMTKPlayerActions instance)
@@ -223,5 +252,6 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
         void OnConservativeResize(InputAction.CallbackContext context);
         void OnMouseDown(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnMouseHold(InputAction.CallbackContext context);
     }
 }

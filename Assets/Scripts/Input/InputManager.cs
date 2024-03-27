@@ -9,6 +9,8 @@ namespace Input
         
         public static event DMTKInputAction OnMouseDown;
         public static event DMTKInputAction OnMouseUp;
+        public static event DMTKInputAction OnMouseHold;
+        public static event DMTKInputAction OnMouseHoldCancelled;
         public static event DMTKInputAction OnConserveSize;
         public static event DMTKInputAction OnConserveSizeCancel;
         public static Vector2 MousePosition;
@@ -30,6 +32,8 @@ namespace Input
             _inputActions.DMTKPlayer.MouseDown.canceled += MouseUp;
             _inputActions.DMTKPlayer.ConservativeResize.performed += ConserveSize;
             _inputActions.DMTKPlayer.ConservativeResize.canceled += ConserveSizeCancel;
+            _inputActions.DMTKPlayer.MouseHold.performed += MouseHold;
+            _inputActions.DMTKPlayer.MouseHold.canceled += MouseHoldCancelled;
         }
 
         private void OnDisable()
@@ -41,6 +45,7 @@ namespace Input
             _inputActions.DMTKPlayer.MouseDown.canceled -= MouseUp;
             _inputActions.DMTKPlayer.ConservativeResize.performed -= ConserveSize;
             _inputActions.DMTKPlayer.ConservativeResize.canceled -= ConserveSizeCancel;
+            _inputActions.DMTKPlayer.MouseHold.canceled -= MouseHoldCancelled;
         }
 
         private void Update()
@@ -50,6 +55,8 @@ namespace Input
 
         private static void MouseDown(InputAction.CallbackContext context) { OnMouseDown?.Invoke(); }
         private static void MouseUp(InputAction.CallbackContext context) { OnMouseUp?.Invoke(); }
+        private static void MouseHold(InputAction.CallbackContext context) { OnMouseHold?.Invoke(); }
+        private static void MouseHoldCancelled(InputAction.CallbackContext context) { OnMouseHoldCancelled?.Invoke(); }
         private static void ConserveSize(InputAction.CallbackContext context) { OnConserveSize?.Invoke(); }
         private static void ConserveSizeCancel(InputAction.CallbackContext context) { OnConserveSizeCancel?.Invoke(); }
     }

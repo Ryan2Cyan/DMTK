@@ -20,14 +20,14 @@ namespace Tabletop.Miniatures
         
         private void OnEnable()
         {
-            InputManager.OnMouseDown += CheckGrabMiniature;
-            InputManager.OnMouseUp += CheckReleaseMiniature;
+            InputManager.OnMouseHold += CheckGrabMiniature;
+            InputManager.OnMouseHoldCancelled += CheckReleaseMiniature;
         }
 
         private void OnDisable()
         {
-            InputManager.OnMouseDown -= CheckGrabMiniature;
-            InputManager.OnMouseUp -= CheckReleaseMiniature;
+            InputManager.OnMouseHold -= CheckGrabMiniature;
+            InputManager.OnMouseHoldCancelled -= CheckReleaseMiniature;
         }
 
         /// <summary>Cache miniature to be saved.</summary>

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -14,35 +13,31 @@ namespace UI.Miniature_Radial
     {
         [Header("Settings")]
         public string Name;
-        public Color BaseSelectedColour;
-        public Color BaseUnselectedColour;
-        public Color IconSelectedColour;
-        public Color IconUnselectedColour;
-        public float MaskX;
+        public Color BaseHighlightedColour;
+        public Color BaseUnhighlightedColour;
+        public Color IconHighlightedColour;
+        public Color IconUnhighlightedColour;
         public enum RadialIconNameDirection { Left, Right }
         public RadialIconNameDirection Direction;
         
         [Header("On Press")] 
         public UnityEvent OnPressEvent;
-
-        private Transform _maskTransform;
-        private Transform _labelTransform;
+        
         private TextMeshProUGUI _nameTMP;
         private Image _baseImage;
         private Material _iconMaterial;
+        private Animator _nameAnimator;
         private IEnumerator _currentRoutine;
 
-        private const float _nameStartPositionX = -70;
-        private const float _nameRightEndPositionX = 30;
-        private const float _nameLeftEndPositionX = -100;
-
         private static readonly int BaseColour = Shader.PropertyToID("_BaseColour");
+        private static readonly int Right = Animator.StringToHash("Right");
+        private static readonly int Active = Animator.StringToHash("Active");
 
         private void Awake()
         {
-            _maskTransform = transform.GetChild(0).transform;
-            _labelTransform = transform.GetChild(0).GetChild(0).transform;
-            _nameTMP = GetComponentInChildren<TextMeshProUGUI>();
+            _nameAnimator = transform.GetChild(0).GetComponent<Animator>();
+            _nameAnimator.SetBool(Right, Direction == RadialIconNameDirection.Right);
+            _nameTMP = transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             _baseImage = transform.GetChild(1).GetComponent<Image>();
             var iconImage = transform.GetChild(2).GetComponent<Image>();
             
@@ -52,45 +47,25 @@ namespace UI.Miniature_Radial
             _nameTMP.text = Name;
         }
 
-        private void Update()
-        {
-            _maskTransform.localPosition = new Vector3(MaskX, _maskTransform.localPosition.y, _maskTransform.localPosition.z);
-        }
-
         public void OnPointerEnter(PointerEventData eventData)
         {
             // Icon highlighted:
-            _baseImage.color = BaseSelectedColour;
-            _iconMaterial.SetColor(BaseColour, IconSelectedColour);
-            if(_currentRoutine != null) StopCoroutine(_currentRoutine);
-            StartCoroutine(_currentRoutine = MoveNameBar(_labelTransform.localPosition, new Vector3(Direction == RadialIconNameDirection.Left ? _nameLeftEndPositionX : _nameRightEndPositionX, 0, 0), 0.25f));
+            _baseImage.color = BaseHighlightedColour;
+            _iconMaterial.SetColor(BaseColour, IconHighlightedColour);
+            _nameAnimator.SetBool(Active, true);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             // Icon un-highlighted:
-            _baseImage.color = BaseUnselectedColour;
-            _iconMaterial.SetColor(BaseColour, IconUnselectedColour);
-            if(_currentRoutine != null) StopCoroutine(_currentRoutine);
-            StartCoroutine(_currentRoutine = MoveNameBar(_labelTransform.localPosition, new Vector3(_nameStartPositionX, 0, 0), 0.25f));
+            _baseImage.color = BaseUnhighlightedColour;
+            _iconMaterial.SetColor(BaseColour, IconUnhighlightedColour);
+            _nameAnimator.SetBool(Active, false);
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
             OnPressEvent.Invoke();
-        }
-
-        private IEnumerator MoveNameBar(Vector3 startPosition, Vector3 endPosition, float executionTime)
-        {
-            var elapsedTime = 0f;
-            while (elapsedTime < executionTime)
-            {
-                _labelTransform.localPosition = Vector3.Lerp(startPosition, endPosition, elapsedTime / executionTime);
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }  
-            _labelTransform.localPosition = endPosition;
-            yield return null;
         }
     }
 }
