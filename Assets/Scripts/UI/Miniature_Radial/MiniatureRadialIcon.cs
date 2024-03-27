@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -17,10 +18,14 @@ namespace UI.Miniature_Radial
         public Color BaseUnselectedColour;
         public Color IconSelectedColour;
         public Color IconUnselectedColour;
-
+        public float MaskX;
+        public enum RadialIconNameDirection { Left, Right }
+        public RadialIconNameDirection Direction;
+        
         [Header("On Press")] 
         public UnityEvent OnPressEvent;
 
+        private Transform _maskTransform;
         private Transform _labelTransform;
         private TextMeshProUGUI _nameTMP;
         private Image _baseImage;
@@ -28,12 +33,14 @@ namespace UI.Miniature_Radial
         private IEnumerator _currentRoutine;
 
         private const float _nameStartPositionX = -70;
-        private const float _nameEndPositionX = 30;
+        private const float _nameRightEndPositionX = 30;
+        private const float _nameLeftEndPositionX = -100;
 
         private static readonly int BaseColour = Shader.PropertyToID("_BaseColour");
 
         private void Awake()
         {
+            _maskTransform = transform.GetChild(0).transform;
             _labelTransform = transform.GetChild(0).GetChild(0).transform;
             _nameTMP = GetComponentInChildren<TextMeshProUGUI>();
             _baseImage = transform.GetChild(1).GetComponent<Image>();
@@ -45,13 +52,18 @@ namespace UI.Miniature_Radial
             _nameTMP.text = Name;
         }
 
+        private void Update()
+        {
+            _maskTransform.localPosition = new Vector3(MaskX, _maskTransform.localPosition.y, _maskTransform.localPosition.z);
+        }
+
         public void OnPointerEnter(PointerEventData eventData)
         {
             // Icon highlighted:
             _baseImage.color = BaseSelectedColour;
             _iconMaterial.SetColor(BaseColour, IconSelectedColour);
             if(_currentRoutine != null) StopCoroutine(_currentRoutine);
-            StartCoroutine(_currentRoutine = MoveNameBar(_labelTransform.localPosition, new Vector3(_nameEndPositionX, 0, 0), 0.25f));
+            StartCoroutine(_currentRoutine = MoveNameBar(_labelTransform.localPosition, new Vector3(Direction == RadialIconNameDirection.Left ? _nameLeftEndPositionX : _nameRightEndPositionX, 0, 0), 0.25f));
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -70,7 +82,6 @@ namespace UI.Miniature_Radial
 
         private IEnumerator MoveNameBar(Vector3 startPosition, Vector3 endPosition, float executionTime)
         {
-            Debug.Log("Move to: " + endPosition.x);
             var elapsedTime = 0f;
             while (elapsedTime < executionTime)
             {
