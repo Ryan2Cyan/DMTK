@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Tabletop.Tabletop;
 using UI;
 using UnityEngine;
-using Utility;
 
 namespace Tabletop.Miniatures
 {
@@ -25,37 +24,38 @@ namespace Tabletop.Miniatures
         {
             if(_meshFilter == null) _meshFilter = GetComponentInChildren<MeshFilter>();
             if(_miniatureTransform == null) _miniatureTransform = transform.GetChild(0).transform;
-            if (_miniatureTransform.GetComponent<BoxCollider>() == null) Collider = _miniatureTransform.gameObject.AddComponent<BoxCollider>();
+            if (_miniatureTransform.GetComponent<BoxCollider>() == null) Collider = gameObject.GetComponent<BoxCollider>();
             
-            // Scale the miniature to be coherent with the tabletop grid:
-            var mesh = _meshFilter.mesh;
-            if (mesh.vertexCount <= 0)
-            {
-                Debug.LogError("[Miniature] No miniature mesh present on " + gameObject.name);
-                gameObject.SetActive(false);
-                return;
-            }
+            // // Scale the miniature to be coherent with the tabletop grid:
+            // var mesh = _meshFilter.mesh;
+            // if (mesh.vertexCount <= 0)
+            // {
+            //     Debug.LogError("[Miniature] No miniature mesh present on " + gameObject.name);
+            //     gameObject.SetActive(false);
+            //     return;
+            // }
             
             // Reset transforms:
-            transform.localScale = Vector3.one;
-            transform.position = Vector3.zero;
-            transform.eulerAngles = Vector3.zero;
-            _miniatureTransform.localScale = Vector3.one;
-            _miniatureTransform.position = Vector3.zero;
-            _miniatureTransform.eulerAngles = Vector3.zero;
+            // transform.localScale = Vector3.one;
+            // transform.position = Vector3.zero;
+            // transform.eulerAngles = Vector3.zero;
+            // _miniatureTransform.localScale = Vector3.one;
+            // _miniatureTransform.position = Vector3.zero;
+            // _miniatureTransform.eulerAngles = Vector3.zero;
             
-            var newScale = new Vector3(
-                1f / mesh.bounds.size.x * MiniatureScale,
-                1f / mesh.bounds.size.y * MiniatureScale,
-                1f / mesh.bounds.size.z * MiniatureScale
-            );
-            _miniatureTransform.localScale = newScale;
+            // // Re-scale model:
+            // var newScale = new Vector3(
+            //     1f / mesh.bounds.size.x * MiniatureScale,
+            //     1f / mesh.bounds.size.y * MiniatureScale,
+            //     1f / mesh.bounds.size.z * MiniatureScale
+            // );
+            // _miniatureTransform.localScale = newScale;
 
             // Move miniature so the bottom plane aligns with the grid on the y-axis:
-            var position = _miniatureTransform.position;
-            var bottomPlaneY = position.y - mesh.bounds.size.y * newScale.y / 2f;
-            position = new Vector3(position.x, position.y + Tabletop.Tabletop.Instance.transform.position.y - bottomPlaneY, position.z);
-            _miniatureTransform.position = position;
+            // var position = _miniatureTransform.position;
+            // var bottomPlaneY = position.y - mesh.bounds.size.y * (1f / mesh.bounds.size.y * MiniatureScale / 2f);
+            // position = new Vector3(position.x, position.y + Tabletop.Tabletop.Instance.transform.position.y - bottomPlaneY, position.z);
+            // _miniatureTransform.position = position;
             
             // Assign to the closest available cell to the centre:
             if (!Tabletop.Tabletop.Instance.AssignClosestToGridCentre(ref CurrentCell)) Debug.Log("Unable" + " to spawn miniature as all grid cells are occupied.");
