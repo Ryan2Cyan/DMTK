@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Tabletop.Tabletop;
 using UI;
 using UnityEngine;
+using Utility;
 
 namespace Tabletop.Miniatures
 {
@@ -108,36 +109,54 @@ namespace Tabletop.Miniatures
                 yield return null;
             }  
             transform.position = endPosition;
-            if (Grabbed) StartCoroutine(MoveToGrabbedPosition());
+            if(Grabbed) StartCoroutine(MoveToGrabbedPosition());
+            else
+            {
+                if (transform.position.y != 0f)
+                {
+                    StopCoroutine(_currentRoutine);
+                    var cellPosition = CurrentCell.Position;
+                    StartCoroutine(_currentRoutine = LerpPosition(
+                        new Vector3(cellPosition.x, transform.position.y, cellPosition.y),
+                        new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f));
+                }
+            }
             yield return null;   
         }
         
         /// <summary> Move to mouse position (if valid). Cannot move to occupied cells.</summary>
         private IEnumerator MoveToGrabbedPosition()
         {
+            var tabletopInstance = Tabletop.Tabletop.Instance;
+            
+            // Grab the position of the mouse as soon as mini is grabbed:
+            var previousMousePosition = Vector3.zero;
+            Tabletop.Tabletop.GetTabletopMousePosition(ref previousMousePosition);
+            
             var startingCell = CurrentCell;
             var currentCell = CurrentCell;
             
             // Fetch distance arrow UI to display traversed path:
             var path = new List<TabletopCell>{ startingCell };
-            var distanceIndicator = (DistanceTravelled) Tabletop.Tabletop.Instance.DistanceIndicatorsPool.GetPooledObject();
+            var distanceIndicator = (DistanceTravelled) tabletopInstance.DistanceIndicatorsPool.GetPooledObject();
             distanceIndicator.Target = transform;
             
             while (Grabbed)
             {
                 // Check mouse position is valid (on the tabletop):
                 var mousePosition = Vector3.zero;
-                var valid = Tabletop.Tabletop.Instance.GetTabletopMousePosition(ref mousePosition);
+                var valid = Tabletop.Tabletop.GetTabletopMousePosition(ref mousePosition);
                 if (valid)
                 {
                     // Move to mouse position:
                     var miniTransform = transform;
                     var miniPosition = miniTransform.position;
-                    miniPosition = new Vector3(mousePosition.x, miniPosition.y, mousePosition.z);
+                    var moveVector = mousePosition - previousMousePosition;
+                    miniPosition = new Vector3(miniPosition.x + moveVector.x, miniPosition.y, miniPosition.z + moveVector.z);
                     miniTransform.position = miniPosition;
-
+                    
                     // Check mouse position is in different cell:
-                    var newCell = Tabletop.Tabletop.Instance.GetClosestNeighboringCell(currentCell, new Vector2(mousePosition.x, mousePosition.z), -2, 2, -2, 2);
+                    var newCell = tabletopInstance.GetClosestNeighboringCell(currentCell, new Vector2(mousePosition.x, mousePosition.z), -2, 2, -2, 2);
                     if (newCell != currentCell)
                     {
                         if (!newCell.IsOccupied)
@@ -146,10 +165,11 @@ namespace Tabletop.Miniatures
                             
                             // Calculate the path the miniature has traversed (AStar):
                             foreach (var cell in path) cell.SetCellState(cell.DisabledState);
-                            path = Tabletop.Tabletop.Instance.GetShortestPath(startingCell, currentCell);
-                            distanceIndicator.Distance = (path.Count - 1) * Tabletop.Tabletop.Instance.DistancePerCell;
+                            path = tabletopInstance.GetShortestPath(startingCell, currentCell);
+                            distanceIndicator.Distance = (path.Count - 1) * tabletopInstance.DistancePerCell;
                         }
                     }
+                    previousMousePosition = mousePosition;
                 }
                 
                 Tabletop.Tabletop.DisplayDistanceArrow(path);
@@ -162,9 +182,9 @@ namespace Tabletop.Miniatures
             // Set new current cell once dropped:
             SetCurrentCell(currentCell);
             var cellPosition = CurrentCell.Position;
-            _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
-                new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f);
-            StartCoroutine(_currentRoutine);
+            StopCoroutine(_currentRoutine);
+            StartCoroutine(_currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
+                new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f));
             Tabletop.Tabletop.Instance.DistanceIndicatorsPool.ReleasePooledObject(distanceIndicator);
             yield return null;   
         }

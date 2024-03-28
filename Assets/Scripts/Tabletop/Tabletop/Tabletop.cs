@@ -21,12 +21,15 @@ namespace Tabletop.Tabletop
         public ObjectPool DistanceIndicatorsPool;
         public GameObject CellPrefab;
         public LayerMask TabletopLayerMask;
+        [HideInInspector] public Vector2 GridMinimumPosition;
+        [HideInInspector] public Vector2 GridMaximumPosition;
         
         private List<List<TabletopCell>> _gridCells;
         private MeshFilter _meshFilter;
         private MeshRenderer _meshRenderer;
         private const int _diagonalMoveValue = 14;
         private const int _nonDiagonalMoveValue = 10;
+        
         
         #region UnityFunctions
         private void Awake()
@@ -37,6 +40,12 @@ namespace Tabletop.Tabletop
             _gridCells = new List<List<TabletopCell>>();
             _meshFilter.mesh = GenerateAsymmetricalGridMesh(TabletopSize, CellSpacing, ref _gridCells);
             _meshRenderer.material = new Material(Shader.Find("Unlit/NewUnlitShader")) { color = TabletopColour };
+            
+            // Calculate minimum (bottom-left) and maximum (top-right) positions of the grid:
+            var position = transform.position;
+            var distanceFromOrigin = new Vector2(position.x + TabletopSize.x / 2f * CellSpacing, position.z + TabletopSize.y / 2f * CellSpacing);
+            GridMinimumPosition = new Vector2(-distanceFromOrigin.x, -distanceFromOrigin.y);
+            GridMaximumPosition = new Vector2(distanceFromOrigin.x, distanceFromOrigin.y);
         }
         #endregion
 
@@ -122,10 +131,10 @@ namespace Tabletop.Tabletop
         /// <summary>Attempt to return mouse position in tabletop grid space.</summary>
         /// <param name="position">Store result tabletop space position.</param>
         /// <returns>True if tabletop space position is found, false otherwise.</returns>
-        public bool GetTabletopMousePosition(ref Vector3 position)
+        public static bool GetTabletopMousePosition(ref Vector3 position)
         {
-            var hit = DMTKPhysicsUtility.PhysicsMouseRayCast(TabletopLayerMask);
-            if (!hit.collider) return false;
+            var hit = DMTKPhysicsUtility.PhysicsMouseRayCast(Instance.TabletopLayerMask);
+            if (!hit.transform) return false;
             position = hit.point;
             return true;
         }
