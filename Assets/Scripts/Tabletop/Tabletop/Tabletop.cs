@@ -39,7 +39,7 @@ namespace Tabletop.Tabletop
             if(_meshRenderer == null) _meshRenderer = GetComponent<MeshRenderer>();
             _gridCells = new List<List<TabletopCell>>();
             _meshFilter.mesh = GenerateAsymmetricalGridMesh(TabletopSize, CellSpacing, ref _gridCells);
-            _meshRenderer.material = new Material(Shader.Find("Unlit/NewUnlitShader")) { color = TabletopColour };
+            _meshRenderer.material = new Material(Shader.Find("Unlit/Color")) { color = TabletopColour };
             
             // Calculate minimum (bottom-left) and maximum (top-right) positions of the grid:
             var position = transform.position;

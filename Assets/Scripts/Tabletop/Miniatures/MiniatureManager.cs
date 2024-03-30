@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Input;
+using UI;
 using UnityEngine;
 using Utility;
 
@@ -22,12 +23,14 @@ namespace Tabletop.Miniatures
         {
             InputManager.OnMouseHold += CheckGrabMiniature;
             InputManager.OnMouseHoldCancelled += CheckReleaseMiniature;
+            InputManager.OnMouseUp += CheckClickMiniature;
         }
 
         private void OnDisable()
         {
             InputManager.OnMouseHold -= CheckGrabMiniature;
             InputManager.OnMouseHoldCancelled -= CheckReleaseMiniature;
+            InputManager.OnMouseUp -= CheckClickMiniature;
         }
 
         /// <summary>Cache miniature to be saved.</summary>
@@ -44,11 +47,25 @@ namespace Tabletop.Miniatures
         {
             RegisteredMiniatures.Remove(miniature);
         }
-    
+
+        private void CheckClickMiniature()
+        {
+            var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
+            foreach (var miniature in RegisteredMiniatures)
+            {
+                if(miniature.Grabbed) continue;
+                if (miniature.Collider != hit.collider) continue;
+                UIManager.Instance.ShowMainRadialUI(miniature.transform.position);
+                return;
+            }
+            UIManager.Instance.HideMainRadialUI();
+        }
+        
         /// <summary> Perform physics ray cast and check if a cursor is selecting a registered miniature. If selected
         /// grab it.</summary>
         private void CheckGrabMiniature()
         {
+            UIManager.Instance.HideMainRadialUI();
             var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
             foreach (var miniature in RegisteredMiniatures)
             {

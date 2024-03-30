@@ -19,6 +19,7 @@ namespace UI.Miniature_Radial
         public Color IconUnhighlightedColour;
         public enum RadialIconNameDirection { Left, Right }
         public RadialIconNameDirection Direction;
+        public bool Interactable;
         
         [Header("On Press")] 
         public UnityEvent OnPressEvent;
@@ -49,6 +50,8 @@ namespace UI.Miniature_Radial
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            if (!Interactable) return;
+            
             // Icon highlighted:
             _baseImage.color = BaseHighlightedColour;
             _iconMaterial.SetColor(BaseColour, IconHighlightedColour);
@@ -57,6 +60,8 @@ namespace UI.Miniature_Radial
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            if (!Interactable) return;
+            
             // Icon un-highlighted:
             _baseImage.color = BaseUnhighlightedColour;
             _iconMaterial.SetColor(BaseColour, IconUnhighlightedColour);
@@ -65,6 +70,7 @@ namespace UI.Miniature_Radial
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (!Interactable) return;
             OnPressEvent.Invoke();
         }
     }
