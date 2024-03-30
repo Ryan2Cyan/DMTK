@@ -19,10 +19,11 @@ namespace UI.Miniature_Radial
         public Color IconUnhighlightedColour;
         public enum RadialIconNameDirection { Left, Right }
         public RadialIconNameDirection Direction;
-        public bool Interactable;
         
         [Header("On Press")] 
         public UnityEvent OnPressEvent;
+        
+        [HideInInspector] public bool Interactable;
         
         private TextMeshProUGUI _nameTMP;
         private Image _baseImage;

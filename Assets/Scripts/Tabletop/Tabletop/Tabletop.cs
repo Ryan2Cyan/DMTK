@@ -21,8 +21,6 @@ namespace Tabletop.Tabletop
         public ObjectPool DistanceIndicatorsPool;
         public GameObject CellPrefab;
         public LayerMask TabletopLayerMask;
-        [HideInInspector] public Vector2 GridMinimumPosition;
-        [HideInInspector] public Vector2 GridMaximumPosition;
         
         private List<List<TabletopCell>> _gridCells;
         private MeshFilter _meshFilter;
@@ -40,12 +38,6 @@ namespace Tabletop.Tabletop
             _gridCells = new List<List<TabletopCell>>();
             _meshFilter.mesh = GenerateAsymmetricalGridMesh(TabletopSize, CellSpacing, ref _gridCells);
             _meshRenderer.material = new Material(Shader.Find("Unlit/Color")) { color = TabletopColour };
-            
-            // Calculate minimum (bottom-left) and maximum (top-right) positions of the grid:
-            var position = transform.position;
-            var distanceFromOrigin = new Vector2(position.x + TabletopSize.x / 2f * CellSpacing, position.z + TabletopSize.y / 2f * CellSpacing);
-            GridMinimumPosition = new Vector2(-distanceFromOrigin.x, -distanceFromOrigin.y);
-            GridMaximumPosition = new Vector2(distanceFromOrigin.x, distanceFromOrigin.y);
         }
         #endregion
 

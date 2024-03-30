@@ -12,12 +12,12 @@ namespace Tabletop.Miniatures
         [NonSerialized] public BoxCollider Collider; 
         public TabletopCell CurrentCell;
         public bool Grabbed;
-        public float MiniatureScale = 0.8f;
         
         private MeshFilter _meshFilter;
         private IEnumerator _currentRoutine;
         private Transform _miniatureTransform;
         private const float _grabbedYOffset = 0.5f;
+        private const float _grabExecutionTime = 0.05f;
 
         #region UnityFunctions
         private void Start()
@@ -25,37 +25,6 @@ namespace Tabletop.Miniatures
             if(_meshFilter == null) _meshFilter = GetComponentInChildren<MeshFilter>();
             if(_miniatureTransform == null) _miniatureTransform = transform.GetChild(0).transform;
             if (_miniatureTransform.GetComponent<BoxCollider>() == null) Collider = gameObject.GetComponent<BoxCollider>();
-            
-            // // Scale the miniature to be coherent with the tabletop grid:
-            // var mesh = _meshFilter.mesh;
-            // if (mesh.vertexCount <= 0)
-            // {
-            //     Debug.LogError("[Miniature] No miniature mesh present on " + gameObject.name);
-            //     gameObject.SetActive(false);
-            //     return;
-            // }
-            
-            // Reset transforms:
-            // transform.localScale = Vector3.one;
-            // transform.position = Vector3.zero;
-            // transform.eulerAngles = Vector3.zero;
-            // _miniatureTransform.localScale = Vector3.one;
-            // _miniatureTransform.position = Vector3.zero;
-            // _miniatureTransform.eulerAngles = Vector3.zero;
-            
-            // // Re-scale model:
-            // var newScale = new Vector3(
-            //     1f / mesh.bounds.size.x * MiniatureScale,
-            //     1f / mesh.bounds.size.y * MiniatureScale,
-            //     1f / mesh.bounds.size.z * MiniatureScale
-            // );
-            // _miniatureTransform.localScale = newScale;
-
-            // Move miniature so the bottom plane aligns with the grid on the y-axis:
-            // var position = _miniatureTransform.position;
-            // var bottomPlaneY = position.y - mesh.bounds.size.y * (1f / mesh.bounds.size.y * MiniatureScale / 2f);
-            // position = new Vector3(position.x, position.y + Tabletop.Tabletop.Instance.transform.position.y - bottomPlaneY, position.z);
-            // _miniatureTransform.position = position;
             
             // Assign to the closest available cell to the centre:
             if (!Tabletop.Tabletop.Instance.AssignClosestToGridCentre(ref CurrentCell)) Debug.Log("Unable" + " to spawn miniature as all grid cells are occupied.");
@@ -82,7 +51,7 @@ namespace Tabletop.Miniatures
             Grabbed = true;
             var cellPosition = CurrentCell.Position;
             _currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
-                new Vector3(cellPosition.x, _grabbedYOffset, cellPosition.y), 0.2f);
+                new Vector3(cellPosition.x, _grabbedYOffset, cellPosition.y), _grabExecutionTime);
             StopCoroutine(_currentRoutine);
             StartCoroutine(_currentRoutine);
         }
@@ -118,7 +87,7 @@ namespace Tabletop.Miniatures
                     var cellPosition = CurrentCell.Position;
                     StartCoroutine(_currentRoutine = LerpPosition(
                         new Vector3(cellPosition.x, transform.position.y, cellPosition.y),
-                        new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f));
+                        new Vector3(cellPosition.x, 0f, cellPosition.y), _grabExecutionTime));
                 }
             }
             yield return null;   
@@ -132,6 +101,11 @@ namespace Tabletop.Miniatures
             // Grab the position of the mouse as soon as mini is grabbed:
             var previousMousePosition = Vector3.zero;
             Tabletop.Tabletop.GetTabletopMousePosition(ref previousMousePosition);
+            var miniTransform = transform;
+            var miniPosition = miniTransform.position;
+            miniPosition = new Vector3(previousMousePosition.x, miniPosition.y, previousMousePosition.z);
+            
+            miniTransform.position = miniPosition;
             
             var startingCell = CurrentCell;
             var currentCell = CurrentCell;
@@ -149,8 +123,6 @@ namespace Tabletop.Miniatures
                 if (valid)
                 {
                     // Move to mouse position:
-                    var miniTransform = transform;
-                    var miniPosition = miniTransform.position;
                     var moveVector = mousePosition - previousMousePosition;
                     miniPosition = new Vector3(miniPosition.x + moveVector.x, miniPosition.y, miniPosition.z + moveVector.z);
                     miniTransform.position = miniPosition;
@@ -184,7 +156,7 @@ namespace Tabletop.Miniatures
             var cellPosition = CurrentCell.Position;
             StopCoroutine(_currentRoutine);
             StartCoroutine(_currentRoutine = LerpPosition(new Vector3(cellPosition.x, transform.position.y, cellPosition.y), 
-                new Vector3(cellPosition.x, 0f, cellPosition.y), 0.2f));
+                new Vector3(cellPosition.x, 0f, cellPosition.y), _grabExecutionTime));
             Tabletop.Tabletop.Instance.DistanceIndicatorsPool.ReleasePooledObject(distanceIndicator);
             yield return null;   
         }

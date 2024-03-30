@@ -9,7 +9,8 @@ Shader "DMTK/UI/ChangeBaseColour"
     {
         Tags 
         { 
-            "RenderType"="Opaque" 
+            "Queue"="Transparent"
+            "RenderType"="Transparent" 
             "PreviewType"="Plane"
             "CanUseSpriteAtlas"="True"
         }
