@@ -6,11 +6,13 @@ namespace UI
     public class RadialUIManager : MonoBehaviour
     {
         public static RadialUIManager Instance;
-        public GameObject MainRadial;
-        public GameObject ConditionalsRadial;
+        
+        [Header("Radial Menus")]
+        public Animator MainRadial;
+        public Animator ConditionalsRadial;
         
         [HideInInspector] public Miniature SelectedMini;
-        [HideInInspector] public float RadialScreenSpaceYOffset = 25f;
+        [HideInInspector] public float RadialScreenSpaceYOffset = 40f;
 
         [Header("States")]
         private IRadialUIManagerState _currentState;
@@ -18,6 +20,8 @@ namespace UI
         private readonly RadialUIManagerMain _mainState = new();
         private readonly RadialUIManagerStatusConditions _statusConditionsState = new();
         
+        private static readonly int Enabled = Animator.StringToHash("Enabled");
+
         private void Awake()
         {
             Instance = this;
@@ -48,13 +52,13 @@ namespace UI
             {
                 SelectedMini = miniature;
                 ChangeState(_mainState);
+                return;
             }
-            else
-            {
-                if (SelectedMini != miniature) return;
-                SelectedMini = null;
-                ChangeState(_disabledState);
-            }
+
+            if (_currentState != _mainState) return;
+            if (SelectedMini != miniature) return;
+            SelectedMini = null;
+            ChangeState(_disabledState);
         }
 
         public void MiniatureGrabbed()
@@ -65,8 +69,8 @@ namespace UI
         
         public void HideAll()
         {
-            MainRadial.SetActive(false);
-            ConditionalsRadial.SetActive(false);
+            MainRadial.SetBool(Enabled,false);
+            ConditionalsRadial.SetBool(Enabled, false);
         }
     }
 
@@ -87,29 +91,33 @@ namespace UI
     
     public class RadialUIManagerMain : IRadialUIManagerState
     {
+        private static readonly int Enabled = Animator.StringToHash("Enabled");
+
         public void OnStart(RadialUIManager radialUIManager)
         {
-            radialUIManager.MainRadial.SetActive(true);
+            radialUIManager.MainRadial.SetBool(Enabled, true);
             Vector3 screenPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, radialUIManager.SelectedMini.transform.position);
             radialUIManager.transform.position = new Vector3(screenPosition.x, screenPosition.y + radialUIManager.RadialScreenSpaceYOffset + screenPosition.z);
         }
 
         public void OnExit(RadialUIManager radialUIManager)
         {
-            radialUIManager.MainRadial.SetActive(false);
+            radialUIManager.MainRadial.SetBool(Enabled, false);
         }
     }
     
     public class RadialUIManagerStatusConditions : IRadialUIManagerState
     {
+        private static readonly int Enabled = Animator.StringToHash("Enabled");
+
         public void OnStart(RadialUIManager radialUIManager)
         {
-            radialUIManager.ConditionalsRadial.SetActive(true);
+            radialUIManager.ConditionalsRadial.SetBool(Enabled, true);
         }
 
         public void OnExit(RadialUIManager radialUIManager)
         {
-            radialUIManager.ConditionalsRadial.SetActive(false);
+            radialUIManager.ConditionalsRadial.SetBool(Enabled, false);
         }
     }
 }

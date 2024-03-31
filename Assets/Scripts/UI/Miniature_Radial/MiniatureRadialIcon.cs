@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -18,6 +17,8 @@ namespace UI.Miniature_Radial
         public Color BaseUnhighlightedColour;
         public Color IconHighlightedColour;
         public Color IconUnhighlightedColour;
+        public Material ChangeBaseColourMaterial;
+        
         public enum RadialIconNameDirection { Left, Right }
         public RadialIconNameDirection Direction;
         
@@ -25,6 +26,7 @@ namespace UI.Miniature_Radial
         public UnityEvent OnPressEvent;
         
         [HideInInspector] public bool Interactable;
+        [HideInInspector] public RectTransform RectTransform;
         
         private TextMeshProUGUI _nameTMP;
         private Image _baseImage;
@@ -43,10 +45,12 @@ namespace UI.Miniature_Radial
             _nameTMP = transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             _baseImage = transform.GetChild(1).GetComponent<Image>();
             var iconImage = transform.GetChild(2).GetComponent<Image>();
+            RectTransform = GetComponent<RectTransform>();
             
             // Create new instance of the material for each radial icon:
-            _iconMaterial = new Material(iconImage.material);
-            iconImage.material = _iconMaterial;
+            iconImage.material = new Material(ChangeBaseColourMaterial);
+            _iconMaterial = iconImage.material;
+            _iconMaterial.SetColor(BaseColour, IconUnhighlightedColour);
             _nameTMP.text = Name;
         }
 

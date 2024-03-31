@@ -12,7 +12,12 @@ namespace UI.Miniature_Radial
             var radialIcons = GetComponentsInChildren<MiniatureRadialIcon>();
             _radialIcons = new List<MiniatureRadialIcon>(radialIcons);
         }
-        
+
+        private void SetAnchors()
+        {
+            foreach (var radialIcon in _radialIcons) radialIcon.RectTransform.anchoredPosition = Vector2.zero;
+        }
+
         public void EnableIconInteraction()
         {
             foreach (var radialIcon in _radialIcons) radialIcon.Interactable = true;
