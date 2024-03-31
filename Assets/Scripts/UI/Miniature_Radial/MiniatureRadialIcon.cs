@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -47,6 +48,16 @@ namespace UI.Miniature_Radial
             _iconMaterial = new Material(iconImage.material);
             iconImage.material = _iconMaterial;
             _nameTMP.text = Name;
+        }
+
+        private void OnEnable()
+        {
+            if (!Interactable) return;
+            
+            // Icon un-highlighted:
+            _baseImage.color = BaseUnhighlightedColour;
+            _iconMaterial.SetColor(BaseColour, IconUnhighlightedColour);
+            _nameAnimator.SetBool(Active, false);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

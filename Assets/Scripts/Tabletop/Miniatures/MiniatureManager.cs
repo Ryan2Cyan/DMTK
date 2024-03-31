@@ -55,17 +55,16 @@ namespace Tabletop.Miniatures
             {
                 if(miniature.Grabbed) continue;
                 if (miniature.Collider != hit.collider) continue;
-                UIManager.Instance.ShowMainRadialUI(miniature.transform.position);
+                RadialUIManager.Instance.MiniatureClicked(miniature);
                 return;
             }
-            UIManager.Instance.HideMainRadialUI();
         }
         
         /// <summary> Perform physics ray cast and check if a cursor is selecting a registered miniature. If selected
         /// grab it.</summary>
         private void CheckGrabMiniature()
         {
-            UIManager.Instance.HideMainRadialUI();
+            RadialUIManager.Instance.MiniatureGrabbed();
             var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
             foreach (var miniature in RegisteredMiniatures)
             {

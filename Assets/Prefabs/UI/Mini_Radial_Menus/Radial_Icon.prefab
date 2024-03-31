@@ -272,6 +272,7 @@ MonoBehaviour:
   OnPressEvent:
     m_PersistentCalls:
       m_Calls: []
+  Interactable: 0
 --- !u!1 &7838475911957078745
 GameObject:
   m_ObjectHideFlags: 0
