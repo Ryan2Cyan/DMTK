@@ -269,13 +269,11 @@ MonoBehaviour:
   BaseUnhighlightedColour: {r: 1, g: 1, b: 1, a: 1}
   IconHighlightedColour: {r: 1, g: 1, b: 1, a: 1}
   IconUnhighlightedColour: {r: 0, g: 0, b: 0, a: 1}
-  ChangeBaseColourMaterial: {fileID: 2100000, guid: 4cd4c9b1a8207084bb813d21662d3a94, type: 2}
   Direction: 0
   OnPressEvent:
     m_PersistentCalls:
       m_Calls: []
   Interactable: 0
-  RectTransform: {fileID: 0}
 --- !u!95 &7915865428953606247
 Animator:
   serializedVersion: 5
@@ -355,8 +353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 4cd4c9b1a8207084bb813d21662d3a94, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

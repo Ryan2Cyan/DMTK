@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3701421402052682008}
   - component: {fileID: 2725101500542301441}
+  - component: {fileID: 7905192120664763203}
   - component: {fileID: 5529597465858782476}
   - component: {fileID: 5493378667915566366}
   m_Layer: 5
@@ -47,6 +48,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6213702504489392769}
   m_CullTransparentMesh: 1
+--- !u!95 &7905192120664763203
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6213702504489392769}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cdfc8d476c82d034c885877fe9fd81c5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &5529597465858782476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Distance: 20
+  Target: {fileID: 0}
   Font: {fileID: 11400000, guid: 666f60eb5caaeef45b51f7d07ed8b77a, type: 2}
   FontSize: 60
   Offset: {x: -40, y: 50}

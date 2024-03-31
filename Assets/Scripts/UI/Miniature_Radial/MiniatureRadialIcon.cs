@@ -1,93 +1,32 @@
-using System.Collections;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace UI.Miniature_Radial
 {
     /// <summary>Icon that appears within miniature radial UI. Can be highlighted, or un-highlighted. Clicking
     /// on a radial icon will have a different effect depending on it's event.</summary>
-    public class MiniatureRadialIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+    public class MiniatureRadialIcon : BaseMiniatureRadial
     {
-        [Header("Settings")]
-        public string Name;
+        [Header("Colour Settings")]
         public Color BaseHighlightedColour;
         public Color BaseUnhighlightedColour;
         public Color IconHighlightedColour;
         public Color IconUnhighlightedColour;
-        public Material ChangeBaseColourMaterial;
         
-        public enum RadialIconNameDirection { Left, Right }
-        public RadialIconNameDirection Direction;
-        
-        [Header("On Press")] 
-        public UnityEvent OnPressEvent;
-        
-        [HideInInspector] public bool Interactable;
-        [HideInInspector] public RectTransform RectTransform;
-        
-        private TextMeshProUGUI _nameTMP;
-        private Image _baseImage;
-        private Material _iconMaterial;
-        private Animator _nameAnimator;
-        private IEnumerator _currentRoutine;
+        #region ProtectedFunctions
 
-        private static readonly int BaseColour = Shader.PropertyToID("_BaseColour");
-        private static readonly int Right = Animator.StringToHash("Right");
-        private static readonly int Active = Animator.StringToHash("Active");
-
-        private void Awake()
+        protected override void OnHighlight()
         {
-            _nameAnimator = transform.GetChild(0).GetComponent<Animator>();
-            _nameAnimator.SetBool(Right, Direction == RadialIconNameDirection.Right);
-            _nameTMP = transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            _baseImage = transform.GetChild(1).GetComponent<Image>();
-            var iconImage = transform.GetChild(2).GetComponent<Image>();
-            RectTransform = GetComponent<RectTransform>();
-            
-            // Create new instance of the material for each radial icon:
-            iconImage.material = new Material(ChangeBaseColourMaterial);
-            _iconMaterial = iconImage.material;
-            _iconMaterial.SetColor(BaseColour, IconUnhighlightedColour);
-            _nameTMP.text = Name;
-        }
-
-        private void OnEnable()
-        {
-            if (!Interactable) return;
-            
-            // Icon un-highlighted:
-            _baseImage.color = BaseUnhighlightedColour;
-            _iconMaterial.SetColor(BaseColour, IconUnhighlightedColour);
-            _nameAnimator.SetBool(Active, false);
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            if (!Interactable) return;
-            
-            // Icon highlighted:
+            base.OnHighlight();
             _baseImage.color = BaseHighlightedColour;
-            _iconMaterial.SetColor(BaseColour, IconHighlightedColour);
-            _nameAnimator.SetBool(Active, true);
+            _iconImage.color = IconHighlightedColour;
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        protected override void OnUnhighlight()
         {
-            if (!Interactable) return;
-            
-            // Icon un-highlighted:
+            base.OnUnhighlight();
             _baseImage.color = BaseUnhighlightedColour;
-            _iconMaterial.SetColor(BaseColour, IconUnhighlightedColour);
-            _nameAnimator.SetBool(Active, false);
+            _iconImage.color = IconUnhighlightedColour;
         }
-
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            if (!Interactable) return;
-            OnPressEvent.Invoke();
-        }
+        #endregion
     }
 }
