@@ -5,12 +5,12 @@ namespace UI.Miniature_Radial
 {
     public class RadialUIAnimationFunctions : MonoBehaviour
     {
-        private List<MiniatureRadialIcon> _radialIcons;
+        private List<BaseMiniatureRadial> _radialIcons;
 
         private void Awake()
         {
-            var radialIcons = GetComponentsInChildren<MiniatureRadialIcon>();
-            _radialIcons = new List<MiniatureRadialIcon>(radialIcons);
+            var radialIcons = GetComponentsInChildren<BaseMiniatureRadial>();
+            _radialIcons = new List<BaseMiniatureRadial>(radialIcons);
         }
 
         public void EnableIconInteraction()
