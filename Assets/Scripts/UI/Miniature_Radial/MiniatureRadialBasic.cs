@@ -4,7 +4,7 @@ namespace UI.Miniature_Radial
 {
     /// <summary>Icon that appears within miniature radial UI. Can be highlighted, or un-highlighted. Clicking
     /// on a radial icon will have a different effect depending on it's event.</summary>
-    public class MiniatureRadialIcon : BaseMiniatureRadial
+    public class MiniatureRadialBasic : MiniatureRadialBase
     {
         [Header("Base Colour Settings")]
         public Color BaseHighlightedColour;

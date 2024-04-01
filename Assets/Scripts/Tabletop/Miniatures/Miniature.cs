@@ -9,22 +9,21 @@ namespace Tabletop.Miniatures
 {
     public class Miniature : MonoBehaviour
     {
-        [NonSerialized] public BoxCollider Collider; 
         public TabletopCell CurrentCell;
         public bool Grabbed;
+     
+        [NonSerialized] public BoxCollider Collider;
+        [HideInInspector] public MiniatureData Data;
         
-        private MeshFilter _meshFilter;
         private IEnumerator _currentRoutine;
-        private Transform _miniatureTransform;
         private const float _grabbedYOffset = 0.5f;
         private const float _grabExecutionTime = 0.05f;
 
         #region UnityFunctions
         private void Start()
         {
-            if(_meshFilter == null) _meshFilter = GetComponentInChildren<MeshFilter>();
-            if(_miniatureTransform == null) _miniatureTransform = transform.GetChild(0).transform;
-            if (_miniatureTransform.GetComponent<BoxCollider>() == null) Collider = gameObject.GetComponent<BoxCollider>();
+            Collider = GetComponent<BoxCollider>();
+            Data = GetComponent<MiniatureData>();
             
             // Assign to the closest available cell to the centre:
             if (!Tabletop.Tabletop.Instance.AssignClosestToGridCentre(ref CurrentCell)) Debug.Log("Unable" + " to spawn miniature as all grid cells are occupied.");

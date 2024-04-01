@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Input;
 using UI;
+using UI.Miniature_Radial;
 using UnityEngine;
 using Utility;
 
@@ -14,7 +15,7 @@ namespace Tabletop.Miniatures
         private void Awake()
         {
             Instance = this;
-        
+            
             // NOTE: Will most likely need to load in the miniature's data from a scene save slot later:
             RegisteredMiniatures ??= new List<Miniature>();
         }
@@ -55,7 +56,7 @@ namespace Tabletop.Miniatures
             {
                 if(miniature.Grabbed) continue;
                 if (miniature.Collider != hit.collider) continue;
-                RadialUIManager.Instance.MiniatureClicked(miniature);
+                RadialUIManager.Instance.MiniatureClicked(miniature.Data);
                 return;
             }
         }

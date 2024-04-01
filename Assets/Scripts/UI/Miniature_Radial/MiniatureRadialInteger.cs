@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UI.Miniature_Radial
 {
-    public class IntegerMiniatureRadialIcon : BaseMiniatureRadial
+    public class MiniatureRadialInteger : MiniatureRadialBase
     {
         [Header("Base Colour Settings")]
         public Color BaseActiveColour;
@@ -33,7 +33,7 @@ namespace UI.Miniature_Radial
             _valueText.color = ValueTextColour;
             _valueText.enabled = false;
             _baseImage.color = BaseInactiveColour;
-            _iconImage.color = BaseInactiveColour;
+            _iconImage.color = IconInactiveColour;
         }
 
         protected override void OnHighlight()
@@ -52,7 +52,6 @@ namespace UI.Miniature_Radial
 
         protected override void OnPress()
         {
-            base.OnPress();
             Value++;
             if (Value > MaxValue) Value = MinValue;
             _valueText.text = Value.ToString();
@@ -67,7 +66,8 @@ namespace UI.Miniature_Radial
             {
                 _baseImage.color = BaseInactiveColour;
                 _iconImage.color = IconInactiveColour;
-            };
+            }
+            base.OnPress();
         }
     }
 }

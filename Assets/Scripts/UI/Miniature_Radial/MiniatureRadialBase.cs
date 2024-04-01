@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UI.Miniature_Radial
 {
-    public class BaseMiniatureRadial : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+    public class MiniatureRadialBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
     {
         [Header("Title Settings")]
         public string Title;
@@ -15,7 +15,7 @@ namespace UI.Miniature_Radial
         [Header("On Press")] 
         public UnityEvent OnPressEvent;
         
-        [HideInInspector] public bool Interactable = true;
+        public bool Interactable = true;
         
         protected Image _baseImage;
         protected Image _iconImage;

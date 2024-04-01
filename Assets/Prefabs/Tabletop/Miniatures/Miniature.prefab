@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1523615070396169250}
   - component: {fileID: 4209029830294260759}
+  - component: {fileID: 981677430624667913}
   - component: {fileID: 8368932744543956670}
   m_Layer: 0
   m_Name: Miniature
@@ -131,7 +132,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentCell: {fileID: 0}
   Grabbed: 0
-  MiniatureScale: 0.8
+  Data: {fileID: 0}
+--- !u!114 &981677430624667913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2620865663559927042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4e7ddd57856c614989ed4874e432c32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StatusConditions: 
 --- !u!65 &8368932744543956670
 BoxCollider:
   m_ObjectHideFlags: 0
