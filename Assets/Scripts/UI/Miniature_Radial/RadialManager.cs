@@ -1,29 +1,30 @@
 using Tabletop.Miniatures;
+using UI.Utility;
 using UnityEngine;
 
 namespace UI.Miniature_Radial
 {
-    public class RadialUIManager : MonoBehaviour
+    public class RadialManager : MonoBehaviour
     {
-        public static RadialUIManager Instance;
+        public static RadialManager Instance;
         
         [Header("Radial Menus")]
-        public Animator MainRadial;
-        public Animator ConditionalsRadial;
+        public RadialMenu MainRadial;
+        public RadialMenu ConditionalsRadial;
 
         [Header("Radial Icons")] 
-        public MiniatureRadialInteger ExhaustionRadialIcon;
+        public RadialInteger ExhaustionRadialIcon;
         
         [HideInInspector] public MiniatureData SelectedMiniData;
-        
         [HideInInspector] public float RadialScreenSpaceYOffset = 40f;
 
         [Header("States")]
-        private IRadialUIManagerState _currentState;
-        private readonly RadialUIManagerDisabled _disabledState = new();
-        private readonly RadialUIManagerMain _mainState = new();
-        private readonly RadialUIManagerStatusConditions _statusConditionsState = new();
-        
+        private IRadialManagerState _currentState;
+        private readonly RadialManagerDisabled _disabledState = new();
+        private readonly RadialManagerMain _mainState = new();
+        private readonly RadialManagerStatusConditions _statusConditionsState = new();
+
+        private DisplayUIInWorldSpace _uiInWorldSpaceScript;
         private static readonly int Enabled = Animator.StringToHash("Enabled");
 
         #region UnityFunctions
@@ -33,6 +34,8 @@ namespace UI.Miniature_Radial
             Instance = this;
             _currentState = _disabledState;
             _disabledState.OnStart(this);
+            _uiInWorldSpaceScript = GetComponent<DisplayUIInWorldSpace>();
+            _uiInWorldSpaceScript.enabled = false;
         }
 
         #endregion
@@ -54,6 +57,7 @@ namespace UI.Miniature_Radial
             if (_currentState == _disabledState)
             {
                 SelectedMiniData = miniature;
+                _uiInWorldSpaceScript.WorldSpaceTarget = SelectedMiniData.transform.position;
                 ChangeState(_mainState);
                 return;
             }
@@ -72,15 +76,26 @@ namespace UI.Miniature_Radial
         
         public void HideAll()
         {
-            MainRadial.SetBool(Enabled,false);
-            ConditionalsRadial.SetBool(Enabled, false);
+            MainRadial.MenuAnimator.SetBool(Enabled,false);
+            ConditionalsRadial.MenuAnimator.SetBool(Enabled, false);
+        }
+
+        public void EnableWorldSpaceDisplay(Transform menuTransform)
+        {
+            _uiInWorldSpaceScript.UIElementTransform = transform;
+            _uiInWorldSpaceScript.enabled = true;
+        }
+
+        public void DisableWorldSpaceDisplay()
+        {
+            _uiInWorldSpaceScript.enabled = false;
         }
 
         #endregion
 
         #region PrivateFunctions
 
-        private void ChangeState(IRadialUIManagerState state)
+        private void ChangeState(IRadialManagerState state)
         {
             _currentState.OnExit(this);
             _currentState = state;

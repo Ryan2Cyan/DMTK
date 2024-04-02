@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UI.Miniature_Radial
 {
-    public class MiniatureRadialInteger : MiniatureRadialBase
+    public class RadialInteger : RadialBase
     {
         [Header("Base Colour Settings")]
         public Color BaseActiveColour;

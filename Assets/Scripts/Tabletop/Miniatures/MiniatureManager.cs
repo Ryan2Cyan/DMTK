@@ -56,7 +56,7 @@ namespace Tabletop.Miniatures
             {
                 if(miniature.Grabbed) continue;
                 if (miniature.Collider != hit.collider) continue;
-                RadialUIManager.Instance.MiniatureClicked(miniature.Data);
+                RadialManager.Instance.MiniatureClicked(miniature.Data);
                 return;
             }
         }
@@ -65,7 +65,7 @@ namespace Tabletop.Miniatures
         /// grab it.</summary>
         private void CheckGrabMiniature()
         {
-            RadialUIManager.Instance.MiniatureGrabbed();
+            RadialManager.Instance.MiniatureGrabbed();
             var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
             foreach (var miniature in RegisteredMiniatures)
             {

@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace UI.Miniature_Radial
 {
-    public class RadialUIAnimationFunctions : MonoBehaviour
+    public class RadialAnimationFunctions : MonoBehaviour
     {
-        private List<MiniatureRadialBase> _radialIcons;
+        private List<RadialBase> _radialIcons;
 
         private void Awake()
         {
-            var radialIcons = GetComponentsInChildren<MiniatureRadialBase>();
-            _radialIcons = new List<MiniatureRadialBase>(radialIcons);
+            var radialIcons = GetComponentsInChildren<RadialBase>();
+            _radialIcons = new List<RadialBase>(radialIcons);
         }
 
         public void EnableIconInteraction()

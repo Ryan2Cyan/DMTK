@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UI.Miniature_Radial
 {
-    public class MiniatureRadialBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+    public class RadialBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
     {
         [Header("Title Settings")]
         public string Title;

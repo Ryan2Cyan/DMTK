@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace UI.Miniature_Radial
 {
-    public class MiniatureRadialToggle : MiniatureRadialBase
+    public class RadialToggle : RadialBase
     {
         [Header("Base Colour Settings")]
         public Color BaseToggleOnColour;

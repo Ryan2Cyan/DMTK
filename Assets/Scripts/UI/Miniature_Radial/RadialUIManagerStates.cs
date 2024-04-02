@@ -2,49 +2,53 @@ using UnityEngine;
 
 namespace UI.Miniature_Radial
 {
-    public interface IRadialUIManagerState
+    public interface IRadialManagerState
     {
-        public void OnStart(RadialUIManager radialUIManager) {}
-        public void OnExit(RadialUIManager radialUIManager) {}
+        public void OnStart(RadialManager radialManager) {}
+        public void OnExit(RadialManager radialManager) {}
     }
 
-    public class RadialUIManagerDisabled : IRadialUIManagerState
+    public class RadialManagerDisabled : IRadialManagerState
     {
-        public void OnStart(RadialUIManager radialUIManager)
+        public void OnStart(RadialManager radialManager)
         {
-            radialUIManager.HideAll();
-        }
-    }
-    
-    public class RadialUIManagerMain : IRadialUIManagerState
-    {
-        private static readonly int Enabled = Animator.StringToHash("Enabled");
-
-        public void OnStart(RadialUIManager radialUIManager)
-        {
-            radialUIManager.MainRadial.SetBool(Enabled, true);
-            Vector3 screenPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, radialUIManager.SelectedMiniData.transform.position);
-            radialUIManager.transform.position = new Vector3(screenPosition.x, screenPosition.y + radialUIManager.RadialScreenSpaceYOffset + screenPosition.z);
-        }
-
-        public void OnExit(RadialUIManager radialUIManager)
-        {
-            radialUIManager.MainRadial.SetBool(Enabled, false);
+            radialManager.HideAll();
         }
     }
     
-    public class RadialUIManagerStatusConditions : IRadialUIManagerState
+    public class RadialManagerMain : IRadialManagerState
     {
         private static readonly int Enabled = Animator.StringToHash("Enabled");
 
-        public void OnStart(RadialUIManager radialUIManager)
+        public void OnStart(RadialManager radialManager)
         {
-            radialUIManager.ConditionalsRadial.SetBool(Enabled, true);
+            radialManager.MainRadial.MenuAnimator.SetBool(Enabled, true);
+            radialManager.EnableWorldSpaceDisplay(radialManager.MainRadial.transform);
+            radialManager.MainRadial.CullImagesScript.Target = radialManager.SelectedMiniData.transform.position;
         }
 
-        public void OnExit(RadialUIManager radialUIManager)
+        public void OnExit(RadialManager radialManager)
         {
-            radialUIManager.ConditionalsRadial.SetBool(Enabled, false);
+            radialManager.MainRadial.MenuAnimator.SetBool(Enabled, false);
+            radialManager.DisableWorldSpaceDisplay();
+        }
+    }
+    
+    public class RadialManagerStatusConditions : IRadialManagerState
+    {
+        private static readonly int Enabled = Animator.StringToHash("Enabled");
+
+        public void OnStart(RadialManager radialManager)
+        {
+            radialManager.ConditionalsRadial.MenuAnimator.SetBool(Enabled, true);
+            radialManager.EnableWorldSpaceDisplay(radialManager.ConditionalsRadial.transform);
+            radialManager.ConditionalsRadial.CullImagesScript.Target = radialManager.SelectedMiniData.transform.position;
+        }
+
+        public void OnExit(RadialManager radialManager)
+        {
+            radialManager.ConditionalsRadial.MenuAnimator.SetBool(Enabled, false);
+            radialManager.DisableWorldSpaceDisplay();
         }
     }
 }
