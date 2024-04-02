@@ -16,7 +16,6 @@ namespace UI.Miniature_Radial
         public RadialInteger ExhaustionRadialIcon;
         
         [HideInInspector] public MiniatureData SelectedMiniData;
-        [HideInInspector] public float RadialScreenSpaceYOffset = 40f;
 
         [Header("States")]
         private IRadialManagerState _currentState;
@@ -25,6 +24,10 @@ namespace UI.Miniature_Radial
         private readonly RadialManagerStatusConditions _statusConditionsState = new();
 
         private DisplayUIInWorldSpace _uiInWorldSpaceScript;
+        
+        public delegate void DMTKMiniatureDataAction(MiniatureData miniatureData);
+        public static event DMTKMiniatureDataAction OnStatusConditionChanged;
+        
         private static readonly int Enabled = Animator.StringToHash("Enabled");
 
         #region UnityFunctions
@@ -57,7 +60,7 @@ namespace UI.Miniature_Radial
             if (_currentState == _disabledState)
             {
                 SelectedMiniData = miniature;
-                _uiInWorldSpaceScript.WorldSpaceTarget = SelectedMiniData.transform.position;
+                _uiInWorldSpaceScript.WorldSpaceTarget = SelectedMiniData.transform;
                 ChangeState(_mainState);
                 return;
             }
@@ -80,9 +83,8 @@ namespace UI.Miniature_Radial
             ConditionalsRadial.MenuAnimator.SetBool(Enabled, false);
         }
 
-        public void EnableWorldSpaceDisplay(Transform menuTransform)
+        public void EnableWorldSpaceDisplay()
         {
-            _uiInWorldSpaceScript.UIElementTransform = transform;
             _uiInWorldSpaceScript.enabled = true;
         }
 
@@ -110,6 +112,7 @@ namespace UI.Miniature_Radial
         {
             var statusConditionEnum = (StatusCondition)statusCondition;
             SelectedMiniData.StatusConditions[statusConditionEnum] = !SelectedMiniData.StatusConditions[statusConditionEnum];
+            OnStatusConditionChanged?.Invoke(SelectedMiniData);
         }
 
         public void SetExhaustionLevel()
@@ -118,6 +121,5 @@ namespace UI.Miniature_Radial
         }
         
         #endregion
-        
     }
 }

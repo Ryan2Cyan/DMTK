@@ -6,12 +6,12 @@ namespace UI.Miniature_Radial
     public class RadialMenu : MonoBehaviour
     {
         [HideInInspector] public Animator MenuAnimator;
-        [HideInInspector] public CullImages CullImagesScript;
+        [HideInInspector] public CullUnityEvent cullEventScript;
 
         private void Awake()
         {
             MenuAnimator = GetComponent<Animator>();
-            CullImagesScript = GetComponent<CullImages>();
+            cullEventScript = GetComponent<CullUnityEvent>();
         }
     }
 }

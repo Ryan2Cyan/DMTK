@@ -23,8 +23,8 @@ namespace UI.Miniature_Radial
         public void OnStart(RadialManager radialManager)
         {
             radialManager.MainRadial.MenuAnimator.SetBool(Enabled, true);
-            radialManager.EnableWorldSpaceDisplay(radialManager.MainRadial.transform);
-            radialManager.MainRadial.CullImagesScript.Target = radialManager.SelectedMiniData.transform.position;
+            radialManager.EnableWorldSpaceDisplay();
+            radialManager.MainRadial.cullEventScript.Target = radialManager.SelectedMiniData.transform;
         }
 
         public void OnExit(RadialManager radialManager)
@@ -41,8 +41,8 @@ namespace UI.Miniature_Radial
         public void OnStart(RadialManager radialManager)
         {
             radialManager.ConditionalsRadial.MenuAnimator.SetBool(Enabled, true);
-            radialManager.EnableWorldSpaceDisplay(radialManager.ConditionalsRadial.transform);
-            radialManager.ConditionalsRadial.CullImagesScript.Target = radialManager.SelectedMiniData.transform.position;
+            radialManager.EnableWorldSpaceDisplay();
+            radialManager.ConditionalsRadial.cullEventScript.Target = radialManager.SelectedMiniData.transform;
         }
 
         public void OnExit(RadialManager radialManager)

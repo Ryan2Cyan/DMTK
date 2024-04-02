@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI.Utility
@@ -6,10 +7,10 @@ namespace UI.Utility
     {
         [Header("Components")] 
         public Camera Camera;
-        [HideInInspector] public Vector3 WorldSpaceTarget;
-        [HideInInspector] public Transform UIElementTransform;
+        public Transform WorldSpaceTarget;
+        public List<Transform> UIElementTransforms;
 
-        [Header("Settings")]
+        [Header("Settings")] 
         public AnimationCurve ScaleCurve;
         public Vector3 Offset;
         public float MaxDistance;
@@ -18,14 +19,18 @@ namespace UI.Utility
         private void Update()
         {
             // Set UI position (as if in world-space):
-            var position = WorldSpaceTarget + Offset;
-            UIElementTransform.position = RectTransformUtility.WorldToScreenPoint(Camera, position);
+            var position = WorldSpaceTarget.position + Offset;
             
             // Set UI scale (as if in world-space):
             var distanceToCamera = Vector3.Distance(Camera.transform.position, position);
             var distanceLerp = distanceToCamera / MaxDistance;
             var scale = MaxScale * ScaleCurve.Evaluate(distanceLerp);
-            UIElementTransform.localScale = new Vector3(scale, scale, scale);
+
+            foreach (var uiElementTransform in UIElementTransforms)
+            {
+                uiElementTransform.position = RectTransformUtility.WorldToScreenPoint(Camera, position);
+                uiElementTransform.localScale = new Vector3(scale, scale, scale);
+            }
         }
     }
 }
