@@ -1,3 +1,5 @@
+using System;
+using Input;
 using Tabletop.Miniatures;
 using UI.Utility;
 using UnityEngine;
@@ -24,6 +26,8 @@ namespace UI.Miniature_Radial
         private readonly RadialManagerStatusConditions _statusConditionsState = new();
 
         private DisplayUIInWorldSpace _uiInWorldSpaceScript;
+        private bool _iconPressed;
+        private bool _miniPressed;
         
         public delegate void DMTKMiniatureDataAction(MiniatureData miniatureData);
         public static event DMTKMiniatureDataAction OnStatusConditionChanged;
@@ -41,32 +45,70 @@ namespace UI.Miniature_Radial
             _uiInWorldSpaceScript.enabled = false;
         }
 
+        private void OnEnable()
+        {
+            InputManager.OnMouseUp += OnMouseUp;
+        }
+
+        private void OnDisable()
+        {
+            InputManager.OnMouseUp -= OnMouseUp;
+        }
+
         #endregion
 
         #region PublicFunctions
 
+        public void IconPressed()
+        {
+            _iconPressed = true;
+        }
+        
         public void ChangeState_UnityEvent(int state)
         {
+            Debug.Log("Icon Pressed");
             switch (state)
             {
                 case 0: ChangeState(_disabledState); break;
                 case 1: ChangeState(_mainState); break;
                 case 2: ChangeState(_statusConditionsState); break;
             }
+            IconPressed();
         }
         
         public void MiniatureClicked(MiniatureData miniature)
         {
-            if (_currentState == _disabledState)
+            _miniPressed = true;
+            if (_iconPressed)
             {
-                SelectedMiniData = miniature;
-                _uiInWorldSpaceScript.WorldSpaceTarget = SelectedMiniData.transform;
-                ChangeState(_mainState);
+                _iconPressed = false;
+                Debug.Log("Mini Pressed: False (Icon)");
                 return;
             }
 
-            if (_currentState != _mainState) return;
-            if (SelectedMiniData != miniature) return;
+            Debug.Log("Mini Pressed: True");
+            if (_currentState != _disabledState) return;
+            SelectedMiniData = miniature;
+            _uiInWorldSpaceScript.WorldSpaceTarget = SelectedMiniData.transform;
+            ChangeState(_mainState);
+        }
+        
+        public void OnMouseUp()
+        {
+            if (_iconPressed)
+            {
+                _iconPressed = false;
+                Debug.Log("Mouse Pressed: False (Icon)");
+                return;
+            }
+
+            if (_miniPressed)
+            {
+                _miniPressed = false;
+                Debug.Log("Mouse Pressed: False (Mini)");
+                return;
+            }
+            Debug.Log("Mouse Pressed: True");
             SelectedMiniData = null;
             ChangeState(_disabledState);
         }
@@ -76,7 +118,7 @@ namespace UI.Miniature_Radial
             SelectedMiniData = null;
             ChangeState(_disabledState);
         }
-        
+
         public void HideAll()
         {
             MainRadial.MenuAnimator.SetBool(Enabled,false);

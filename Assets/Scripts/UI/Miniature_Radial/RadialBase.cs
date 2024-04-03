@@ -56,6 +56,7 @@ namespace UI.Miniature_Radial
         protected virtual void OnPress()
         {
             OnPressEvent.Invoke();
+            RadialManager.Instance.IconPressed();
         }
         #endregion
         

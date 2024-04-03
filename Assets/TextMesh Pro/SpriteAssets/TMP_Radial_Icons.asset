@@ -42,34 +42,10 @@ MonoBehaviour:
   m_SpriteCharacterTable:
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 0
+    m_GlyphIndex: 6
     m_Scale: 1
-    m_Name: TMP_Radial_Icon_Unconscious
-    m_HashCode: 782226855
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 1
-    m_Scale: 1
-    m_Name: TMP_Radial_Icons_0
-    m_HashCode: 441078541
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 2
-    m_Scale: 1
-    m_Name: TMP_Radial_Icon_Petrified
-    m_HashCode: 578083770
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 3
-    m_Scale: 1
-    m_Name: TMP_Radial_Icon_Paralysed
-    m_HashCode: 145412459
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 4
-    m_Scale: 1
-    m_Name: TMP_Radial_Icon_Frightened
-    m_HashCode: 800998690
+    m_Name: TMP_Radial_Icon_Blinded
+    m_HashCode: 1391357314
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 5
@@ -78,10 +54,34 @@ MonoBehaviour:
     m_HashCode: -894268382
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 6
+    m_GlyphIndex: 4
     m_Scale: 1
-    m_Name: TMP_Radial_Icon_Blinded
-    m_HashCode: 1391357314
+    m_Name: TMP_Radial_Icon_Frightened
+    m_HashCode: 800998690
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 3
+    m_Scale: 1
+    m_Name: TMP_Radial_Icon_Paralysed
+    m_HashCode: 145412459
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 2
+    m_Scale: 1
+    m_Name: TMP_Radial_Icon_Petrified
+    m_HashCode: 578083770
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 1
+    m_Scale: 1
+    m_Name: TMP_Radial_Icons_0
+    m_HashCode: 441078541
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 0
+    m_Scale: 1
+    m_Name: TMP_Radial_Icon_Unconscious
+    m_HashCode: 782226855
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 7
