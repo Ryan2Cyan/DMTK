@@ -1,4 +1,3 @@
-using System;
 using Input;
 using Tabletop.Miniatures;
 using UI.Utility;
@@ -66,7 +65,6 @@ namespace UI.Miniature_Radial
         
         public void ChangeState_UnityEvent(int state)
         {
-            Debug.Log("Icon Pressed");
             switch (state)
             {
                 case 0: ChangeState(_disabledState); break;
@@ -82,11 +80,9 @@ namespace UI.Miniature_Radial
             if (_iconPressed)
             {
                 _iconPressed = false;
-                Debug.Log("Mini Pressed: False (Icon)");
                 return;
             }
-
-            Debug.Log("Mini Pressed: True");
+            
             if (_currentState != _disabledState) return;
             SelectedMiniData = miniature;
             _uiInWorldSpaceScript.WorldSpaceTarget = SelectedMiniData.transform;
@@ -98,17 +94,14 @@ namespace UI.Miniature_Radial
             if (_iconPressed)
             {
                 _iconPressed = false;
-                Debug.Log("Mouse Pressed: False (Icon)");
                 return;
             }
 
             if (_miniPressed)
             {
                 _miniPressed = false;
-                Debug.Log("Mouse Pressed: False (Mini)");
                 return;
             }
-            Debug.Log("Mouse Pressed: True");
             SelectedMiniData = null;
             ChangeState(_disabledState);
         }
@@ -160,6 +153,7 @@ namespace UI.Miniature_Radial
         public void SetExhaustionLevel()
         {
             SelectedMiniData.ExhaustionLevel = ExhaustionRadialIcon.Value;
+            OnStatusConditionChanged?.Invoke(SelectedMiniData);
         }
         
         #endregion

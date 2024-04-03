@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Input;
+using UI.Miniature_Data;
 using UI.Miniature_Radial;
 using UnityEngine;
 using Utility;
@@ -9,6 +10,7 @@ namespace Tabletop.Miniatures
     public class MiniatureManager : MonoBehaviour
     {
         public static MiniatureManager Instance;
+        public ObjectPool MiniatureDataUIPool;
         public List<Miniature> RegisteredMiniatures;
 
         private void Awake()
@@ -38,6 +40,8 @@ namespace Tabletop.Miniatures
         public void RegisterMiniature(Miniature miniature)
         {
             RegisteredMiniatures.Add(miniature);
+            var miniatureDataUI = (MiniatureDataUIManager)MiniatureDataUIPool.GetPooledObject();
+            miniatureDataUI.Instantiate(miniature.Data);
         }
 
         /// <summary>

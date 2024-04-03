@@ -7,8 +7,8 @@ namespace Utility
     public class ObjectPool : MonoBehaviour
     {
         public GameObject Prefab;
-        private List<IPooledObject> _inUse = new List<IPooledObject>();
-        private List<IPooledObject> _available = new List<IPooledObject>();
+        private readonly List<IPooledObject> _inUse = new();
+        private readonly List<IPooledObject> _available = new();
         
         public IPooledObject GetPooledObject()
         {

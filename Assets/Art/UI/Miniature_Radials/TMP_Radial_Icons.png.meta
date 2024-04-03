@@ -127,11 +127,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 186
+        y: 389
         width: 188
         height: 187
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -144,15 +144,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TMP_Radial_Icons_0
+      name: TMP_Radial_Icons_Restrained
       rect:
         serializedVersion: 2
-        x: 188
-        y: 186
+        x: 187
+        y: 389
         width: 187
         height: 187
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -168,12 +168,12 @@ TextureImporter:
       name: TMP_Radial_Icon_Petrified
       rect:
         serializedVersion: 2
-        x: 375
-        y: 186
+        x: 374
+        y: 389
         width: 187
         height: 187
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -189,12 +189,12 @@ TextureImporter:
       name: TMP_Radial_Icon_Paralysed
       rect:
         serializedVersion: 2
-        x: 562
-        y: 186
+        x: 561
+        y: 389
         width: 187
         height: 187
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -210,12 +210,12 @@ TextureImporter:
       name: TMP_Radial_Icon_Frightened
       rect:
         serializedVersion: 2
-        x: 749
-        y: 186
+        x: 748
+        y: 389
         width: 187
         height: 187
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -231,12 +231,12 @@ TextureImporter:
       name: TMP_Radial_Icon_Deafened
       rect:
         serializedVersion: 2
-        x: 936
-        y: 186
+        x: 935
+        y: 389
         width: 187
         height: 187
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -253,11 +253,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 203
         width: 187
         height: 186
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -274,11 +274,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 187
-        y: 0
+        y: 203
         width: 187
         height: 186
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -295,11 +295,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 374
-        y: 0
+        y: 203
         width: 187
         height: 186
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -316,11 +316,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 561
-        y: 0
+        y: 203
         width: 187
         height: 186
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -337,11 +337,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 748
-        y: 0
+        y: 203
         width: 187
         height: 186
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -358,11 +358,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 935
-        y: 0
+        y: 203
         width: 187
         height: 186
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -379,11 +379,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1122
-        y: 0
+        y: 203
         width: 187
-        height: 187
+        height: 186
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -391,6 +391,132 @@ TextureImporter:
       bones: []
       spriteID: 5dabf7f8693aaf44bb0792ce985a6cb1
       internalID: -215099095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TMP_Radial_Icon_Exhaustion_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 187
+        height: 203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c59c85a76ccbf8d49ae91eafb6087a8d
+      internalID: -524537948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TMP_Radial_Icon_Exhaustion_2
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 0
+        width: 187
+        height: 203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c5b61bd9fe36d44a865856d0da5863b
+      internalID: 1818542615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TMP_Radial_Icon_Exhaustion_3
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 0
+        width: 187
+        height: 203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24fd3916bf8184543b176272bd81b5eb
+      internalID: 1711341917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TMP_Radial_Icon_Exhaustion_4
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 0
+        width: 187
+        height: 203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40208716bf936f94dadbcbeb8610e272
+      internalID: 862064062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TMP_Radial_Icon_Exhaustion_5
+      rect:
+        serializedVersion: 2
+        x: 748
+        y: 0
+        width: 187
+        height: 203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81547d73aabbb9245850a85a2f1d415d
+      internalID: -437589679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TMP_Radial_Icon_Exhaustion_6
+      rect:
+        serializedVersion: 2
+        x: 935
+        y: 0
+        width: 187
+        height: 203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b329f9608f3daed47ad05ae6164553b5
+      internalID: -788179795
       vertices: []
       indices: 
       edges: []
@@ -409,6 +535,12 @@ TextureImporter:
       TMP_Radial_Icon_Blinded: 411896116
       TMP_Radial_Icon_Charmed: 1950203557
       TMP_Radial_Icon_Deafened: -1004721314
+      TMP_Radial_Icon_Exhaustion_1: -524537948
+      TMP_Radial_Icon_Exhaustion_2: 1818542615
+      TMP_Radial_Icon_Exhaustion_3: 1711341917
+      TMP_Radial_Icon_Exhaustion_4: 862064062
+      TMP_Radial_Icon_Exhaustion_5: -437589679
+      TMP_Radial_Icon_Exhaustion_6: -788179795
       TMP_Radial_Icon_Frightened: -948925921
       TMP_Radial_Icon_Grappled: -1991571893
       TMP_Radial_Icon_Incapacitated: 305408776
@@ -418,7 +550,8 @@ TextureImporter:
       TMP_Radial_Icon_Poisoned: 914367503
       TMP_Radial_Icon_Stunned: -215099095
       TMP_Radial_Icon_Unconscious: 1302769406
-      TMP_Radial_Icons_0: 742199974
+      TMP_Radial_Icons_1: -1911179696
+      TMP_Radial_Icons_Restrained: 742199974
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

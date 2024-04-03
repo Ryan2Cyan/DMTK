@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using Utility;
 
-namespace UI
+namespace UI.DistanceArrow
 {
     public class DistanceTravelled : MonoBehaviour, IPooledObject
     {
@@ -12,7 +12,7 @@ namespace UI
         public Transform Target;
         public TMP_FontAsset Font;
         public float FontSize = 20f;
-        public Vector2 Offset = new Vector2(1f, 1f);
+        public Vector2 Offset = new (1f, 1f);
         
         private TextMeshProUGUI _tmp;
         private bool _instantiated;

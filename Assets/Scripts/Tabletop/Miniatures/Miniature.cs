@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Tabletop.Tabletop;
 using UI;
+using UI.DistanceArrow;
 using UnityEngine;
 
 namespace Tabletop.Miniatures
