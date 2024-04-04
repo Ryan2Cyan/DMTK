@@ -54,6 +54,7 @@ namespace Tabletop.Miniatures
 
         private void CheckClickMiniature()
         {
+            if (RadialManager.Instance == null) return;
             var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
             foreach (var miniature in RegisteredMiniatures)
             {
@@ -68,6 +69,7 @@ namespace Tabletop.Miniatures
         /// grab it.</summary>
         private void CheckGrabMiniature()
         {
+            if (RadialManager.Instance == null) return;
             RadialManager.Instance.MiniatureGrabbed();
             var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
             foreach (var miniature in RegisteredMiniatures)

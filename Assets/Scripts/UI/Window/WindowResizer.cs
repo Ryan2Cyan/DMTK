@@ -63,6 +63,16 @@ namespace UI.Window
             _window = GetComponentInParent<Window>();
             _windowRectTransform = _window.GetRectTransform();
             _canvas = _window.GetCanvas();
+            
+            // Clamp to minimum size is overflowing:
+            if (_windowRectTransform.sizeDelta.x / _canvas.scaleFactor < _window.MinimumSize.x / _canvas.scaleFactor)
+            {
+                _windowRectTransform.sizeDelta = new Vector2(_window.MinimumSize.x, _windowRectTransform.sizeDelta.y);
+            }
+            if (_windowRectTransform.sizeDelta.y / _canvas.scaleFactor < _window.MinimumSize.y / _canvas.scaleFactor)
+            {
+                _windowRectTransform.sizeDelta = new Vector2(_windowRectTransform.sizeDelta.x, _window.MinimumSize.y);
+            }
         }
 
         private void OnEnable()
@@ -183,13 +193,13 @@ namespace UI.Window
             
             // Prevent resize if the window is below minimum size:
             var localPosition = _windowRectTransform.localPosition;
-            if (_windowRectTransform.sizeDelta.x / _canvas.scaleFactor < _window.MinimumSize.x)
+            if (_windowRectTransform.sizeDelta.x / _canvas.scaleFactor < _window.MinimumSize.x / _canvas.scaleFactor)
             {
                 _windowRectTransform.sizeDelta = new Vector2(sizeDeltaBefore.x, _windowRectTransform.sizeDelta.y);
                 localPosition = new Vector3(localPositionBefore.x, localPosition.y, localPosition.z);
                 _windowRectTransform.localPosition = localPosition;
             }
-            if (_windowRectTransform.sizeDelta.y / _canvas.scaleFactor < _window.MinimumSize.y)
+            if (_windowRectTransform.sizeDelta.y / _canvas.scaleFactor < _window.MinimumSize.y / _canvas.scaleFactor)
             {
                 _windowRectTransform.sizeDelta = new Vector2(_windowRectTransform.sizeDelta.x, sizeDeltaBefore.y);
                 _windowRectTransform.localPosition = new Vector3(localPosition.x, localPositionBefore.y, localPosition.z);
@@ -206,7 +216,7 @@ namespace UI.Window
         {
             var SizeDelta = _windowRectTransform.sizeDelta;
             _onClickData = new OnClickData(
-                InputManager.MousePosition / _canvas.scaleFactor,
+                InputManager.MousePosition /  _canvas.scaleFactor,
                 _windowRectTransform.localPosition,
                 SizeDelta,
                 SizeDelta.y / SizeDelta.x);
