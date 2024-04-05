@@ -222,6 +222,7 @@ namespace UI.Window
                 SizeDelta.y / SizeDelta.x);
             ResizerImage.color = Pressed;
             _clicked = true;
+            InputManager.Instance.InteractionOccured = true;
         }
 
         // Disable resizer.
@@ -230,6 +231,7 @@ namespace UI.Window
             ResizerImage.enabled = false;
             _clicked = false;
             _pointerPresent = false;
+            InputManager.Instance.InteractionOccured = false;
         }
 
         #endregion

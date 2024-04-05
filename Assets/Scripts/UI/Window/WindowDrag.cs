@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 namespace UI.Window
 {
     /// <summary>Enables window GUI dragging. Object holding this script can be clicked, moving parent window. </summary>
-    public class WindowDrag : MonoBehaviour, IDragHandler, IPointerDownHandler
+    public class WindowDrag : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
     {
         public Transform WindowTransform;
         
@@ -33,6 +33,12 @@ namespace UI.Window
             if (_window.FixedPosition) return;
             var windowPosition = WindowTransform.localPosition;
             _mouseDownPosition = InputManager.MousePosition / _parentCanvas.scaleFactor - new Vector2(windowPosition.x, windowPosition.y);
+            InputManager.Instance.InteractionOccured = true;
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            InputManager.Instance.InteractionOccured = false;
         }
     }
 }

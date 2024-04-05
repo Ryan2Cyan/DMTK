@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace Input
 {
     public class InputManager : MonoBehaviour
     {
+        public static InputManager Instance;
         public delegate void DMTKInputAction();
         
         public static event DMTKInputAction OnMouseDown;
@@ -20,8 +22,13 @@ namespace Input
         
         private DMTKActions _inputActions;
 
+        [FormerlySerializedAs("UIInteraction")] public bool InteractionOccured;
+
+        #region UnityFunctions
+        
         private void Awake()
         {
+            Instance = this;
             _inputActions ??= new DMTKActions();
         }
 
@@ -59,7 +66,11 @@ namespace Input
         {
             MousePosition = _inputActions.DMTKPlayer.MousePosition.ReadValue<Vector2>();
         }
+        
+        #endregion
 
+        #region EventInvokers
+        
         private static void MouseDown(InputAction.CallbackContext context) { OnMouseDown?.Invoke(); }
         private static void MouseUp(InputAction.CallbackContext context) { OnMouseUp?.Invoke(); }
         private static void MouseHold(InputAction.CallbackContext context) { OnMouseHold?.Invoke(); }
@@ -68,5 +79,16 @@ namespace Input
         private static void ConserveSizeCancel(InputAction.CallbackContext context) { OnConserveSizeCancel?.Invoke(); }
         private static void TabDown(InputAction.CallbackContext context) { OnTabDown?.Invoke(); }
         private static void TabUp(InputAction.CallbackContext context) { OnTabUp?.Invoke(); }
+        
+        #endregion
+
+        #region PublicFunctions
+
+        public static void UIInteractionToggle(bool toggle)
+        {
+            Instance.InteractionOccured = toggle;
+        }
+
+        #endregion
     }
 }

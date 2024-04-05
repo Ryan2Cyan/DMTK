@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4406591838808094268}
   - component: {fileID: 8057925473928223369}
   - component: {fileID: 8201146924780092784}
-  - component: {fileID: 7147355636543992506}
   - component: {fileID: 554044967943649200}
   m_Layer: 6
   m_Name: Tabletop
@@ -34,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4406591838808094268
 MeshFilter:
@@ -98,28 +97,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81ddffb8400980344ac1da075ec4f1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TabletopColour: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
+  TabletopColour: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
   TabletopSize: {x: 10, y: 10}
   CellSpacing: 1
-  MiniatureScale: 0.8
   DistancePerCell: 5
   DistanceIndicatorsPool: {fileID: 0}
   CellPrefab: {fileID: 6563521407825104279, guid: 97ed98b457f2fce41abcf30e13287f6f, type: 3}
   TabletopLayerMask:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &7147355636543992506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2987058066547400861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd64095121e10b04bac07cfc5defd2fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &554044967943649200
 BoxCollider:
   m_ObjectHideFlags: 0
