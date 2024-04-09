@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace Input
 {
@@ -17,12 +16,15 @@ namespace Input
         public static event DMTKInputAction OnConserveSizeCancel;
         public static event DMTKInputAction OnTabDown;
         public static event DMTKInputAction OnTabUp;
+
+        public static event DMTKInputAction OnMouseDrag;
         
         public static Vector2 MousePosition;
         
         private DMTKActions _inputActions;
 
-        [FormerlySerializedAs("UIInteraction")] public bool InteractionOccured;
+        private bool _mouseDown;
+        private bool _mouseDownPrevious;
 
         #region UnityFunctions
         
@@ -65,14 +67,26 @@ namespace Input
         private void Update()
         {
             MousePosition = _inputActions.DMTKPlayer.MousePosition.ReadValue<Vector2>();
+
+            if (_mouseDownPrevious && _mouseDown) OnMouseDrag?.Invoke();
+            _mouseDownPrevious = _mouseDown;
         }
         
         #endregion
 
         #region EventInvokers
-        
-        private static void MouseDown(InputAction.CallbackContext context) { OnMouseDown?.Invoke(); }
-        private static void MouseUp(InputAction.CallbackContext context) { OnMouseUp?.Invoke(); }
+
+        private static void MouseDown(InputAction.CallbackContext context)
+        {
+            OnMouseDown?.Invoke();
+            Instance._mouseDown = true;
+        }
+
+        private static void MouseUp(InputAction.CallbackContext context)
+        {
+            OnMouseUp?.Invoke();
+            Instance._mouseDown = false;
+        }
         private static void MouseHold(InputAction.CallbackContext context) { OnMouseHold?.Invoke(); }
         private static void MouseHoldCancelled(InputAction.CallbackContext context) { OnMouseHoldCancelled?.Invoke(); }
         private static void ConserveSize(InputAction.CallbackContext context) { OnConserveSize?.Invoke(); }
@@ -80,15 +94,6 @@ namespace Input
         private static void TabDown(InputAction.CallbackContext context) { OnTabDown?.Invoke(); }
         private static void TabUp(InputAction.CallbackContext context) { OnTabUp?.Invoke(); }
         
-        #endregion
-
-        #region PublicFunctions
-
-        public static void UIInteractionToggle(bool toggle)
-        {
-            Instance.InteractionOccured = toggle;
-        }
-
         #endregion
     }
 }

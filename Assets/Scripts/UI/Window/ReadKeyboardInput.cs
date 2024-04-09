@@ -44,14 +44,12 @@ namespace UI.Window
         private void Activate()
         {
             _active = true;
-            InputManager.Instance.InteractionOccured = true;
             StartCoroutine(ReadKeyboard());
         }
         
         private void Deactivate()
         {
             ImageUI.color = InactiveColour;
-            InputManager.Instance.InteractionOccured = false;
             _active = false;
         }
 

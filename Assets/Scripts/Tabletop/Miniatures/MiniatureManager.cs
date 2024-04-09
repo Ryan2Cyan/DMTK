@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Input;
+using UI;
 using UI.Miniature_Data;
 using UI.Miniature_Radial;
 using UnityEngine;
@@ -54,7 +55,7 @@ namespace Tabletop.Miniatures
 
         private void CheckClickMiniature()
         {
-            if (InputManager.Instance.InteractionOccured) return;
+            if(UIManager.Instance.ElementSelected) return;
             if (RadialManager.Instance == null) return;
             var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
             foreach (var miniature in RegisteredMiniatures)
@@ -70,7 +71,7 @@ namespace Tabletop.Miniatures
         /// grab it.</summary>
         private void CheckGrabMiniature()
         {
-            if (InputManager.Instance.InteractionOccured) return;
+            if(UIManager.Instance.ElementSelected) return;
             if (RadialManager.Instance == null) return;
             RadialManager.Instance.MiniatureGrabbed();
             var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
@@ -85,7 +86,6 @@ namespace Tabletop.Miniatures
         /// <summary> If any miniature is grabbed, release it.</summary>
         private void CheckReleaseMiniature()
         {
-            if (InputManager.Instance.InteractionOccured) return;
             foreach (var miniature in RegisteredMiniatures)
             {
                 if (!miniature.Grabbed) continue;

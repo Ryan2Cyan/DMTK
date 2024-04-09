@@ -1,7 +1,6 @@
 using System;
 using Input;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.Window
@@ -36,7 +35,7 @@ namespace UI.Window
     
     /// <summary>A "resizer" is a small click-and-drag icon that appear when transforming an DMTK window. The resizer can adjust a
     /// window depending on the resizer type. Also changes colour depending on whether it is pressed, highlighted, or un-highlighted.</summary>
-    public class WindowResizer : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+    public class WindowResizer : UIElement, IInputElement
     {
         [Header("Settings")]
         public ResizerType ResizerType;
@@ -47,13 +46,11 @@ namespace UI.Window
         public Color Pressed;
 
         private Window _window;
-        
         private OnClickData _onClickData;
         private RectTransform _windowRectTransform;
         private Canvas _canvas;
         
-        private bool _clicked;
-        private bool _pointerPresent;
+        public bool _clicked;
         private bool _conserveResize;
 
         #region UnityStateFunctions
@@ -73,11 +70,13 @@ namespace UI.Window
             {
                 _windowRectTransform.sizeDelta = new Vector2(_windowRectTransform.sizeDelta.x, _window.MinimumSize.y);
             }
+
+            if (_window.FixedSize) enabled = false;
         }
 
         private void OnEnable()
         {
-            TurnOff();
+            ResizerImage.enabled = false;
             InputManager.OnConserveSize += OnConserveResize;
             InputManager.OnConserveSizeCancel += OnConserveResizeCancelled;
         }
@@ -91,42 +90,39 @@ namespace UI.Window
         #endregion
 
         #region UnityInteractionFunctions
-        public void OnPointerEnter(PointerEventData eventData)
+        public void OnMouseEnter()
         {
-            if (_window.FixedSize) return;
-            if (_clicked) return;
-            if (_pointerPresent) return;
-
             ResizerImage.enabled = true;
+            
             ResizerImage.color = NotPressed;
-            _pointerPresent = true;
-        }
-        
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            _pointerPresent = false;
-            if (_clicked) return;
-            TurnOff();
-        }
-        
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            if (!_pointerPresent) return;
-            OnClick();
-        }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            if (_pointerPresent)
-            {
-                ResizerImage.enabled = true;
-                ResizerImage.color = NotPressed;
-            }
-            else TurnOff();
             _clicked = false;
         }
         
-        public void OnDrag(PointerEventData eventData)
+        public void OnMouseExit()
+        {
+            ResizerImage.enabled = false;
+        }
+        
+        public void OnMouseDown()
+        {
+            var SizeDelta = _windowRectTransform.sizeDelta;
+            _onClickData = new OnClickData(
+                InputManager.MousePosition /  _canvas.scaleFactor,
+                _windowRectTransform.localPosition,
+                SizeDelta,
+                SizeDelta.y / SizeDelta.x);
+            ResizerImage.color = Pressed;
+            _clicked = true;
+        }
+
+        public void OnMouseUp()
+        {
+            ResizerImage.enabled = true;
+            ResizerImage.color = NotPressed;
+            _clicked = false;
+        }
+        
+        public void OnDrag()
         {
             if (!_clicked) return;
             
@@ -136,8 +132,11 @@ namespace UI.Window
             // If conserve resize: change y-value to keep window's original aspect ratio:
             if (_conserveResize)
             {
-                resizeVector.y = resizeVector.x * _onClickData.HeightRatio;
-                if (ResizerType is ResizerType.DiagonalBottomRight or ResizerType.DiagonalTopLeft) resizeVector.y *= -1;
+                if (ResizerType is ResizerType.DiagonalTopLeft or ResizerType.DiagonalTopRight or ResizerType.DiagonalBottomRight or ResizerType.DiagonalBottomLeft)
+                {
+                    resizeVector.y = resizeVector.x * _onClickData.HeightRatio;
+                    if (ResizerType is ResizerType.DiagonalBottomRight or ResizerType.DiagonalTopLeft) resizeVector.y *= -1;
+                } 
             }
             
             // Store pre-change values (in case they need to be reverted later):
@@ -206,34 +205,6 @@ namespace UI.Window
             }
         }
         
-        #endregion
-
-        #region UtilityFunctions
-
-        // Store all data about the image when the resizer is clicked. Divide by scale factor to convert mouse
-        // positions to canvas space.
-        private void OnClick()
-        {
-            var SizeDelta = _windowRectTransform.sizeDelta;
-            _onClickData = new OnClickData(
-                InputManager.MousePosition /  _canvas.scaleFactor,
-                _windowRectTransform.localPosition,
-                SizeDelta,
-                SizeDelta.y / SizeDelta.x);
-            ResizerImage.color = Pressed;
-            _clicked = true;
-            InputManager.Instance.InteractionOccured = true;
-        }
-
-        // Disable resizer.
-        private void TurnOff()
-        {
-            ResizerImage.enabled = false;
-            _clicked = false;
-            _pointerPresent = false;
-            InputManager.Instance.InteractionOccured = false;
-        }
-
         #endregion
 
         #region EventFunctions

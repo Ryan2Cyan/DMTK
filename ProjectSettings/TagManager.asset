@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tabletop
   - Miniature
+  - Interactable_UI
   layers:
   - Default
   - TransparentFX
