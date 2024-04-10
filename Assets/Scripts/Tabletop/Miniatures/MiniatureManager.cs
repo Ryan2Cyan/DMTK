@@ -86,6 +86,7 @@ namespace Tabletop.Miniatures
         /// <summary> If any miniature is grabbed, release it.</summary>
         private void CheckReleaseMiniature()
         {
+            if(UIManager.Instance.ElementSelected) return;
             foreach (var miniature in RegisteredMiniatures)
             {
                 if (!miniature.Grabbed) continue;

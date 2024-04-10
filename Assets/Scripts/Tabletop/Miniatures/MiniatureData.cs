@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,6 +37,9 @@ namespace Tabletop.Miniatures
             { StatusCondition.Poisoned, false},
             { StatusCondition.Stunned, false},
         };
-        public int ExhaustionLevel = 0;
+
+        public int MaximumHitPoints;
+        public int CurrentHitPoints;
+        public int ExhaustionLevel;
     }
 }

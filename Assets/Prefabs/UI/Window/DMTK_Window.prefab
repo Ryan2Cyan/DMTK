@@ -405,7 +405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6273758eb474b4a419fcc870d72c9b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinimumSize: {x: 360, y: 275}
+  MinimumSize: {x: 125, y: 120}
   WindowTitle: Title
   FixedSize: 0
   FixedPosition: 0

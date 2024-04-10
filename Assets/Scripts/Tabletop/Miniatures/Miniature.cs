@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Tabletop.Tabletop;
-using UI;
 using UI.DistanceArrow;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ namespace Tabletop.Miniatures
     public class Miniature : MonoBehaviour
     {
         public TabletopCell CurrentCell;
-        public bool Grabbed;
+        [HideInInspector] public bool Grabbed;
      
         [NonSerialized] public BoxCollider Collider;
         [HideInInspector] public MiniatureData Data;

@@ -1,6 +1,7 @@
 using Input;
 using Tabletop.Miniatures;
 using UI.Utility;
+using UI.Window;
 using UnityEngine;
 
 namespace UI.Miniature_Radial
@@ -12,6 +13,7 @@ namespace UI.Miniature_Radial
         [Header("Radial Menus")]
         public RadialMenu MainRadial;
         public RadialMenu ConditionalsRadial;
+        public ReadKeyboardInput MaximumHealthKeyboardInput;
 
         [Header("Radial Icons")] 
         public RadialInteger ExhaustionRadialIcon;
@@ -76,6 +78,7 @@ namespace UI.Miniature_Radial
         
         public void MiniatureClicked(MiniatureData miniature)
         {
+            if(UIManager.Instance.ElementSelected) return;
             _miniPressed = true;
             if (_iconPressed)
             {
@@ -91,6 +94,7 @@ namespace UI.Miniature_Radial
         
         public void OnMouseUp()
         {
+            if(UIManager.Instance.ElementSelected) return;
             if (_iconPressed)
             {
                 _iconPressed = false;
@@ -154,6 +158,11 @@ namespace UI.Miniature_Radial
         {
             SelectedMiniData.ExhaustionLevel = ExhaustionRadialIcon.Value;
             OnStatusConditionChanged?.Invoke(SelectedMiniData);
+        }
+
+        public void SetMaxHitPoints()
+        {
+            SelectedMiniData.MaximumHitPoints = MaximumHealthKeyboardInput.GetDigitValue();
         }
         
         #endregion
