@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using General;
 using Input;
+using Tabletop.Miniatures;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,10 +12,15 @@ namespace UI
     {
         public static UIManager Instance;
         public List<UIElement> AllUIElements;
-        public bool ElementSelected;
+        
+        public delegate void DMTKUIDelegate();
+        public static event DMTKUIDelegate DMTKUISelected;
+        public static event DMTKUIDelegate DMTKUIDeselected;
         
         private IInputElement _currentUIElementInteraction;
         private PointerEventData _pointerEventData;
+        private bool _isUIElementSelected;
+        
         #region UnityFunctions
 
         private void Awake()
@@ -63,17 +69,17 @@ namespace UI
 
         public void OnMouseDown()
         {
-            if(ElementSelected) _currentUIElementInteraction.OnMouseDown();
+            if(_isUIElementSelected) _currentUIElementInteraction.OnMouseDown();
         }
         
         public void OnMouseUp()
         {
-            if(ElementSelected) _currentUIElementInteraction.OnMouseUp();
+            if(_isUIElementSelected) _currentUIElementInteraction.OnMouseUp();
         }
 
         public void OnMouseDrag()
         {
-            if(ElementSelected) _currentUIElementInteraction.OnDrag();
+            if(_isUIElementSelected) _currentUIElementInteraction.OnDrag();
         }
 
         #endregion
@@ -94,16 +100,18 @@ namespace UI
                 if (newElement == null) continue;
                 if (newElement == _currentUIElementInteraction) return;
                 
-                if(ElementSelected) _currentUIElementInteraction.OnMouseExit();
+                if(_isUIElementSelected) _currentUIElementInteraction.OnMouseExit();
                 _currentUIElementInteraction = newElement;
                 newElement.OnMouseEnter();
-                ElementSelected = true;
+                if(!_isUIElementSelected) DMTKUISelected?.Invoke();
+                _isUIElementSelected = true;
                 return;
             }
             
-            if(ElementSelected) _currentUIElementInteraction.OnMouseExit();
+            if(_isUIElementSelected) _currentUIElementInteraction.OnMouseExit();
             _currentUIElementInteraction = null;
-            ElementSelected = false;
+            if(_isUIElementSelected) DMTKUIDeselected?.Invoke();
+            _isUIElementSelected = false;
         }
 
         #endregion

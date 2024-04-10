@@ -1,12 +1,12 @@
+using Input;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.Miniature_Radial
 {
-    public class RadialBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+    public class RadialBase : UIElement, IInputElement
     {
         [Header("Title Settings")]
         public string Title;
@@ -60,25 +60,29 @@ namespace UI.Miniature_Radial
         }
         #endregion
         
-        #region InterfaceFunctions
+        #region InputFunctions
 
-        public virtual void OnPointerEnter(PointerEventData eventData)
+        public void OnMouseDown()
+        {
+            if (!Interactable) return;
+            OnPress();
+        }
+
+        public void OnMouseEnter()
         {
             if (!Interactable) return;
             OnHighlight();
         }
 
-        public virtual void OnPointerExit(PointerEventData eventData)
+        public void OnMouseExit()
         {
             if (!Interactable) return;
             OnUnhighlight();
         }
 
-        public virtual void OnPointerDown(PointerEventData eventData)
-        {
-            if (!Interactable) return;
-            OnPress();
-        }
+        public void OnMouseUp() { }
+        public void OnDrag() { }
+        
         #endregion
     }
 }

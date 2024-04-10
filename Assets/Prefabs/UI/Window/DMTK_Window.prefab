@@ -146,10 +146,10 @@ GameObject:
   - component: {fileID: 554116897073075240}
   - component: {fileID: 8435625648512836431}
   - component: {fileID: 3887363844660619344}
-  - component: {fileID: 134371640233825385}
+  - component: {fileID: 4393327783387257413}
   m_Layer: 5
   m_Name: Close_Button
-  m_TagString: Untagged
+  m_TagString: Interactable_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &134371640233825385
+--- !u!114 &4393327783387257413
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2305563548949729279}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e02783c8818e86448d37ae79a327417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -233,18 +233,18 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 2
   m_Colors:
-    m_NormalColor: {r: 0, g: 0, b: 0, a: 1}
-    m_HighlightedColor: {r: 0, g: 0, b: 0, a: 1}
-    m_PressedColor: {r: 0, g: 0, b: 0, a: 1}
-    m_SelectedColor: {r: 0, g: 0, b: 0, a: 1}
-    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: -843028296, guid: 3ec7b42cda0f88743b4afc77309c93e6, type: 3}
     m_PressedSprite: {fileID: -843028296, guid: 3ec7b42cda0f88743b4afc77309c93e6, type: 3}
     m_SelectedSprite: {fileID: -843028296, guid: 3ec7b42cda0f88743b4afc77309c93e6, type: 3}
-    m_DisabledSprite: {fileID: -529027496, guid: 3ec7b42cda0f88743b4afc77309c93e6, type: 3}
+    m_DisabledSprite: {fileID: -843028296, guid: 3ec7b42cda0f88743b4afc77309c93e6, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted

@@ -52,6 +52,7 @@ namespace UI.Window
         
         public bool _clicked;
         private bool _conserveResize;
+        private bool _active;
 
         #region UnityStateFunctions
 
@@ -71,7 +72,9 @@ namespace UI.Window
                 _windowRectTransform.sizeDelta = new Vector2(_windowRectTransform.sizeDelta.x, _window.MinimumSize.y);
             }
 
-            if (_window.FixedSize) enabled = false;
+            if (!_window.FixedSize) return;
+            enabled = false;
+            _active = false;
         }
 
         private void OnEnable()
@@ -92,19 +95,24 @@ namespace UI.Window
         #region UnityInteractionFunctions
         public void OnMouseEnter()
         {
-            ResizerImage.enabled = true;
+            if (!_active) return;
             
+            ResizerImage.enabled = true;
             ResizerImage.color = NotPressed;
             _clicked = false;
         }
         
         public void OnMouseExit()
         {
+            if (!_active) return;
+            
             ResizerImage.enabled = false;
         }
         
         public void OnMouseDown()
         {
+            if (!_active) return;
+            
             var SizeDelta = _windowRectTransform.sizeDelta;
             _onClickData = new OnClickData(
                 InputManager.MousePosition /  _canvas.scaleFactor,
@@ -117,6 +125,8 @@ namespace UI.Window
 
         public void OnMouseUp()
         {
+            if (!_active) return;
+            
             ResizerImage.enabled = true;
             ResizerImage.color = NotPressed;
             _clicked = false;
@@ -124,6 +134,8 @@ namespace UI.Window
         
         public void OnDrag()
         {
+            if (!_active) return;
+            
             if (!_clicked) return;
             
             // Calculate how much the window will be adjusted:

@@ -1,4 +1,3 @@
-using Input;
 using Tabletop.Miniatures;
 using UI.Utility;
 using UI.Window;
@@ -46,16 +45,6 @@ namespace UI.Miniature_Radial
             _uiInWorldSpaceScript.enabled = false;
         }
 
-        private void OnEnable()
-        {
-            InputManager.OnMouseUp += OnMouseUp;
-        }
-
-        private void OnDisable()
-        {
-            InputManager.OnMouseUp -= OnMouseUp;
-        }
-
         #endregion
 
         #region PublicFunctions
@@ -78,7 +67,6 @@ namespace UI.Miniature_Radial
         
         public void MiniatureClicked(MiniatureData miniature)
         {
-            if(UIManager.Instance.ElementSelected) return;
             _miniPressed = true;
             if (_iconPressed)
             {
@@ -94,7 +82,6 @@ namespace UI.Miniature_Radial
         
         public void OnMouseUp()
         {
-            if(UIManager.Instance.ElementSelected) return;
             if (_iconPressed)
             {
                 _iconPressed = false;
@@ -110,9 +97,8 @@ namespace UI.Miniature_Radial
             ChangeState(_disabledState);
         }
 
-        public void MiniatureGrabbed()
+        public void Disable()
         {
-            SelectedMiniData = null;
             ChangeState(_disabledState);
         }
 

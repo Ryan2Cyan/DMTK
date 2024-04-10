@@ -33,12 +33,12 @@ namespace Tabletop.Miniatures
                 transform.position = new Vector3(CurrentCell.Position.x, 0f, CurrentCell.Position.y);
             }
             
-            MiniatureManager.Instance.RegisterMiniature(this);
+            MiniatureManager.Instance.RegisterElement(this);
         }
 
         private void OnDestroy()
         {
-            MiniatureManager.Instance.UnregisterMiniature(this);
+            MiniatureManager.Instance.UnregisterElement(this);
         }
 
         #endregion

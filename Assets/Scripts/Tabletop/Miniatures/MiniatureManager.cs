@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using General;
 using Input;
 using UI;
 using UI.Miniature_Data;
@@ -8,12 +9,25 @@ using Utility;
 
 namespace Tabletop.Miniatures
 {
-    public class MiniatureManager : MonoBehaviour
+    public class MiniatureManager : MonoBehaviour, IManager<Miniature>
     {
         public static MiniatureManager Instance;
-        public ObjectPool MiniatureDataUIPool;
+        
+        [Header("Miniatures")]
         public List<Miniature> RegisteredMiniatures;
+        public Miniature SelectedMiniature;
+        public Miniature GrabbedMiniature;
+        
+        [Header("Components")]
+        public ObjectPool MiniatureDataUIPool;
+        public LayerMask MiniatureLayerMask;
+        
+        private bool _isMiniatureSelected;
+        private bool _isMiniatureGrabbed;
+        private bool _uiSelected;
 
+        #region UnityFunctions
+        
         private void Awake()
         {
             Instance = this;
@@ -24,75 +38,110 @@ namespace Tabletop.Miniatures
         
         private void OnEnable()
         {
-            InputManager.OnMouseHold += CheckGrabMiniature;
-            InputManager.OnMouseHoldCancelled += CheckReleaseMiniature;
-            InputManager.OnMouseUp += CheckClickMiniature;
+            InputManager.OnMouseDown += OnMouseDown;
+            InputManager.OnMouseHold += OnMouseHold;
+            InputManager.OnMouseHoldCancelled += OnHoldRelease;
+            InputManager.OnMouseUp += OnMouseUp;
+            UIManager.DMTKUISelected += OnUISelected;
+            UIManager.DMTKUIDeselected += OnUIDeselected;
         }
 
         private void OnDisable()
         {
-            InputManager.OnMouseHold -= CheckGrabMiniature;
-            InputManager.OnMouseHoldCancelled -= CheckReleaseMiniature;
-            InputManager.OnMouseUp -= CheckClickMiniature;
+            InputManager.OnMouseDown -= OnMouseDown;
+            InputManager.OnMouseHold -= OnMouseHold;
+            InputManager.OnMouseHoldCancelled -= OnHoldRelease;
+            InputManager.OnMouseUp -= OnMouseUp;
+            UIManager.DMTKUISelected -= OnUISelected;
+            UIManager.DMTKUIDeselected -= OnUIDeselected;
         }
 
-        /// <summary>Cache miniature to be saved.</summary>
-        /// <param name="miniature">Miniature to register.</param>
-        public void RegisterMiniature(Miniature miniature)
+        private void FixedUpdate()
         {
-            RegisteredMiniatures.Add(miniature);
-            var miniatureDataUI = (MiniatureDataUIManager)MiniatureDataUIPool.GetPooledObject();
-            miniatureDataUI.Instantiate(miniature.Data);
-        }
-
-        /// <summary>
-        /// Remove miniature from cache (will no longer be saved).</summary>
-        /// <param name="miniature">Miniature to unregister.</param>
-        public void UnregisterMiniature(Miniature miniature)
-        {
-            RegisteredMiniatures.Remove(miniature);
-        }
-
-        private void CheckClickMiniature()
-        {
-            if(UIManager.Instance.ElementSelected) return;
-            if (RadialManager.Instance == null) return;
-            var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
-            foreach (var miniature in RegisteredMiniatures)
-            {
-                if(miniature.Grabbed) continue;
-                if (miniature.Collider != hit.collider) continue;
-                RadialManager.Instance.MiniatureClicked(miniature.Data);
-                return;
-            }
+            RaycastMouseOnUI();
         }
         
-        /// <summary> Perform physics ray cast and check if a cursor is selecting a registered miniature. If selected
-        /// grab it.</summary>
-        private void CheckGrabMiniature()
+        #endregion
+
+        #region InputFunctions
+
+        private void OnMouseDown()
         {
-            if(UIManager.Instance.ElementSelected) return;
-            if (RadialManager.Instance == null) return;
-            RadialManager.Instance.MiniatureGrabbed();
-            var hit = DMTKPhysicsUtility.PhysicsMouseRayCast();
-            foreach (var miniature in RegisteredMiniatures)
-            {
-                if (miniature.Collider != hit.collider) continue;
-                miniature.OnGrab();
-                return;
-            }
+            if (_uiSelected) return;
+            RadialManager.Instance.Disable();
+        }
+
+        private void OnMouseUp()
+        {
+            if (!_isMiniatureSelected) return;
+            RadialManager.Instance.MiniatureClicked(SelectedMiniature.Data);
+        }
+        
+        private void OnMouseHold()
+        {
+            if (!_isMiniatureSelected) return;
+            if (_isMiniatureGrabbed) return;
+            
+            RadialManager.Instance.Disable();
+            SelectedMiniature.OnGrab();
+            GrabbedMiniature = SelectedMiniature;
+            _isMiniatureGrabbed = true;
         }
         
         /// <summary> If any miniature is grabbed, release it.</summary>
-        private void CheckReleaseMiniature()
+        private void OnHoldRelease()
         {
-            if(UIManager.Instance.ElementSelected) return;
+            if (!_isMiniatureGrabbed) return;
+            GrabbedMiniature.OnRelease();
+            GrabbedMiniature = null;
+            _isMiniatureGrabbed = false;
+        }
+        
+        #endregion
+
+        #region ManagerFunctions
+        
+        public void RegisterElement(Miniature element)
+        {
+            RegisteredMiniatures.Add(element);
+            var miniatureDataUI = (MiniatureDataUIManager)MiniatureDataUIPool.GetPooledObject();
+            miniatureDataUI.Instantiate(element.Data);
+        }
+
+        public void UnregisterElement(Miniature element)
+        {
+            RegisteredMiniatures.Remove(element);
+        }
+        
+        #endregion
+
+        #region PrivateFunctions
+
+        private void RaycastMouseOnUI()
+        {
+            if (_uiSelected) return;
+            var hit = DMTKPhysicsUtility.PhysicsMouseRayCast(MiniatureLayerMask);
             foreach (var miniature in RegisteredMiniatures)
             {
-                if (!miniature.Grabbed) continue;
-                miniature.OnRelease();
+                if (miniature.Collider != hit.collider) continue;
+                SelectedMiniature = miniature;
+                _isMiniatureSelected = true;
                 return;
             }
+
+            SelectedMiniature = null;
+            _isMiniatureSelected = false;
         }
+
+        private void OnUISelected()
+        {
+            _uiSelected = true;
+        }
+        
+        private void OnUIDeselected()
+        {
+            _uiSelected = false;
+        }
+        #endregion
     }
 }
