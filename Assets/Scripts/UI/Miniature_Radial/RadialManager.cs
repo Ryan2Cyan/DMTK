@@ -67,34 +67,10 @@ namespace UI.Miniature_Radial
         
         public void MiniatureClicked(MiniatureData miniature)
         {
-            _miniPressed = true;
-            if (_iconPressed)
-            {
-                _iconPressed = false;
-                return;
-            }
-            
             if (_currentState != _disabledState) return;
             SelectedMiniData = miniature;
             _uiInWorldSpaceScript.WorldSpaceTarget = SelectedMiniData.transform;
             ChangeState(_mainState);
-        }
-        
-        public void OnMouseUp()
-        {
-            if (_iconPressed)
-            {
-                _iconPressed = false;
-                return;
-            }
-
-            if (_miniPressed)
-            {
-                _miniPressed = false;
-                return;
-            }
-            SelectedMiniData = null;
-            ChangeState(_disabledState);
         }
 
         public void Disable()

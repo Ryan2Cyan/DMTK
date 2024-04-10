@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainRadial: {fileID: 147065753844469993}
   ConditionalsRadial: {fileID: 426697577408816739}
-  CurrentHealthKeyboardInput: {fileID: 3460561392906439550}
+  MaximumHealthKeyboardInput: {fileID: 3460561392906439550}
   ExhaustionRadialIcon: {fileID: 523154546152362246}
   SelectedMiniData: {fileID: 0}
 --- !u!114 &6427044870019938228
@@ -172,6 +172,10 @@ PrefabInstance:
     - target: {fileID: 1656402001941124505, guid: 66f97891ee579c84e8da24d2f987c38e, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656402001941124505, guid: 66f97891ee579c84e8da24d2f987c38e, type: 3}
+      propertyPath: m_TagString
+      value: Interactable_UI
       objectReference: {fileID: 0}
     - target: {fileID: 1663987832209480255, guid: 66f97891ee579c84e8da24d2f987c38e, type: 3}
       propertyPath: m_Pivot.x
@@ -756,6 +760,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7202618971143902452}
     m_Modifications:
+    - target: {fileID: 632542611444201615, guid: 5e2d6d322f035bb4189f0b6bf299b0f1, type: 3}
+      propertyPath: FixedSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 632542611444201615, guid: 5e2d6d322f035bb4189f0b6bf299b0f1, type: 3}
+      propertyPath: FixedPosition
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3894293985915138027, guid: 5e2d6d322f035bb4189f0b6bf299b0f1, type: 3}
       propertyPath: m_Name
       value: Hit_Point_Settings
@@ -830,11 +842,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4044696502789738930, guid: 5e2d6d322f035bb4189f0b6bf299b0f1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 335.51886
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4044696502789738930, guid: 5e2d6d322f035bb4189f0b6bf299b0f1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 354.7542
+      value: 149
       objectReference: {fileID: 0}
     - target: {fileID: 4044696502789738930, guid: 5e2d6d322f035bb4189f0b6bf299b0f1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

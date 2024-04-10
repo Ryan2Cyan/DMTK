@@ -29,6 +29,14 @@ namespace UI.Miniature_Radial
             _baseImage.color = BaseUnhighlightedColour;
             _iconImage.color = IconUnhighlightedColour;
         }
+
+        protected override void OnPress()
+        {
+            base.OnPress();
+            _baseImage.color = BaseUnhighlightedColour;
+            _iconImage.color = IconUnhighlightedColour;
+        }
+
         #endregion
     }
 }

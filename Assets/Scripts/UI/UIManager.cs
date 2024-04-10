@@ -1,8 +1,6 @@
-
 using System.Collections.Generic;
 using General;
 using Input;
-using Tabletop.Miniatures;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,7 +10,7 @@ namespace UI
     {
         public static UIManager Instance;
         public List<UIElement> AllUIElements;
-        
+        public bool DebugEnabled;
         public delegate void DMTKUIDelegate();
         public static event DMTKUIDelegate DMTKUISelected;
         public static event DMTKUIDelegate DMTKUIDeselected;
@@ -94,6 +92,7 @@ namespace UI
             EventSystem.current.RaycastAll(_pointerEventData, results);
             foreach (var result in results)
             {
+                if(DebugEnabled) Debug.Log(result.gameObject.name);
                 if (!result.gameObject.CompareTag("Interactable_UI")) continue;
                 
                 var newElement = result.gameObject.GetComponent<IInputElement>();

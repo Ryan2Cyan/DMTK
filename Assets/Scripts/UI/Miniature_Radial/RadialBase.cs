@@ -57,6 +57,7 @@ namespace UI.Miniature_Radial
         {
             OnPressEvent.Invoke();
             RadialManager.Instance.IconPressed();
+            _titleAnimator.SetBool(Active, false);
         }
         #endregion
         

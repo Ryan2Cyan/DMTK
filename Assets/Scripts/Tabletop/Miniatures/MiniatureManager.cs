@@ -68,6 +68,7 @@ namespace Tabletop.Miniatures
         private void OnMouseDown()
         {
             if (_uiSelected) return;
+            if (_isMiniatureSelected) return;
             RadialManager.Instance.Disable();
         }
 
@@ -119,7 +120,6 @@ namespace Tabletop.Miniatures
 
         private void RaycastMouseOnUI()
         {
-            if (_uiSelected) return;
             var hit = DMTKPhysicsUtility.PhysicsMouseRayCast(MiniatureLayerMask);
             foreach (var miniature in RegisteredMiniatures)
             {
