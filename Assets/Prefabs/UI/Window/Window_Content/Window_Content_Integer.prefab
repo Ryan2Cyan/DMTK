@@ -95,6 +95,9 @@ MonoBehaviour:
   NumbersOnly: 0
   TMPText: {fileID: 5878855535489850014}
   ImageUI: {fileID: 7296589895499974253}
+  OnNewValueSet:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2361785596149317033
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,10 +131,10 @@ RectTransform:
   m_Father: {fileID: 7992169427973035057}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.83100003, y: 0.5}
-  m_AnchorMax: {x: 0.83100003, y: 0.5}
-  m_AnchoredPosition: {x: 0.5, y: 0.0023872852}
-  m_SizeDelta: {x: -70.26871, y: 30.739698}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -57.358, y: 0.00000017881393}
+  m_SizeDelta: {x: -72.342, y: 30.7397}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4185995140479789459
 CanvasRenderer:
@@ -224,7 +227,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -66.15127, y: -15.839302, z: -71.154015, w: -12.190756}
+  m_margin: {x: -63.04622, y: -16.186226, z: -73.40121, w: -10.811026}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

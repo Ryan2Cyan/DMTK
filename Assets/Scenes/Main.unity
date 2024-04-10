@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllUIElements: []
+  DebugEnabled: 0
 --- !u!4 &129980488
 Transform:
   m_ObjectHideFlags: 0
@@ -767,17 +768,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6629420987369826231, guid: 00380757cd6804d48b542e48e866952f, type: 3}
   m_PrefabInstance: {fileID: 165233512457423859}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1099222310 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3460561392906439550, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-  m_PrefabInstance: {fileID: 4478004329768686495}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4998d2ca88632754eae23d7a54e4d554, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1641192032
 GameObject:
   m_ObjectHideFlags: 0
@@ -1673,18 +1663,6 @@ PrefabInstance:
       propertyPath: Target
       value: 
       objectReference: {fileID: 730943044}
-    - target: {fileID: 5964618351455806729, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: MaximumHealthKeyboardInput
-      value: 
-      objectReference: {fileID: 1099222310}
-    - target: {fileID: 6345331208632163857, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: FixedSize
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6345331208632163857, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: FixedPosition
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6427044870019938228, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: Camera
       value: 
@@ -1693,10 +1671,6 @@ PrefabInstance:
       propertyPath: WorldSpaceTarget
       value: 
       objectReference: {fileID: 730943044}
-    - target: {fileID: 7404855144912570741, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7519921067566324856, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1780,14 +1754,6 @@ PrefabInstance:
     - target: {fileID: 7519921067566324856, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7559781467633071916, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7559781467633071916, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 149
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

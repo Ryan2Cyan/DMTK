@@ -31,6 +31,11 @@ namespace UI.Window
         {
             return !NumbersOnly ? 0 : int.Parse(TMPText.text);
         }
+
+        public string GetStringValue()
+        {
+            return TMPText.text;
+        }
         
         #endregion
         

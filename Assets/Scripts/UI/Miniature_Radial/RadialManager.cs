@@ -1,4 +1,6 @@
 using Tabletop.Miniatures;
+using TMPro;
+using UI.UI_Interactables;
 using UI.Utility;
 using UI.Window;
 using UnityEngine;
@@ -12,7 +14,11 @@ namespace UI.Miniature_Radial
         [Header("Radial Menus")]
         public RadialMenu MainRadial;
         public RadialMenu ConditionalsRadial;
+        
+        [Header("Window Menus")]
         public ReadKeyboardInput MaximumHealthKeyboardInput;
+        public DMTKSlider CurrentHealthSlider;
+        public TextMeshProUGUI CurrentHealthTMP;
 
         [Header("Radial Icons")] 
         public RadialInteger ExhaustionRadialIcon;
@@ -124,7 +130,23 @@ namespace UI.Miniature_Radial
 
         public void SetMaxHitPoints()
         {
-            SelectedMiniData.MaximumHitPoints = MaximumHealthKeyboardInput.GetDigitValue();
+            var newMaxHitPoints = MaximumHealthKeyboardInput.GetDigitValue();
+            SelectedMiniData.MaximumHitPoints = newMaxHitPoints;
+            CurrentHealthSlider.maxValue = newMaxHitPoints;
+
+            // Clamp current hit points if above the new maximum: 
+            if (newMaxHitPoints >= SelectedMiniData.CurrentHitPoints) return;
+            
+            SelectedMiniData.CurrentHitPoints = newMaxHitPoints; 
+            CurrentHealthTMP.text = MaximumHealthKeyboardInput.GetStringValue();
+            CurrentHealthSlider.value = (float)SelectedMiniData.CurrentHitPoints / newMaxHitPoints;
+        }
+
+        public void SetCurrentHitPoints()
+        {
+            var newCurrentHitPoints = (int)CurrentHealthSlider.value;
+            SelectedMiniData.CurrentHitPoints = newCurrentHitPoints;
+            CurrentHealthTMP.text = newCurrentHitPoints.ToString();
         }
         
         #endregion
