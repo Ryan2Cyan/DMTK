@@ -27,8 +27,7 @@ namespace UI.Miniature_Radial
             radialManager.MainRadial.cullEventScript.Target = radialManager.SelectedMiniData.transform;
             
             // Update all data to match the selected miniature:
-            radialManager.SetMaxHitPoints();
-            radialManager.SetCurrentHitPoints();
+            radialManager.LoadMiniatureData();
         }
 
         public void OnExit(RadialManager radialManager)

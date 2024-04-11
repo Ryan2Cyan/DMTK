@@ -18,6 +18,7 @@ namespace UI.Miniature_Radial
         
         [Header("Window Menus")]
         public ReadKeyboardInput MaximumHealthKeyboardInput;
+        public ReadKeyboardInput LabelKeyboardInput;
         public DMTKSlider CurrentHealthSlider;
         public TextMeshProUGUI CurrentHealthTMP;
 
@@ -34,9 +35,11 @@ namespace UI.Miniature_Radial
 
         private DisplayUIInWorldSpace _uiInWorldSpaceScript;
         
+        // MiniatureData setting events:
         public delegate void DMTKMiniatureDataAction(MiniatureData miniatureData);
         public static event DMTKMiniatureDataAction OnStatusConditionChanged;
         public static event DMTKMiniatureDataAction OnHitPointsChanged;
+        public static event DMTKMiniatureDataAction OnLabelChanged;
         
         private static readonly int Enabled = Animator.StringToHash("Enabled");
 
@@ -109,6 +112,18 @@ namespace UI.Miniature_Radial
 
         #region MiniatureDataFunctions
 
+        public void LoadMiniatureData()
+        {
+            // Set hit point UI:
+            MaximumHealthKeyboardInput.SetStringValue(SelectedMiniData.MaximumHitPoints.ToString());
+            CurrentHealthTMP.text = SelectedMiniData.CurrentHitPoints.ToString();
+            CurrentHealthSlider.maxValue = SelectedMiniData.MaximumHitPoints;
+            CurrentHealthSlider.value = SelectedMiniData.CurrentHitPoints;
+            
+            // Set label UI:
+            LabelKeyboardInput.SetStringValue(SelectedMiniData.Label);
+        }
+        
         public void ToggleStatusCondition(int statusCondition)
         {
             var statusConditionEnum = (StatusCondition)statusCondition;
@@ -147,6 +162,12 @@ namespace UI.Miniature_Radial
             SelectedMiniData.CurrentHitPoints = newCurrentHitPoints;
             CurrentHealthTMP.text = newCurrentHitPoints.ToString();
             OnHitPointsChanged?.Invoke(SelectedMiniData);
+        }
+
+        public void SetLabel()
+        {
+            SelectedMiniData.Label = LabelKeyboardInput.GetStringValue(); 
+            OnLabelChanged?.Invoke(SelectedMiniData);
         }
         
         #endregion

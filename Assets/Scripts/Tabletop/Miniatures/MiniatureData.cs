@@ -38,6 +38,7 @@ namespace Tabletop.Miniatures
             { StatusCondition.Stunned, false},
         };
 
+        public string Label;
         public int MaximumHitPoints;
         public int CurrentHitPoints;
         public int ExhaustionLevel;
@@ -45,6 +46,7 @@ namespace Tabletop.Miniatures
         private void Awake()
         {
             if (MaximumHitPoints <= 0) MaximumHitPoints = 100;
+            if (Label == "") Label = "No Name";
         }
     }
 }

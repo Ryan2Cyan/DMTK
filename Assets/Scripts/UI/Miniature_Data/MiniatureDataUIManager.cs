@@ -14,6 +14,7 @@ namespace UI.Miniature_Data
         [Header("Components")]
         public MiniatureData MiniatureData;
         public TextMeshProUGUI StatusConditionsTMP;
+        public TextMeshProUGUI LabelTMP;
         public Slider HitPointsSlider;
 
         private Animator _animator;
@@ -43,6 +44,7 @@ namespace UI.Miniature_Data
             // Unsubscribe to events:
             RadialManager.OnStatusConditionChanged -= OnStatusConditionChanged;
             RadialManager.OnHitPointsChanged -= OnHitPointsChanged;
+            RadialManager.OnLabelChanged -= OnLabelChanged;
         }
 
         #endregion
@@ -62,9 +64,11 @@ namespace UI.Miniature_Data
             // Subscribe to events:
             RadialManager.OnStatusConditionChanged += OnStatusConditionChanged;
             RadialManager.OnHitPointsChanged += OnHitPointsChanged;
+            RadialManager.OnLabelChanged += OnLabelChanged;
             
             // Set default values:
             OnHitPointsChanged(miniatureData);
+            OnLabelChanged(MiniatureData);
         }
         
         private void OnStatusConditionChanged(MiniatureData miniatureData)
@@ -99,6 +103,12 @@ namespace UI.Miniature_Data
             if (miniatureData != MiniatureData) return;
             HitPointsSlider.maxValue = miniatureData.MaximumHitPoints;
             HitPointsSlider.value = miniatureData.CurrentHitPoints;
+        }
+
+        private void OnLabelChanged(MiniatureData miniatureData)
+        {
+            if (miniatureData != MiniatureData) return;
+            LabelTMP.text = miniatureData.Label;
         }
         
         #region EventFunctions

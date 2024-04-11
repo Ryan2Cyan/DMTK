@@ -14,6 +14,7 @@ namespace UI.Window
         public Color InactiveColour;
         public int MaximumCharacters;
         public bool NumbersOnly;
+        public bool ClearOnActive;
         
         [Header("Components")]
         public TextMeshProUGUI TMPText;
@@ -35,6 +36,11 @@ namespace UI.Window
         public string GetStringValue()
         {
             return TMPText.text;
+        }
+
+        public void SetStringValue(string value)
+        {
+            TMPText.text = value;
         }
         
         #endregion
@@ -82,7 +88,8 @@ namespace UI.Window
         private IEnumerator ReadKeyboard()
         {
             _cachedValue = TMPText.text;
-            TMPText.text = "|";
+            if (ClearOnActive) TMPText.text = "|";
+            else TMPText.text += "|";
             ImageUI.color = ActiveColour;
             var characterAdded = false;
 
