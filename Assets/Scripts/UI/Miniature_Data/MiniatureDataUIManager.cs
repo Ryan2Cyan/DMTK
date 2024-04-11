@@ -4,6 +4,7 @@ using TMPro;
 using UI.Miniature_Radial;
 using UI.Utility;
 using UnityEngine;
+using UnityEngine.UI;
 using Utility;
 
 namespace UI.Miniature_Data
@@ -13,6 +14,7 @@ namespace UI.Miniature_Data
         [Header("Components")]
         public MiniatureData MiniatureData;
         public TextMeshProUGUI StatusConditionsTMP;
+        public Slider HitPointsSlider;
 
         private Animator _animator;
         private CullTMPComponents _cullImageComponentsScript;
@@ -39,7 +41,8 @@ namespace UI.Miniature_Data
         private void OnDestroy()
         {
             // Unsubscribe to events:
-            RadialManager.OnStatusConditionChanged -= StatusConditionChanged;
+            RadialManager.OnStatusConditionChanged -= OnStatusConditionChanged;
+            RadialManager.OnHitPointsChanged -= OnHitPointsChanged;
         }
 
         #endregion
@@ -57,10 +60,14 @@ namespace UI.Miniature_Data
             _animator = GetComponent<Animator>();
             
             // Subscribe to events:
-            RadialManager.OnStatusConditionChanged += StatusConditionChanged;
+            RadialManager.OnStatusConditionChanged += OnStatusConditionChanged;
+            RadialManager.OnHitPointsChanged += OnHitPointsChanged;
+            
+            // Set default values:
+            OnHitPointsChanged(miniatureData);
         }
         
-        private void StatusConditionChanged(MiniatureData miniatureData)
+        private void OnStatusConditionChanged(MiniatureData miniatureData)
         {
             if (miniatureData != MiniatureData) return;
             
@@ -87,6 +94,13 @@ namespace UI.Miniature_Data
             StatusConditionsTMP.text = message;
         }
 
+        private void OnHitPointsChanged(MiniatureData miniatureData)
+        {
+            if (miniatureData != MiniatureData) return;
+            HitPointsSlider.maxValue = miniatureData.MaximumHitPoints;
+            HitPointsSlider.value = miniatureData.CurrentHitPoints;
+        }
+        
         #region EventFunctions
 
         private void OnTabDown()

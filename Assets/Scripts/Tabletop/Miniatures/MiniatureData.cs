@@ -41,5 +41,10 @@ namespace Tabletop.Miniatures
         public int MaximumHitPoints;
         public int CurrentHitPoints;
         public int ExhaustionLevel;
+
+        private void Awake()
+        {
+            if (MaximumHitPoints <= 0) MaximumHitPoints = 100;
+        }
     }
 }

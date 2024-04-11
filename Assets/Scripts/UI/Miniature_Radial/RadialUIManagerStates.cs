@@ -25,6 +25,10 @@ namespace UI.Miniature_Radial
             radialManager.MainRadial.MenuAnimator.SetBool(Enabled, true);
             radialManager.EnableWorldSpaceDisplay();
             radialManager.MainRadial.cullEventScript.Target = radialManager.SelectedMiniData.transform;
+            
+            // Update all data to match the selected miniature:
+            radialManager.SetMaxHitPoints();
+            radialManager.SetCurrentHitPoints();
         }
 
         public void OnExit(RadialManager radialManager)

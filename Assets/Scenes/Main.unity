@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllUIElements: []
-  DebugEnabled: 0
+  DebugEnabled: 1
 --- !u!4 &129980488
 Transform:
   m_ObjectHideFlags: 0
@@ -1663,6 +1663,14 @@ PrefabInstance:
       propertyPath: Target
       value: 
       objectReference: {fileID: 730943044}
+    - target: {fileID: 6345331208632163857, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: FixedSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345331208632163857, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: FixedPosition
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6427044870019938228, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: Camera
       value: 

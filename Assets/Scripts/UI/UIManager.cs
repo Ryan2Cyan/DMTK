@@ -92,7 +92,6 @@ namespace UI
             EventSystem.current.RaycastAll(_pointerEventData, results);
             foreach (var result in results)
             {
-                if(DebugEnabled) Debug.Log(result.gameObject.name);
                 if (!result.gameObject.CompareTag("Interactable_UI")) continue;
                 
                 var newElement = result.gameObject.GetComponent<IInputElement>();
@@ -104,6 +103,7 @@ namespace UI
                 newElement.OnMouseEnter();
                 if(!_isUIElementSelected) DMTKUISelected?.Invoke();
                 _isUIElementSelected = true;
+                if(DebugEnabled) Debug.Log(result.gameObject.name);
                 return;
             }
             

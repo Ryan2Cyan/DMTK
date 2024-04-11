@@ -1,3 +1,4 @@
+using System;
 using Tabletop.Miniatures;
 using TMPro;
 using UI.UI_Interactables;
@@ -32,11 +33,10 @@ namespace UI.Miniature_Radial
         private readonly RadialManagerStatusConditions _statusConditionsState = new();
 
         private DisplayUIInWorldSpace _uiInWorldSpaceScript;
-        private bool _iconPressed;
-        private bool _miniPressed;
         
         public delegate void DMTKMiniatureDataAction(MiniatureData miniatureData);
         public static event DMTKMiniatureDataAction OnStatusConditionChanged;
+        public static event DMTKMiniatureDataAction OnHitPointsChanged;
         
         private static readonly int Enabled = Animator.StringToHash("Enabled");
 
@@ -54,11 +54,6 @@ namespace UI.Miniature_Radial
         #endregion
 
         #region PublicFunctions
-
-        public void IconPressed()
-        {
-            _iconPressed = true;
-        }
         
         public void ChangeState_UnityEvent(int state)
         {
@@ -68,7 +63,6 @@ namespace UI.Miniature_Radial
                 case 1: ChangeState(_mainState); break;
                 case 2: ChangeState(_statusConditionsState); break;
             }
-            IconPressed();
         }
         
         public void MiniatureClicked(MiniatureData miniature)
@@ -135,11 +129,16 @@ namespace UI.Miniature_Radial
             CurrentHealthSlider.maxValue = newMaxHitPoints;
 
             // Clamp current hit points if above the new maximum: 
-            if (newMaxHitPoints >= SelectedMiniData.CurrentHitPoints) return;
+            if (newMaxHitPoints >= SelectedMiniData.CurrentHitPoints)
+            {
+                OnHitPointsChanged?.Invoke(SelectedMiniData);
+                return;
+            }
             
             SelectedMiniData.CurrentHitPoints = newMaxHitPoints; 
             CurrentHealthTMP.text = MaximumHealthKeyboardInput.GetStringValue();
             CurrentHealthSlider.value = (float)SelectedMiniData.CurrentHitPoints / newMaxHitPoints;
+            OnHitPointsChanged?.Invoke(SelectedMiniData);
         }
 
         public void SetCurrentHitPoints()
@@ -147,6 +146,7 @@ namespace UI.Miniature_Radial
             var newCurrentHitPoints = (int)CurrentHealthSlider.value;
             SelectedMiniData.CurrentHitPoints = newCurrentHitPoints;
             CurrentHealthTMP.text = newCurrentHitPoints.ToString();
+            OnHitPointsChanged?.Invoke(SelectedMiniData);
         }
         
         #endregion
