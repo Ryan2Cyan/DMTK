@@ -31,6 +31,25 @@ namespace UI.Miniature_Radial
 
         #endregion
 
+        #region PublicFunctions
+
+        public void TurnOff()
+        {
+            OnUnhighlight();
+            Toggle = false;
+            _baseImage.color = BaseToggleOffColour;
+            _iconImage.color = IconToggleOffColour;
+        }
+        
+        public void TurnOn()
+        {
+            OnHighlight();
+            Toggle = true;
+            _baseImage.color = BaseHighlightedOnColour;
+            _iconImage.color = IconHighlightedOnColour;
+        }
+
+        #endregion
         #region OverrideFunctions
 
         protected override void OnHighlight()

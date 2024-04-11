@@ -19,6 +19,15 @@ namespace Tabletop.Miniatures
         Poisoned = 11,
         Stunned = 12
     }
+
+    public enum MiniatureType
+    {
+        Player = 0,
+        NPC = 1,
+        Monster = 2,
+        Prop = 3
+    }
+    
     public class MiniatureData : MonoBehaviour
     {
         public readonly Dictionary<StatusCondition, bool> StatusConditions = new()
@@ -38,6 +47,7 @@ namespace Tabletop.Miniatures
             { StatusCondition.Stunned, false},
         };
 
+        public MiniatureType Type;
         public string Label;
         public int MaximumHitPoints;
         public int CurrentHitPoints;

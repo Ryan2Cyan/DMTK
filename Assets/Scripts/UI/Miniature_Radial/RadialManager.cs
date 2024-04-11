@@ -1,4 +1,3 @@
-using System;
 using Tabletop.Miniatures;
 using TMPro;
 using UI.UI_Interactables;
@@ -21,6 +20,7 @@ namespace UI.Miniature_Radial
         public ReadKeyboardInput LabelKeyboardInput;
         public DMTKSlider CurrentHealthSlider;
         public TextMeshProUGUI CurrentHealthTMP;
+        public DMTKToggleOptions TypeToggleOptions;
 
         [Header("Radial Icons")] 
         public RadialInteger ExhaustionRadialIcon;
@@ -122,6 +122,7 @@ namespace UI.Miniature_Radial
             
             // Set label UI:
             LabelKeyboardInput.SetStringValue(SelectedMiniData.Label);
+            // TypeToggleOptions.SelectOption((int)SelectedMiniData.Type);
         }
         
         public void ToggleStatusCondition(int statusCondition)
@@ -168,6 +169,11 @@ namespace UI.Miniature_Radial
         {
             SelectedMiniData.Label = LabelKeyboardInput.GetStringValue(); 
             OnLabelChanged?.Invoke(SelectedMiniData);
+        }
+
+        public void SetType()
+        {
+            SelectedMiniData.Type = (MiniatureType)TypeToggleOptions.SelectedIndex;
         }
         
         #endregion

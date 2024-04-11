@@ -79,8 +79,7 @@ namespace UI.Miniature_Radial
             if (!Interactable) return;
             OnUnhighlight();
         }
-
-        public void OnMouseUp() { }
+        
         public void OnDrag() { }
         
         #endregion

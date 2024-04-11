@@ -385,6 +385,7 @@ MonoBehaviour:
   InactiveColour: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 0}
   MaximumCharacters: 28
   NumbersOnly: 0
+  ClearOnActive: 0
   TMPText: {fileID: 7996512922888350700}
   ImageUI: {fileID: 6498131369466115871}
   OnNewValueSet:
@@ -532,7 +533,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'HP Tracker Settings:'
+  m_text: Title
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 666f60eb5caaeef45b51f7d07ed8b77a, type: 2}
   m_sharedMaterial: {fileID: 654277090306158998, guid: 666f60eb5caaeef45b51f7d07ed8b77a, type: 2}

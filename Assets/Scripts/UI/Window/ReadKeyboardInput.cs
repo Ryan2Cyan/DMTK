@@ -66,7 +66,6 @@ namespace UI.Window
             else Deactivate();
         }
 
-        public void OnMouseUp() { }
         public void OnDrag() { }
         
         #endregion
