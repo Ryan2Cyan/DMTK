@@ -268,10 +268,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: 
   IsTitleDisplayLeft: 0
+  DisabledBaseColour: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+  DisabledIconColour: {r: 0, g: 0, b: 0, a: 1}
   OnPressEvent:
     m_PersistentCalls:
       m_Calls: []
   Interactable: 0
+  Disabled: 0
   BaseHighlightedColour: {r: 0, g: 0, b: 0, a: 1}
   BaseUnhighlightedColour: {r: 1, g: 1, b: 1, a: 1}
   IconHighlightedColour: {r: 1, g: 1, b: 1, a: 1}

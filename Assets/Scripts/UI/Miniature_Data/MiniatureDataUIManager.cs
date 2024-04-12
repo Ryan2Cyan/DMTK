@@ -45,6 +45,7 @@ namespace UI.Miniature_Data
             RadialManager.OnStatusConditionChanged -= OnStatusConditionChanged;
             RadialManager.OnHitPointsChanged -= OnHitPointsChanged;
             RadialManager.OnLabelChanged -= OnLabelChanged;
+            RadialManager.OnTypeChanged -= OnTypeChanged;
         }
 
         #endregion
@@ -65,6 +66,7 @@ namespace UI.Miniature_Data
             RadialManager.OnStatusConditionChanged += OnStatusConditionChanged;
             RadialManager.OnHitPointsChanged += OnHitPointsChanged;
             RadialManager.OnLabelChanged += OnLabelChanged;
+            RadialManager.OnTypeChanged += OnTypeChanged;
             
             // Set default values:
             OnHitPointsChanged(miniatureData);
@@ -110,6 +112,11 @@ namespace UI.Miniature_Data
             if (miniatureData != MiniatureData) return;
             LabelTMP.text = miniatureData.Label;
         }
+
+        private void OnTypeChanged(MiniatureData miniatureData)
+        {
+            ToggleHideAll(miniatureData.Type == MiniatureType.Prop);
+        }
         
         #region EventFunctions
 
@@ -123,6 +130,13 @@ namespace UI.Miniature_Data
             _animator.SetBool(ShowTabData, false);
         }
 
+        private void ToggleHideAll(bool toggle)
+        {
+            StatusConditionsTMP.enabled = !toggle;
+            LabelTMP.enabled = !toggle;
+            HitPointsSlider.enabled = !toggle;
+            _animator.enabled = !toggle;
+        }
         #endregion
 
         public void Instantiate() { }

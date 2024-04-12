@@ -7,7 +7,7 @@ namespace UI.UI_Interactables
 {
     public class DMTKToggleOptions : MonoBehaviour
     {
-        public List<RadialToggle> RadialToggles;
+        public List<RadialToggleOptions> RadialToggles;
         public int SelectedIndex;
         public UnityEvent OnOptionSelected;
 

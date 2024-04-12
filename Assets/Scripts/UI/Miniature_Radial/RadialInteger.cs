@@ -28,7 +28,12 @@ namespace UI.Miniature_Radial
 
         protected override void Awake()
         {
-            base.Awake();
+            OnInitialise();
+        }
+
+        protected override void OnInitialise()
+        {
+            base.OnInitialise();
             _valueText = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
             _valueText.color = ValueTextColour;
             _valueText.enabled = false;

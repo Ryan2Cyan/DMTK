@@ -23,37 +23,25 @@ namespace UI.Miniature_Radial
 
         protected override void Awake()
         {
-            base.Awake();
-            _baseImage.color = BaseToggleOffColour;
-            _iconImage.color = IconToggleOffColour;
-            Toggle = false;
+            OnInitialise();
         }
 
         #endregion
-
-        #region PublicFunctions
-
-        public void TurnOff()
-        {
-            OnUnhighlight();
-            Toggle = false;
-            _baseImage.color = BaseToggleOffColour;
-            _iconImage.color = IconToggleOffColour;
-        }
         
-        public void TurnOn()
-        {
-            OnHighlight();
-            Toggle = true;
-            _baseImage.color = BaseHighlightedOnColour;
-            _iconImage.color = IconHighlightedOnColour;
-        }
-
-        #endregion
         #region OverrideFunctions
+
+        protected override void OnInitialise()
+        {
+            if (_initialised) return;
+            base.OnInitialise();
+            _baseImage.color = BaseToggleOffColour;
+            _iconImage.color = IconToggleOffColour;
+            Toggle = false;
+        }
 
         protected override void OnHighlight()
         {
+            if (Disabled) return;
             base.OnHighlight();
             _baseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
             _iconImage.color = Toggle ? IconHighlightedOnColour : IconHighlightedOffColour;
@@ -62,6 +50,7 @@ namespace UI.Miniature_Radial
 
         protected override void OnUnhighlight()
         {
+            if (Disabled) return;
             base.OnUnhighlight();
             _baseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
             _iconImage.color = Toggle ? IconToggleOnColour : IconToggleOffColour;
@@ -70,6 +59,7 @@ namespace UI.Miniature_Radial
 
         protected override void OnPress()
         {
+            if (Disabled) return;
             base.OnPress();
             Toggle = !Toggle;
             if (Highlighted)

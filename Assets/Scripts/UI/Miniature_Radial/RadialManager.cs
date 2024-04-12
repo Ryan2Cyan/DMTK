@@ -1,3 +1,4 @@
+using System;
 using Tabletop.Miniatures;
 using TMPro;
 using UI.UI_Interactables;
@@ -22,7 +23,13 @@ namespace UI.Miniature_Radial
         public TextMeshProUGUI CurrentHealthTMP;
         public DMTKToggleOptions TypeToggleOptions;
 
-        [Header("Radial Icons")] 
+        [Header("Main Menu Radial Icons")] 
+        public RadialBasic HitPointSettingsIcon;
+        public RadialBasic CharacterSheetIcon;
+        public RadialBasic StatusConditionsIcon;
+        public RadialBasic LabelIcon;
+        
+        [Header("Status Condition Radial Icons")] 
         public RadialInteger ExhaustionRadialIcon;
         
         [HideInInspector] public MiniatureData SelectedMiniData;
@@ -40,6 +47,7 @@ namespace UI.Miniature_Radial
         public static event DMTKMiniatureDataAction OnStatusConditionChanged;
         public static event DMTKMiniatureDataAction OnHitPointsChanged;
         public static event DMTKMiniatureDataAction OnLabelChanged;
+        public static event DMTKMiniatureDataAction OnTypeChanged;
         
         private static readonly int Enabled = Animator.StringToHash("Enabled");
 
@@ -122,7 +130,7 @@ namespace UI.Miniature_Radial
             
             // Set label UI:
             LabelKeyboardInput.SetStringValue(SelectedMiniData.Label);
-            // TypeToggleOptions.SelectOption((int)SelectedMiniData.Type);
+            TypeToggleOptions.SelectOption((int)SelectedMiniData.Type);
         }
         
         public void ToggleStatusCondition(int statusCondition)
@@ -174,6 +182,21 @@ namespace UI.Miniature_Radial
         public void SetType()
         {
             SelectedMiniData.Type = (MiniatureType)TypeToggleOptions.SelectedIndex;
+
+            if (SelectedMiniData.Type == MiniatureType.Prop)
+            {
+                StatusConditionsIcon.OnToggleDisable(true);
+                HitPointSettingsIcon.OnToggleDisable(true);
+                CharacterSheetIcon.OnToggleDisable(true);   
+            }
+            else
+            {
+                StatusConditionsIcon.OnToggleDisable(false);
+                HitPointSettingsIcon.OnToggleDisable(false);
+                CharacterSheetIcon.OnToggleDisable(false);
+            }
+            
+            OnTypeChanged?.Invoke(SelectedMiniData);
         }
         
         #endregion

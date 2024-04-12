@@ -98,6 +98,10 @@ MonoBehaviour:
   CurrentHealthSlider: {fileID: 2990579258359096463}
   CurrentHealthTMP: {fileID: 3427561888175507805}
   TypeToggleOptions: {fileID: 7732732096535847877}
+  HitPointSettingsIcon: {fileID: 3407979702498122784}
+  CharacterSheetIcon: {fileID: 6503416917487875204}
+  StatusConditionsIcon: {fileID: 3393335572224137733}
+  LabelIcon: {fileID: 3935099630827224547}
   ExhaustionRadialIcon: {fileID: 523154546152362246}
   SelectedMiniData: {fileID: 0}
 --- !u!114 &6427044870019938228
@@ -1225,6 +1229,50 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3393335572224137733 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7385450433975864190, guid: c6bd119b1d4faa749b2e6ae42e7c9ced, type: 3}
+  m_PrefabInstance: {fileID: 5290015094388756859}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0543bd7dcd8fb5e42b77a923d145ea6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3407979702498122784 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7359580843965893979, guid: c6bd119b1d4faa749b2e6ae42e7c9ced, type: 3}
+  m_PrefabInstance: {fileID: 5290015094388756859}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0543bd7dcd8fb5e42b77a923d145ea6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3935099630827224547 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9220452767955758232, guid: c6bd119b1d4faa749b2e6ae42e7c9ced, type: 3}
+  m_PrefabInstance: {fileID: 5290015094388756859}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0543bd7dcd8fb5e42b77a923d145ea6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6503416917487875204 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1380687028443571711, guid: c6bd119b1d4faa749b2e6ae42e7c9ced, type: 3}
+  m_PrefabInstance: {fileID: 5290015094388756859}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0543bd7dcd8fb5e42b77a923d145ea6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8873699652338811339 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3624375579292635312, guid: c6bd119b1d4faa749b2e6ae42e7c9ced, type: 3}
@@ -1272,7 +1320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 847575361201650181, guid: 5e5f2c8bc19bb10469266b0ee3ba5742, type: 3}
       propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 847575361201650181, guid: 5e5f2c8bc19bb10469266b0ee3ba5742, type: 3}
       propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
