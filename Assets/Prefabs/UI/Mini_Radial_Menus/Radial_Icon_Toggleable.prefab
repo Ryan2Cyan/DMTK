@@ -291,10 +291,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Test
   IsTitleDisplayLeft: 0
+  DisabledBaseColour: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 1}
+  DisabledIconColour: {r: 0, g: 0, b: 0, a: 1}
   OnPressEvent:
     m_PersistentCalls:
       m_Calls: []
   Interactable: 0
+  Disabled: 0
   BaseToggleOnColour: {r: 0.8784314, g: 0.92941177, b: 0.42745098, a: 1}
   BaseToggleOffColour: {r: 0.40784314, g: 0.40784314, b: 0.40784314, a: 1}
   BaseHighlightedOnColour: {r: 0, g: 0, b: 0, a: 1}

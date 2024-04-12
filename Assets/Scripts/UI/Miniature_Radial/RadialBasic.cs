@@ -34,8 +34,8 @@ namespace UI.Miniature_Radial
 
         protected override void OnPress()
         {
-            if (Disabled) return;
             base.OnPress();
+            if (Disabled) return;
             _baseImage.color = BaseUnhighlightedColour;
             _iconImage.color = IconUnhighlightedColour;
         }

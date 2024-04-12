@@ -24,9 +24,9 @@ namespace UI.Miniature_Radial
         
         protected Image _baseImage;
         protected Image _iconImage;
-        protected bool _initialised;
         protected Animator _titleAnimator;
         private TextMeshProUGUI _titleTMP;
+        protected bool _initialised;
         
         private static readonly int Right = Animator.StringToHash("Right");
         protected static readonly int Active = Animator.StringToHash("Active");
@@ -47,6 +47,7 @@ namespace UI.Miniature_Radial
         
         public virtual void OnToggleDisable(bool toggle)
         {
+            if(!_initialised) OnInitialise();
             Disabled = toggle;
             if (toggle)
             {

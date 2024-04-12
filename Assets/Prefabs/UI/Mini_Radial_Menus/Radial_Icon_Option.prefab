@@ -444,8 +444,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Opinion 1
   IsTitleDisplayLeft: 1
-  DisabledBaseColour: {r: 0, g: 0, b: 0, a: 0}
-  DisabledIconColour: {r: 0, g: 0, b: 0, a: 0}
+  DisabledBaseColour: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 1}
+  DisabledIconColour: {r: 0, g: 0, b: 0, a: 1}
   OnPressEvent:
     m_PersistentCalls:
       m_Calls: []
