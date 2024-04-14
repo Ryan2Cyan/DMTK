@@ -24,15 +24,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MousePosition",
-                    "type": "Value",
-                    "id": "45c50c9a-75f4-440f-bafe-06c59a77630a",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "MouseHold",
                     "type": "Button",
                     "id": "74eeea71-0112-47b1-aec9-299e1e2f7295",
@@ -49,6 +40,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MousePosition",
+                    "type": "Value",
+                    "id": "45c50c9a-75f4-440f-bafe-06c59a77630a",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Scroll",
+                    "type": "Value",
+                    "id": "f8125a06-11ec-4349-acc7-e3dc6f2ddca6",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -76,17 +85,6 @@
                 },
                 {
                     "name": "",
-                    "id": "3226b5fe-f52c-4a29-bd4e-d07b4cc095ff",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MousePosition",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "da07cb64-c313-464f-9eb6-04da24d17817",
                     "path": "<Mouse>/leftButton",
                     "interactions": "Hold",
@@ -104,6 +102,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "TabDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fc2fb2c8-9971-4739-aaf2-31fc01f602c4",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3226b5fe-f52c-4a29-bd4e-d07b4cc095ff",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

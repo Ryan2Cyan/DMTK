@@ -61,6 +61,7 @@ namespace UI.Window
             _window = GetComponentInParent<Window>();
             _windowRectTransform = _window.GetRectTransform();
             _canvas = _window.GetCanvas();
+            _active = true;
             
             // Clamp to minimum size is overflowing:
             if (_windowRectTransform.sizeDelta.x / _canvas.scaleFactor < _window.MinimumSize.x / _canvas.scaleFactor)

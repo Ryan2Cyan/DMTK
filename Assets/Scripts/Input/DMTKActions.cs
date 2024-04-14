@@ -46,15 +46,6 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""MousePosition"",
-                    ""type"": ""Value"",
-                    ""id"": ""45c50c9a-75f4-440f-bafe-06c59a77630a"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""MouseHold"",
                     ""type"": ""Button"",
                     ""id"": ""74eeea71-0112-47b1-aec9-299e1e2f7295"",
@@ -71,6 +62,24 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""45c50c9a-75f4-440f-bafe-06c59a77630a"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""f8125a06-11ec-4349-acc7-e3dc6f2ddca6"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -98,17 +107,6 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3226b5fe-f52c-4a29-bd4e-d07b4cc095ff"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MousePosition"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""da07cb64-c313-464f-9eb6-04da24d17817"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": ""Hold"",
@@ -128,6 +126,28 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
                     ""action"": ""TabDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc2fb2c8-9971-4739-aaf2-31fc01f602c4"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3226b5fe-f52c-4a29-bd4e-d07b4cc095ff"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -138,9 +158,10 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
         m_DMTKPlayer = asset.FindActionMap("DMTKPlayer", throwIfNotFound: true);
         m_DMTKPlayer_ConservativeResize = m_DMTKPlayer.FindAction("ConservativeResize", throwIfNotFound: true);
         m_DMTKPlayer_MouseDown = m_DMTKPlayer.FindAction("MouseDown", throwIfNotFound: true);
-        m_DMTKPlayer_MousePosition = m_DMTKPlayer.FindAction("MousePosition", throwIfNotFound: true);
         m_DMTKPlayer_MouseHold = m_DMTKPlayer.FindAction("MouseHold", throwIfNotFound: true);
         m_DMTKPlayer_TabDown = m_DMTKPlayer.FindAction("TabDown", throwIfNotFound: true);
+        m_DMTKPlayer_MousePosition = m_DMTKPlayer.FindAction("MousePosition", throwIfNotFound: true);
+        m_DMTKPlayer_Scroll = m_DMTKPlayer.FindAction("Scroll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -204,18 +225,20 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
     private List<IDMTKPlayerActions> m_DMTKPlayerActionsCallbackInterfaces = new List<IDMTKPlayerActions>();
     private readonly InputAction m_DMTKPlayer_ConservativeResize;
     private readonly InputAction m_DMTKPlayer_MouseDown;
-    private readonly InputAction m_DMTKPlayer_MousePosition;
     private readonly InputAction m_DMTKPlayer_MouseHold;
     private readonly InputAction m_DMTKPlayer_TabDown;
+    private readonly InputAction m_DMTKPlayer_MousePosition;
+    private readonly InputAction m_DMTKPlayer_Scroll;
     public struct DMTKPlayerActions
     {
         private @DMTKActions m_Wrapper;
         public DMTKPlayerActions(@DMTKActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @ConservativeResize => m_Wrapper.m_DMTKPlayer_ConservativeResize;
         public InputAction @MouseDown => m_Wrapper.m_DMTKPlayer_MouseDown;
-        public InputAction @MousePosition => m_Wrapper.m_DMTKPlayer_MousePosition;
         public InputAction @MouseHold => m_Wrapper.m_DMTKPlayer_MouseHold;
         public InputAction @TabDown => m_Wrapper.m_DMTKPlayer_TabDown;
+        public InputAction @MousePosition => m_Wrapper.m_DMTKPlayer_MousePosition;
+        public InputAction @Scroll => m_Wrapper.m_DMTKPlayer_Scroll;
         public InputActionMap Get() { return m_Wrapper.m_DMTKPlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -231,15 +254,18 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
             @MouseDown.started += instance.OnMouseDown;
             @MouseDown.performed += instance.OnMouseDown;
             @MouseDown.canceled += instance.OnMouseDown;
-            @MousePosition.started += instance.OnMousePosition;
-            @MousePosition.performed += instance.OnMousePosition;
-            @MousePosition.canceled += instance.OnMousePosition;
             @MouseHold.started += instance.OnMouseHold;
             @MouseHold.performed += instance.OnMouseHold;
             @MouseHold.canceled += instance.OnMouseHold;
             @TabDown.started += instance.OnTabDown;
             @TabDown.performed += instance.OnTabDown;
             @TabDown.canceled += instance.OnTabDown;
+            @MousePosition.started += instance.OnMousePosition;
+            @MousePosition.performed += instance.OnMousePosition;
+            @MousePosition.canceled += instance.OnMousePosition;
+            @Scroll.started += instance.OnScroll;
+            @Scroll.performed += instance.OnScroll;
+            @Scroll.canceled += instance.OnScroll;
         }
 
         private void UnregisterCallbacks(IDMTKPlayerActions instance)
@@ -250,15 +276,18 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
             @MouseDown.started -= instance.OnMouseDown;
             @MouseDown.performed -= instance.OnMouseDown;
             @MouseDown.canceled -= instance.OnMouseDown;
-            @MousePosition.started -= instance.OnMousePosition;
-            @MousePosition.performed -= instance.OnMousePosition;
-            @MousePosition.canceled -= instance.OnMousePosition;
             @MouseHold.started -= instance.OnMouseHold;
             @MouseHold.performed -= instance.OnMouseHold;
             @MouseHold.canceled -= instance.OnMouseHold;
             @TabDown.started -= instance.OnTabDown;
             @TabDown.performed -= instance.OnTabDown;
             @TabDown.canceled -= instance.OnTabDown;
+            @MousePosition.started -= instance.OnMousePosition;
+            @MousePosition.performed -= instance.OnMousePosition;
+            @MousePosition.canceled -= instance.OnMousePosition;
+            @Scroll.started -= instance.OnScroll;
+            @Scroll.performed -= instance.OnScroll;
+            @Scroll.canceled -= instance.OnScroll;
         }
 
         public void RemoveCallbacks(IDMTKPlayerActions instance)
@@ -280,8 +309,9 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
     {
         void OnConservativeResize(InputAction.CallbackContext context);
         void OnMouseDown(InputAction.CallbackContext context);
-        void OnMousePosition(InputAction.CallbackContext context);
         void OnMouseHold(InputAction.CallbackContext context);
         void OnTabDown(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
     }
 }
