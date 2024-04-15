@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1523615070396169250, guid: 09952401106fd524f84776775493fe4e, type: 3}
       propertyPath: m_RootOrder
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1523615070396169250, guid: 09952401106fd524f84776775493fe4e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -82,15 +82,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1523615070396169250, guid: 09952401106fd524f84776775493fe4e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1523615070396169250, guid: 09952401106fd524f84776775493fe4e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1523615070396169250, guid: 09952401106fd524f84776775493fe4e, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1523615070396169250, guid: 09952401106fd524f84776775493fe4e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -106,7 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2620865663559927042, guid: 09952401106fd524f84776775493fe4e, type: 3}
       propertyPath: m_Name
-      value: Pickaxe Variant
+      value: Pickaxe_Mini
       objectReference: {fileID: 0}
     - target: {fileID: 5312339286412024195, guid: 09952401106fd524f84776775493fe4e, type: 3}
       propertyPath: m_Mesh
