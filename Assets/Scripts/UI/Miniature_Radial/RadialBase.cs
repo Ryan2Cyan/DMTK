@@ -35,6 +35,7 @@ namespace UI.Miniature_Radial
         protected virtual void Awake()
         {
             OnInitialise();
+            OnToggleDisable(Disabled);
         }
 
         protected virtual void OnEnable()

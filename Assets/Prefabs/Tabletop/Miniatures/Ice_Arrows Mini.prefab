@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46db024b70d3a043acb184d7bc1d79b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.39
+      value: 0.638
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46db024b70d3a043acb184d7bc1d79b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -108,7 +108,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46db024b70d3a043acb184d7bc1d79b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.39
+      value: 0.589
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46db024b70d3a043acb184d7bc1d79b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -151,7 +151,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f46db024b70d3a043acb184d7bc1d79b, type: 3}
---- !u!4 &1390111103613797628 stripped
+--- !u!4 &1495216871090643728 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f46db024b70d3a043acb184d7bc1d79b, type: 3}
   m_PrefabInstance: {fileID: 1390111103613797627}
@@ -210,7 +210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2620865663559927042, guid: 09952401106fd524f84776775493fe4e, type: 3}
       propertyPath: m_Name
-      value: Ice_Arrows Variant
+      value: Ice_Arrows Mini
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -221,7 +221,7 @@ PrefabInstance:
       addedObject: {fileID: 5744759330878012758}
     - targetCorrespondingSourceObject: {fileID: 1523615070396169250, guid: 09952401106fd524f84776775493fe4e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1390111103613797628}
+      addedObject: {fileID: 1495216871090643728}
     - targetCorrespondingSourceObject: {fileID: 1523615070396169250, guid: 09952401106fd524f84776775493fe4e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 206456622017776579}
@@ -262,7 +262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46db024b70d3a043acb184d7bc1d79b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.39
+      value: 0.638
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46db024b70d3a043acb184d7bc1d79b, type: 3}
       propertyPath: m_LocalPosition.z

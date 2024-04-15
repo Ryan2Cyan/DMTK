@@ -16,7 +16,37 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 301683ef1c71f6d4fac2c5f3e85a8d55
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 20c946c26a8770f409d74e34e221a0c6
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Barrel_Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f3f62acaf16f61428783940797f73b1
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Ice_Arrows Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 631fd806c91402a469974e057726f61a
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Pickaxe_Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 690c167d65d6ac24eb95994be4a609c9
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Plain_Arrows_Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 276891c393f3ffc4c82d98a8082bcee0
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Sword_Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 00380757cd6804d48b542e48e866952f
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Tree_Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e1dbf33d35326b54ca35e30d16299faf, type: 2}
   m_SchemaSet:

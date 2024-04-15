@@ -173,10 +173,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5027895031093655682}
     m_Modifications:
+    - target: {fileID: 2423334306498703336, guid: 760d1460b43f02b48bb1db4643e41f45, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 17fa5fa080c109541bba6d3e690b7f37, type: 3}
+    - target: {fileID: 3263402097538324081, guid: 760d1460b43f02b48bb1db4643e41f45, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f65dfc0746b4f2c4186c0fa81b6ecde8, type: 3}
+    - target: {fileID: 4173713261977414393, guid: 760d1460b43f02b48bb1db4643e41f45, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ade3bf81bc441b24991050a65bf1bc9f, type: 3}
     - target: {fileID: 4343763186692885253, guid: 760d1460b43f02b48bb1db4643e41f45, type: 3}
       propertyPath: m_Name
       value: Window_Content_Library
       objectReference: {fileID: 0}
+    - target: {fileID: 4527719567220938968, guid: 760d1460b43f02b48bb1db4643e41f45, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c6e8ce1956a33a4409e0e1f01c96ecb7, type: 3}
     - target: {fileID: 7096747138606554462, guid: 760d1460b43f02b48bb1db4643e41f45, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -261,6 +277,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7738268165346637206, guid: 760d1460b43f02b48bb1db4643e41f45, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 330f3f633e090424196b25b6d4967388, type: 3}
+    - target: {fileID: 8297211291888506633, guid: 760d1460b43f02b48bb1db4643e41f45, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 13fd78e38fa67814e9900b526967522c, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

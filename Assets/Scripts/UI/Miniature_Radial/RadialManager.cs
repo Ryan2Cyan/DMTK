@@ -1,4 +1,3 @@
-using System;
 using Tabletop.Miniatures;
 using TMPro;
 using UI.UI_Interactables;
@@ -187,13 +186,13 @@ namespace UI.Miniature_Radial
             {
                 StatusConditionsIcon.OnToggleDisable(true);
                 HitPointSettingsIcon.OnToggleDisable(true);
-                CharacterSheetIcon.OnToggleDisable(true);   
+                // CharacterSheetIcon.OnToggleDisable(true);   
             }
             else
             {
                 StatusConditionsIcon.OnToggleDisable(false);
                 HitPointSettingsIcon.OnToggleDisable(false);
-                CharacterSheetIcon.OnToggleDisable(false);
+                // CharacterSheetIcon.OnToggleDisable(false);
             }
             
             OnTypeChanged?.Invoke(SelectedMiniData);

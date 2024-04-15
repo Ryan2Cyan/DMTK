@@ -585,6 +585,10 @@ PrefabInstance:
       value: Radial_Icon_Option_3
       objectReference: {fileID: 0}
     - target: {fileID: 6628237925282365501, guid: 10cff083df21bc643812f690e63cdcfd, type: 3}
+      propertyPath: IsTitleDisplayLeft
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628237925282365501, guid: 10cff083df21bc643812f690e63cdcfd, type: 3}
       propertyPath: BaseToggleOnColour.b
       value: 0.2627451
       objectReference: {fileID: 0}
@@ -961,6 +965,10 @@ PrefabInstance:
     - target: {fileID: 6484608857655080332, guid: 10cff083df21bc643812f690e63cdcfd, type: 3}
       propertyPath: m_Name
       value: Radial_Icon_Option_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628237925282365501, guid: 10cff083df21bc643812f690e63cdcfd, type: 3}
+      propertyPath: IsTitleDisplayLeft
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6628237925282365501, guid: 10cff083df21bc643812f690e63cdcfd, type: 3}
       propertyPath: BaseToggleOnColour.b
