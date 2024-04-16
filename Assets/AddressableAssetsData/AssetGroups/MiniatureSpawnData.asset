@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: MiniatureSpawnData
+  m_EditorClassIdentifier: 
+  m_GroupName: MiniatureSpawnData
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 2b41e364024fce64298d1377ab8bd7d6
+  m_SerializeEntries:
+  - m_GUID: 643c3d7c7a0311f488390606dade4ca1
+    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Barrel.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniatureSpawnData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a74b462dc1591048ba76fcb68643b2f
+    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Ice_Arrows.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniatureSpawnData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 41aecfd1ff4cc194da6cca9c6b6727e6
+    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Pickaxe.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniatureSpawnData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c52813ca152d6ab4eb76e1903374dcb6
+    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Plain_Arrows.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniatureSpawnData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1af992a4504a5cf4298b1ac4744dda21
+    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Sword.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniatureSpawnData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 12143657bbc236f47a9246c7fa11768d
+    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Tree.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniatureSpawnData
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e1dbf33d35326b54ca35e30d16299faf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: cc21003378c7515429aae674777cce28, type: 2}
+    - {fileID: 11400000, guid: 0810d5465937b4c428e810ce1e8cb88d, type: 2}

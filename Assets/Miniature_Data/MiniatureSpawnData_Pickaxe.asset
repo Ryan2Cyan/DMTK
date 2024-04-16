@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8176284c4555bc246aa6e9dcb2a816ac, type: 3}
+  m_Name: MiniatureSpawnData_Pickaxe
+  m_EditorClassIdentifier: 
+  Id: 17e6af51-3a99-42e2-b624-3c0f1a92f895
+  Prefab: {fileID: 280594315211660961, guid: 631fd806c91402a469974e057726f61a, type: 3}
+  ButtonImage: {fileID: 21300000, guid: 330f3f633e090424196b25b6d4967388, type: 3}
+  DefaultType: 3

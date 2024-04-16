@@ -42,14 +42,14 @@ namespace Tabletop.Tabletop
         #endregion
 
         #region PublicFunctions
+
         /// <summary>
         /// Attempts to assign the closest unoccupied cell within the grid. This is done via distance checks
         /// using each cell's central position and comparing it to the centre of the tabletop grid.
         /// </summary>
-        /// <param name="miniatureCell">Inputted cell to be assigned.</param>
-        /// <returns>True if a corresponding cell was found, false if all cells in the tabletop are occupied.</returns>
-        public bool AssignClosestToGridCentre(ref TabletopCell miniatureCell)
+        public void AssignClosestToGridCentre(out TabletopCell resultCell)
         {
+            TabletopCell closestCell = null;
             var closestDistance = float.PositiveInfinity;
             var tabletopPosition = transform.position;
             foreach (var rows in _gridCells)
@@ -60,11 +60,10 @@ namespace Tabletop.Tabletop
                     var distance = Vector2.Distance(new Vector2(tabletopPosition.x, tabletopPosition.z), cell.Position);
                     if (distance >= closestDistance) continue;
                     closestDistance = distance;
-                    miniatureCell = cell;
+                    closestCell = cell;
                 }
             }
-
-            return miniatureCell != null;
+            resultCell = closestCell;
         }
 
         /// <summary>Finds closest neighboring cell relative to a cell position.</summary>

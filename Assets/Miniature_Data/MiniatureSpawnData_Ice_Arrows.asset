@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8176284c4555bc246aa6e9dcb2a816ac, type: 3}
+  m_Name: MiniatureSpawnData_Ice_Arrows
+  m_EditorClassIdentifier: 
+  Id: 78a369a1-e5ec-45e1-a520-5a7bfd9fd4f4
+  Prefab: {fileID: 1813462533782516536, guid: 5f3f62acaf16f61428783940797f73b1, type: 3}
+  ButtonImage: {fileID: 21300000, guid: c6e8ce1956a33a4409e0e1f01c96ecb7, type: 3}
+  DefaultType: 3

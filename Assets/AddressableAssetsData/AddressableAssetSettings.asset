@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
-  m_DefaultGroup: 301683ef1c71f6d4fac2c5f3e85a8d55
+  m_DefaultGroup: 2b41e364024fce64298d1377ab8bd7d6
   m_currentHash:
     serializedVersion: 2
-    Hash: 2772f61104adf5e4ea4d058948729b3c
+    Hash: 4b69f045cc1120cdd7c0fba3be313371
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -45,8 +45,7 @@ MonoBehaviour:
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
   - {fileID: 11400000, guid: b6773f0d3a8468a41bf7b1fb894c23e5, type: 2}
-  - {fileID: 11400000, guid: 06f48a555cf90374d803d0bff37c7a50, type: 2}
-  - {fileID: 11400000, guid: 7c7980d1b9992c84a85e417f6e6fa953, type: 2}
+  - {fileID: 11400000, guid: 14a38e6da241494419048f0411c937db, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -90,6 +89,7 @@ MonoBehaviour:
     - default
     - MiniaturePrefab
     - MiniatureIcon
+    - MiniatureSpawnData
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: ef89b0dd28840cf43b8822ebe4f1a4a5, type: 2}

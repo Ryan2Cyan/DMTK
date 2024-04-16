@@ -15,15 +15,12 @@ namespace UI.UI_Interactables
 
         [Header("Components")] 
         public Image ButtonOverlayImage;
-        public Image BaseImage;
-        [HideInInspector] public RectTransform RectTransform;
 
         #region UnityFunctions
 
-        private void Awake()
+        protected virtual void Awake()
         {
             ButtonOverlayImage.color = UnhighlightedColour;
-            RectTransform = GetComponent<RectTransform>();
         }
 
         #endregion
@@ -40,7 +37,7 @@ namespace UI.UI_Interactables
             ButtonOverlayImage.color = UnhighlightedColour;
         }
 
-        public void OnMouseDown()
+        public virtual void OnMouseDown()
         {
             OnPress?.Invoke();
         }

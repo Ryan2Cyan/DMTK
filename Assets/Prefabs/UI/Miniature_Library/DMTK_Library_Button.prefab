@@ -86,7 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6597229749002142259}
   - component: {fileID: 3962215672433118891}
-  - component: {fileID: 6495306829302734038}
+  - component: {fileID: 8179568654824165303}
   - component: {fileID: 3912656738432760129}
   m_Layer: 5
   m_Name: DMTK_Library_Button
@@ -124,7 +124,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8180631050750697762}
   m_CullTransparentMesh: 1
---- !u!114 &6495306829302734038
+--- !u!114 &8179568654824165303
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8180631050750697762}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bd2943e60ec1234cb5412fe383ab095, type: 3}
+  m_Script: {fileID: 11500000, guid: ae32bc2c481b08e46b6bd002a7b7f569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UnhighlightedColour: {r: 1, g: 1, b: 1, a: 0}
@@ -143,6 +143,7 @@ MonoBehaviour:
       m_Calls: []
   ButtonOverlayImage: {fileID: 3912656738432760129}
   BaseImage: {fileID: 5349999017958917921}
+  MiniatureID: 
   RectTransform: {fileID: 0}
 --- !u!114 &3912656738432760129
 MonoBehaviour:

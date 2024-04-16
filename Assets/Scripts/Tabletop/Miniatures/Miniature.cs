@@ -20,21 +20,6 @@ namespace Tabletop.Miniatures
         private const float _grabExecutionTime = 0.05f;
 
         #region UnityFunctions
-        private void Start()
-        {
-            Collider = GetComponent<BoxCollider>();
-            Data = GetComponent<MiniatureData>();
-            
-            // Assign to the closest available cell to the centre:
-            if (!Tabletop.Tabletop.Instance.AssignClosestToGridCentre(ref CurrentCell)) Debug.Log("Unable" + " to spawn miniature as all grid cells are occupied.");
-            else
-            {
-                SetCurrentCell(CurrentCell);
-                transform.position = new Vector3(CurrentCell.Position.x, 0f, CurrentCell.Position.y);
-            }
-            
-            MiniatureManager.Instance.RegisterElement(this);
-        }
 
         private void OnDestroy()
         {
@@ -44,6 +29,16 @@ namespace Tabletop.Miniatures
         #endregion
 
         #region PublicFunctions
+
+        public void Spawn(MiniatureSpawnDataSO spawnData, TabletopCell cell)
+        {
+            Collider = GetComponent<BoxCollider>();
+            Data = GetComponent<MiniatureData>();
+            SetCurrentCell(cell);
+            transform.position = new Vector3(CurrentCell.Position.x, 0f, CurrentCell.Position.y);
+            MiniatureManager.Instance.RegisterElement(this);
+        }
+        
         /// <summary> Called when the user selects with left-mouse, moving up on the y-axis.</summary>
         public void OnGrab()
         {
