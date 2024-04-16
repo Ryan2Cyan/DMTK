@@ -2,24 +2,28 @@ using Input;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Utility;
 
 namespace UI.UI_Interactables
 {
-    public class DMTKSimpleButton : UIElement, IInputElement
+    public class DMTKSimpleButton : UIElement, IInputElement, IPooledObject
     {
         [Header("Settings")] 
         public Color UnhighlightedColour;
         public Color HighlightedColour;
         public UnityEvent OnPress;
 
-        [Header("Component")] 
-        public Image ButtonImage;
+        [Header("Components")] 
+        public Image ButtonOverlayImage;
+        public Image BaseImage;
+        [HideInInspector] public RectTransform RectTransform;
 
         #region UnityFunctions
 
         private void Awake()
         {
-            ButtonImage.color = UnhighlightedColour;
+            ButtonOverlayImage.color = UnhighlightedColour;
+            RectTransform = GetComponent<RectTransform>();
         }
 
         #endregion
@@ -28,12 +32,12 @@ namespace UI.UI_Interactables
 
         public void OnMouseEnter()
         {
-            ButtonImage.color = HighlightedColour;
+            ButtonOverlayImage.color = HighlightedColour;
         }
 
         public void OnMouseExit()
         {
-            ButtonImage.color = UnhighlightedColour;
+            ButtonOverlayImage.color = UnhighlightedColour;
         }
 
         public void OnMouseDown()
@@ -42,5 +46,8 @@ namespace UI.UI_Interactables
         }
 
         #endregion
+
+        public void Instantiate() { }
+        public void Release() { }
     }
 }

@@ -141,7 +141,9 @@ MonoBehaviour:
   OnPress:
     m_PersistentCalls:
       m_Calls: []
-  ButtonImage: {fileID: 3912656738432760129}
+  ButtonOverlayImage: {fileID: 3912656738432760129}
+  BaseImage: {fileID: 5349999017958917921}
+  RectTransform: {fileID: 0}
 --- !u!114 &3912656738432760129
 MonoBehaviour:
   m_ObjectHideFlags: 0

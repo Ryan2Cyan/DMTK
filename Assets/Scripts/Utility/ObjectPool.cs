@@ -37,7 +37,13 @@ namespace Utility
             _inUse.Remove(pooledObject);
             pooledObject.Release();
             _available.Add(pooledObject);
-        }   
+        }
+
+        public void ReleaseAll()
+        {
+            var inUseCount = _inUse.Count;
+            for (var i = 0; i < inUseCount; i++) ReleasePooledObject(_inUse.First());
+        }
     }
 
     public interface IPooledObject
