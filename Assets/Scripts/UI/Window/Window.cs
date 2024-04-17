@@ -1,10 +1,10 @@
-using Input;
+using System;
 using TMPro;
 using UnityEngine;
 
 namespace UI.Window
 {
-    public class Window : UIElement, IInputElement
+    public class Window : MonoBehaviour, UIElement
     {
         [Header("Settings")]
         public Vector2 MinimumSize;
@@ -18,6 +18,8 @@ namespace UI.Window
         private WindowDrag _windowDragScript;
         private Canvas _parentCanvas;
         private RectTransform _rectTransform;
+        
+        public bool UIElementActive { get; set; }
 
         #region UnityFunctions
         
@@ -31,6 +33,16 @@ namespace UI.Window
             _windowDragScript.ParentCanvas = _parentCanvas;
             
             TitleTMP.text = WindowTitle;
+        }
+
+        private void OnEnable()
+        {
+            UIElementActive = true;
+        }
+
+        private void OnDisable()
+        {
+            UIElementActive = false;
         }
 
         [ExecuteAlways]
@@ -56,7 +68,7 @@ namespace UI.Window
         #endregion
 
         #region InputFunctions
-        
+
         public void OnMouseDown()
         {
             if(!FixedPosition) _windowDragScript.OnMouseDown();
@@ -67,8 +79,15 @@ namespace UI.Window
             if(!FixedPosition) _windowDragScript.OnMouseUp();
         }
 
-        public void OnMouseEnter() { }
-        public void OnMouseExit() { }
+        public void OnMouseEnter()
+        {
+            
+        }
+
+        public void OnMouseExit()
+        {
+            
+        }
 
         public void OnDrag()
         {

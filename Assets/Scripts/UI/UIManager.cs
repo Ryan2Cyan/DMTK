@@ -9,13 +9,13 @@ namespace UI
     public class UIManager : MonoBehaviour, IManager<UIElement>
     {
         public static UIManager Instance;
-        public List<UIElement> AllUIElements;
+        public readonly List<UIElement> AllUIElements = new();
         public bool DebugEnabled;
         public delegate void DMTKUIDelegate();
         public static event DMTKUIDelegate DMTKUISelected;
         public static event DMTKUIDelegate DMTKUIDeselected;
         
-        private IInputElement _currentUIElementInteraction;
+        private UIElement _currentUIElementInteraction;
         private PointerEventData _pointerEventData;
         private bool _isUIElementSelected;
         
@@ -92,21 +92,25 @@ namespace UI
             EventSystem.current.RaycastAll(_pointerEventData, results);
             foreach (var result in results)
             {
+                // Check has "Interactable_UI" tag:
                 if (!result.gameObject.CompareTag("Interactable_UI")) continue;
                 
-                var newElement = result.gameObject.GetComponent<IInputElement>();
-                if (newElement == null) continue;
-                if (newElement == _currentUIElementInteraction) return;
+                // Check has UIElement and is Active:
+                var newElementUI = result.gameObject.GetComponent<UIElement>();
+                if (newElementUI == null) return;
+                if (!newElementUI.UIElementActive) return;
                 
+                // Select new element:
                 if(_isUIElementSelected) _currentUIElementInteraction.OnMouseExit();
-                _currentUIElementInteraction = newElement;
-                newElement.OnMouseEnter();
+                _currentUIElementInteraction = newElementUI;
+                newElementUI.OnMouseEnter();
                 if(!_isUIElementSelected) DMTKUISelected?.Invoke();
                 _isUIElementSelected = true;
                 if(DebugEnabled) Debug.Log(result.gameObject.name);
                 return;
             }
             
+            // Cursor is selecting no interactable UI element:
             if(_isUIElementSelected) _currentUIElementInteraction.OnMouseExit();
             _currentUIElementInteraction = null;
             if(_isUIElementSelected) DMTKUIDeselected?.Invoke();

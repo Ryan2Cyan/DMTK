@@ -4,12 +4,12 @@ namespace UI.Utility
 {
     public class CullUnityEvent : CullBase
     {
-        public UnityEvent ToggleEvent;
+        public UnityEvent OnCullEvent;
         
         protected override void ToggleUIImages(bool toggle)
         {
             base.ToggleUIImages(toggle);
-            ToggleEvent.Invoke();
+            if(!toggle) OnCullEvent.Invoke();
         }
     }
 }

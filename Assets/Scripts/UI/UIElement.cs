@@ -1,20 +1,16 @@
-using UnityEngine;
-
 namespace UI
 {
-    public class UIElement : MonoBehaviour
+    public interface UIElement
     {
-        #region UnityFunctions
+        public bool UIElementActive { get; set; }
 
-        private void OnEnable()
-        {
-            UIManager.Instance.RegisterElement(this);           
-        }
+        #region InputFunctions
 
-        private void OnDisable()
-        {
-            UIManager.Instance.UnregisterElement(this);
-        }
+        public void OnMouseDown();
+        public void OnMouseUp();
+        public void OnMouseEnter();
+        public void OnMouseExit();
+        public void OnDrag();
 
         #endregion
     }

@@ -35,7 +35,7 @@ namespace UI.Window
     
     /// <summary>A "resizer" is a small click-and-drag icon that appear when transforming an DMTK window. The resizer can adjust a
     /// window depending on the resizer type. Also changes colour depending on whether it is pressed, highlighted, or un-highlighted.</summary>
-    public class WindowResizer : UIElement, IInputElement
+    public class WindowResizer : MonoBehaviour, UIElement
     {
         [Header("Settings")]
         public ResizerType ResizerType;
@@ -53,6 +53,8 @@ namespace UI.Window
         public bool _clicked;
         private bool _conserveResize;
         private bool _active;
+        
+        public bool UIElementActive { get; set; }
 
         #region UnityStateFunctions
 
@@ -78,15 +80,17 @@ namespace UI.Window
             _active = false;
         }
 
-        private void OnEnable()
+        protected void OnEnable()
         {
+            UIElementActive = true;
             ResizerImage.enabled = false;
             InputManager.OnConserveSize += OnConserveResize;
             InputManager.OnConserveSizeCancel += OnConserveResizeCancelled;
         }
 
-        private void OnDisable()
+        protected void OnDisable()
         {
+            UIElementActive = false;
             InputManager.OnConserveSize -= OnConserveResize;
             InputManager.OnConserveSizeCancel -= OnConserveResizeCancelled;
         }
@@ -97,6 +101,7 @@ namespace UI.Window
         public void OnMouseEnter()
         {
             if (!_active) return;
+            if (_clicked) return;
             
             ResizerImage.enabled = true;
             ResizerImage.color = NotPressed;
@@ -110,6 +115,7 @@ namespace UI.Window
             ResizerImage.enabled = false;
         }
         
+
         public void OnMouseDown()
         {
             if (!_active) return;

@@ -18,6 +18,7 @@ namespace UI.Miniature_Library
             RectTransform = GetComponent<RectTransform>();
         }
         
+        
         #endregion
 
         #region InputFunctions

@@ -1,4 +1,3 @@
-using Input;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UI.Miniature_Radial
 {
-    public class RadialBase : UIElement, IInputElement
+    public class RadialBase : MonoBehaviour, UIElement
     {
         [Header("Title Settings")]
         public string Title;
@@ -28,8 +27,10 @@ namespace UI.Miniature_Radial
         private TextMeshProUGUI _titleTMP;
         protected bool _initialised;
         
-        private static readonly int Right = Animator.StringToHash("Right");
-        protected static readonly int Active = Animator.StringToHash("Active");
+        private static readonly int RightParam = Animator.StringToHash("Right");
+        protected static readonly int ActiveParam = Animator.StringToHash("Active");
+        
+        public bool UIElementActive { get; set; }
 
         #region UnityFunctions
         protected virtual void Awake()
@@ -46,7 +47,7 @@ namespace UI.Miniature_Radial
 
         #region PublicFunctions
         
-        public virtual void OnToggleDisable(bool toggle)
+        public void OnToggleDisable(bool toggle)
         {
             if(!_initialised) OnInitialise();
             Disabled = toggle;
@@ -54,9 +55,13 @@ namespace UI.Miniature_Radial
             {
                 _iconImage.color = DisabledIconColour;
                 _baseImage.color = DisabledBaseColour;
+                UIElementActive = false;
             }
-            else OnUnhighlight();
-            
+            else
+            {
+                OnUnhighlight();
+                UIElementActive = true;
+            }
         }
 
         #endregion
@@ -66,7 +71,7 @@ namespace UI.Miniature_Radial
         protected virtual void OnInitialise()
         {
             _titleAnimator = transform.GetChild(0).GetComponent<Animator>();
-            if(gameObject.activeInHierarchy) _titleAnimator.SetBool(Right, !IsTitleDisplayLeft);
+            if(gameObject.activeInHierarchy) _titleAnimator.SetBool(RightParam, !IsTitleDisplayLeft);
             _titleTMP = transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             _baseImage = transform.GetChild(1).GetComponent<Image>();
             _iconImage = transform.GetChild(2).GetComponent<Image>();
@@ -76,18 +81,18 @@ namespace UI.Miniature_Radial
         
         protected virtual void OnHighlight()
         {
-            if(gameObject.activeInHierarchy) _titleAnimator.SetBool(Active, true);
+            if(gameObject.activeInHierarchy) _titleAnimator.SetBool(ActiveParam, true);
         }
 
         protected virtual void OnUnhighlight()
         {
-            if(gameObject.activeInHierarchy) _titleAnimator.SetBool(Active, false);
+            if(gameObject.activeInHierarchy) _titleAnimator.SetBool(ActiveParam, false);
         }
 
         protected virtual void OnPress()
         {
             OnPressEvent.Invoke();
-            _titleAnimator.SetBool(Active, false);
+            _titleAnimator.SetBool(ActiveParam, false);
         }
         #endregion
         
@@ -97,6 +102,11 @@ namespace UI.Miniature_Radial
         {
             if (!Interactable) return;
             OnPress();
+        }
+
+        public void OnMouseUp()
+        {
+            
         }
 
         public void OnMouseEnter()

@@ -67,16 +67,16 @@ namespace Tabletop.Miniatures
 
         private void OnMouseDown()
         {
-            if (_uiSelected) return;
-            if (_isMiniatureSelected) return;
-            RadialManager.Instance.Disable();
+            // if (_uiSelected) return;
+            // // if (_isMiniatureSelected) return;
+            // RadialManager.Instance.Disable();
         }
 
         private void OnMouseUp()
         {
             if (_uiSelected) return;
-            if (!_isMiniatureSelected) return;
-            RadialManager.Instance.MiniatureClicked(SelectedMiniature.Data);
+            if (SelectedMiniature == null) RadialManager.Instance.Disable();
+            else RadialManager.Instance.MiniatureClicked(SelectedMiniature.Data);
         }
         
         private void OnMouseHold()

@@ -152,7 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0386ec54c8f26cc4b8fc506de897a7a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllUIElements: []
   DebugEnabled: 1
 --- !u!4 &129980488
 Transform:
@@ -537,6 +536,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8678345915620018967, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
   m_PrefabInstance: {fileID: 3954585518558416546}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1632093911 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5964618351455806729, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+  m_PrefabInstance: {fileID: 4478004329768686495}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999cb035726fe745bb11de549fbcee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1641192032
 GameObject:
   m_ObjectHideFlags: 0
@@ -1292,7 +1302,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8678345915620018967, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1241.129
+      value: 378.86
       objectReference: {fileID: 0}
     - target: {fileID: 8678345915620018967, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1328,7 +1338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8678345915620018967, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -68.998
+      value: -500.132
       objectReference: {fileID: 0}
     - target: {fileID: 8678345915620018967, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1379,6 +1389,34 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1364818028996758710, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1364818028996758710, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1364818028996758710, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1632093911}
+    - target: {fileID: 1364818028996758710, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1364818028996758710, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeState_UnityEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 1364818028996758710, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI.Miniature_Radial.RadialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1364818028996758710, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4376771096693315698, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: Title
       value: Player
@@ -1402,6 +1440,34 @@ PrefabInstance:
     - target: {fileID: 4687711380922007675, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687711380922007675, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687711380922007675, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687711380922007675, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1632093911}
+    - target: {fileID: 4687711380922007675, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687711380922007675, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeState_UnityEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687711380922007675, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI.Miniature_Radial.RadialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687711380922007675, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+      propertyPath: OnCullEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: Disabled

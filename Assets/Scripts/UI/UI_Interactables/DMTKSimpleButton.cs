@@ -1,4 +1,3 @@
-using Input;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -6,7 +5,7 @@ using Utility;
 
 namespace UI.UI_Interactables
 {
-    public class DMTKSimpleButton : UIElement, IInputElement, IPooledObject
+    public class DMTKSimpleButton : MonoBehaviour, UIElement, IPooledObject
     {
         [Header("Settings")] 
         public Color UnhighlightedColour;
@@ -15,6 +14,7 @@ namespace UI.UI_Interactables
 
         [Header("Components")] 
         public Image ButtonOverlayImage;
+        public bool UIElementActive { get; set; }
 
         #region UnityFunctions
 
@@ -23,9 +23,21 @@ namespace UI.UI_Interactables
             ButtonOverlayImage.color = UnhighlightedColour;
         }
 
+        private void OnEnable()
+        {
+            UIElementActive = true;
+        }
+
+        private void OnDisable()
+        {
+            UIElementActive = false;
+        }
+
         #endregion
 
         #region InputFunctions
+
+        public void OnMouseUp() { }
 
         public void OnMouseEnter()
         {
@@ -35,6 +47,11 @@ namespace UI.UI_Interactables
         public void OnMouseExit()
         {
             ButtonOverlayImage.color = UnhighlightedColour;
+        }
+
+        public void OnDrag()
+        {
+            
         }
 
         public virtual void OnMouseDown()

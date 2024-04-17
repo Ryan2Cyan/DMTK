@@ -2,6 +2,17 @@ namespace UI.Miniature_Radial
 {
     public class RadialToggleOptions : RadialToggle
     {
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            UIElementActive = true;
+        }
+
+        private void OnDisable()
+        {
+            UIElementActive = false;
+        }
+
         public void TurnOn()
         {
             if(!_initialised) OnInitialise();
@@ -40,7 +51,7 @@ namespace UI.Miniature_Radial
             }
 
             OnPressEvent.Invoke();
-            _titleAnimator.SetBool(Active, false);
+            _titleAnimator.SetBool(ActiveParam, false);
         }
     }
 }

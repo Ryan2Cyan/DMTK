@@ -1,5 +1,4 @@
 using System.Collections;
-using Input;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,8 +6,10 @@ using UnityEngine.UI;
 
 namespace UI.Window
 {
-    public class ReadKeyboardInput : UIElement, IInputElement
+    public class ReadKeyboardInput : MonoBehaviour, UIElement
     {
+        public bool UIElementActive { get; set; }
+        
         [Header("Settings")] 
         public Color ActiveColour;
         public Color InactiveColour;
@@ -26,6 +27,19 @@ namespace UI.Window
         private string _cachedValue;
         private bool _active;
 
+        #region UnityFunctions
+
+        private void OnEnable()
+        {
+            UIElementActive = true;
+        }
+
+        private void OnDisable()
+        {
+            UIElementActive = false;
+        }
+
+        #endregion
         #region PublicFunctions
 
         public int GetDigitValue()
@@ -46,7 +60,12 @@ namespace UI.Window
         #endregion
         
         #region InputFunctions
-        
+
+        public void OnMouseUp()
+        {
+            
+        }
+
         public void OnMouseEnter()
         {
             if (_active) return;
@@ -58,7 +77,6 @@ namespace UI.Window
             if (_active) return;
             ImageUI.color = InactiveColour;
         }
-        
 
         public void OnMouseDown()
         {

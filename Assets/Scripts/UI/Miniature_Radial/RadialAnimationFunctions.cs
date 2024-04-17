@@ -15,12 +15,20 @@ namespace UI.Miniature_Radial
 
         public void EnableIconInteraction()
         {
-            foreach (var radialIcon in _radialIcons) radialIcon.Interactable = true;
+            foreach (var radialIcon in _radialIcons)
+            {
+                radialIcon.Interactable = true;
+                radialIcon.UIElementActive = true;
+            }
         }
         
         public void DisableIconInteraction()
         {
-            foreach (var radialIcon in _radialIcons) radialIcon.Interactable = false;
+            foreach (var radialIcon in _radialIcons)
+            {
+                radialIcon.Interactable = false;
+                radialIcon.UIElementActive = false;
+            }
         }
     }
 }
