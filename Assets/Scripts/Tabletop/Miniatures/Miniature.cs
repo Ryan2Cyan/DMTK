@@ -34,6 +34,7 @@ namespace Tabletop.Miniatures
         {
             Collider = GetComponent<BoxCollider>();
             Data = GetComponent<MiniatureData>();
+            Data.SetSpawnData(spawnData);
             SetCurrentCell(cell);
             transform.position = new Vector3(CurrentCell.Position.x, 0f, CurrentCell.Position.y);
             MiniatureManager.Instance.RegisterElement(this);

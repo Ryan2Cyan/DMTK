@@ -13,6 +13,7 @@ namespace UI.Utility
         
         private void Update()
         {
+            if (Target == null) return;
             var viewportPoint = Camera.WorldToViewportPoint(Target.position);
             if (viewportPoint.x is > 1f or < 0f)
             {

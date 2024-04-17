@@ -58,5 +58,14 @@ namespace Tabletop.Miniatures
             if (MaximumHitPoints <= 0) MaximumHitPoints = 100;
             if (Label == "") Label = "No Name";
         }
+
+        #region PublicFunctions
+
+        public void SetSpawnData(MiniatureSpawnDataSO spawnData)
+        {
+            Type = spawnData.DefaultType;
+        }
+
+        #endregion
     }
 }

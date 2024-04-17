@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using Tabletop.Miniatures;
-using Tabletop.Tabletop;
 using UI.Utility;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

@@ -24,6 +24,7 @@ namespace UI.Miniature_Data
         private bool _exhaustionActive;
         
         private static readonly int ShowTabData = Animator.StringToHash("ShowTabData");
+        private static readonly int Enabled = Animator.StringToHash("Enabled");
 
         #region UnityFunctions
 
@@ -61,6 +62,7 @@ namespace UI.Miniature_Data
             _displayUIInWorldSpace.WorldSpaceTarget = MiniatureData.transform;
             _displayUIInWorldSpace.Camera = mainCamera;
             _animator = GetComponent<Animator>();
+            _animator.SetBool(Enabled, true);
             
             // Subscribe to events:
             RadialManager.OnStatusConditionChanged += OnStatusConditionChanged;
@@ -69,8 +71,10 @@ namespace UI.Miniature_Data
             RadialManager.OnTypeChanged += OnTypeChanged;
             
             // Set default values:
+            OnStatusConditionChanged(miniatureData);
             OnHitPointsChanged(miniatureData);
-            OnLabelChanged(MiniatureData);
+            OnLabelChanged(miniatureData);
+            OnTypeChanged(miniatureData);
         }
         
         private void OnStatusConditionChanged(MiniatureData miniatureData)
@@ -135,7 +139,7 @@ namespace UI.Miniature_Data
             StatusConditionsTMP.enabled = !toggle;
             LabelTMP.enabled = !toggle;
             HitPointsSlider.enabled = !toggle;
-            _animator.enabled = !toggle;
+            _animator.SetBool(Enabled, !toggle);
         }
         #endregion
 

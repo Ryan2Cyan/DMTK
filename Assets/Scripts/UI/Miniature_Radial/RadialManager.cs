@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Tabletop.Miniatures;
 using TMPro;
 using UI.UI_Interactables;
@@ -40,6 +41,7 @@ namespace UI.Miniature_Radial
         private readonly RadialManagerStatusConditions _statusConditionsState = new();
 
         private DisplayUIInWorldSpace _uiInWorldSpaceScript;
+        private List<CullUnityEvent> _cullScripts;
         
         // MiniatureData setting events:
         public delegate void DMTKMiniatureDataAction(MiniatureData miniatureData);
@@ -58,7 +60,9 @@ namespace UI.Miniature_Radial
             _currentState = _disabledState;
             _disabledState.OnStart(this);
             _uiInWorldSpaceScript = GetComponent<DisplayUIInWorldSpace>();
-            _uiInWorldSpaceScript.enabled = false;
+            _cullScripts = new List<CullUnityEvent>(GetComponentsInChildren<CullUnityEvent>());
+
+            ToggleTargetScripts(false);
         }
 
         #endregion
@@ -79,7 +83,7 @@ namespace UI.Miniature_Radial
         {
             if (_currentState != _disabledState) return;
             SelectedMiniData = miniature;
-            _uiInWorldSpaceScript.WorldSpaceTarget = SelectedMiniData.transform;
+            SetTargetScriptTargets(SelectedMiniData.transform);
             ChangeState(_mainState);
         }
 
@@ -96,12 +100,12 @@ namespace UI.Miniature_Radial
 
         public void EnableWorldSpaceDisplay()
         {
-            _uiInWorldSpaceScript.enabled = true;
+            ToggleTargetScripts(true);
         }
 
         public void DisableWorldSpaceDisplay()
         {
-            _uiInWorldSpaceScript.enabled = false;
+            ToggleTargetScripts(false);
         }
 
         #endregion
@@ -198,6 +202,22 @@ namespace UI.Miniature_Radial
             OnTypeChanged?.Invoke(SelectedMiniData);
         }
         
+        #endregion
+
+        #region PrivateFunctions
+
+        private void ToggleTargetScripts(bool toggle)
+        {
+            _uiInWorldSpaceScript.enabled = toggle;
+            foreach (var cullScript in _cullScripts) cullScript.enabled = toggle;
+        }
+
+        private void SetTargetScriptTargets(Transform target)
+        {
+            _uiInWorldSpaceScript.WorldSpaceTarget = target;
+            foreach (var cullScript in _cullScripts) cullScript.Target = target;
+        }
+
         #endregion
     }
 }
