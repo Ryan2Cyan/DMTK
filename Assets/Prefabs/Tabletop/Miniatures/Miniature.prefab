@@ -131,6 +131,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d81f2ad123d11a4f9357763bbd0d081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DefaultLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  OutlineLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   CurrentCell: {fileID: 0}
   Grabbed: 0
   Data: {fileID: 0}

@@ -9,12 +9,16 @@ namespace Tabletop.Miniatures
 {
     public class Miniature : MonoBehaviour
     {
+        public LayerMask DefaultLayerMask;
+        public LayerMask OutlineLayerMask;
+        
         public TabletopCell CurrentCell;
         [HideInInspector] public bool Grabbed;
      
         [NonSerialized] public BoxCollider Collider;
         [HideInInspector] public MiniatureData Data;
-        
+
+        private List<Transform> _childrenTransforms;
         private IEnumerator _currentRoutine;
         private const float _grabbedYOffset = 0.5f;
         private const float _grabExecutionTime = 0.05f;
@@ -32,6 +36,7 @@ namespace Tabletop.Miniatures
 
         public void Spawn(MiniatureSpawnDataSO spawnData, TabletopCell cell)
         {
+            _childrenTransforms = new List<Transform>(GetComponentsInChildren<Transform>());
             Collider = GetComponent<BoxCollider>();
             Data = GetComponent<MiniatureData>();
             Data.SetSpawnData(spawnData);
@@ -56,9 +61,21 @@ namespace Tabletop.Miniatures
         {
             Grabbed = false;
         }
+
+        public void ToggleOutline(bool toggle)
+        {
+            if (Grabbed && !toggle) return;
+            foreach (var childTransform in _childrenTransforms)
+            {
+                if(childTransform == transform) continue;
+                childTransform.gameObject.layer = toggle ? 8 : DefaultLayerMask;
+            }
+        }
+        
         #endregion
 
         #region PrivateFunctions
+        
         /// <summary>Smoothly move to new position over a specified time.</summary>
         /// <param name="startPosition">Starting position before moving.</param>
         /// <param name="endPosition">Resulting position after moving.</param>
@@ -163,6 +180,7 @@ namespace Tabletop.Miniatures
             CurrentCell = cell;
             CurrentCell.SetCellState(CurrentCell.OccupiedState);
         }
+        
         #endregion
     }
 }

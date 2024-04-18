@@ -38,20 +38,18 @@ namespace Tabletop.Miniatures
         
         private void OnEnable()
         {
-            InputManager.OnMouseDown += OnMouseDown;
+            InputManager.OnMouseUp += OnMouseUp;
             InputManager.OnMouseHold += OnMouseHold;
             InputManager.OnMouseHoldCancelled += OnHoldRelease;
-            InputManager.OnMouseUp += OnMouseUp;
             UIManager.DMTKUISelected += OnUISelected;
             UIManager.DMTKUIDeselected += OnUIDeselected;
         }
 
         private void OnDisable()
         {
-            InputManager.OnMouseDown -= OnMouseDown;
+            InputManager.OnMouseUp -= OnMouseUp;
             InputManager.OnMouseHold -= OnMouseHold;
             InputManager.OnMouseHoldCancelled -= OnHoldRelease;
-            InputManager.OnMouseUp -= OnMouseUp;
             UIManager.DMTKUISelected -= OnUISelected;
             UIManager.DMTKUIDeselected -= OnUIDeselected;
         }
@@ -64,13 +62,6 @@ namespace Tabletop.Miniatures
         #endregion
 
         #region InputFunctions
-
-        private void OnMouseDown()
-        {
-            // if (_uiSelected) return;
-            // // if (_isMiniatureSelected) return;
-            // RadialManager.Instance.Disable();
-        }
 
         private void OnMouseUp()
         {
@@ -126,11 +117,14 @@ namespace Tabletop.Miniatures
             foreach (var miniature in RegisteredMiniatures)
             {
                 if (miniature.Collider != hit.collider) continue;
+                if(_isMiniatureSelected) SelectedMiniature.ToggleOutline(false);
                 SelectedMiniature = miniature;
+                SelectedMiniature.ToggleOutline(true);
                 _isMiniatureSelected = true;
                 return;
             }
 
+            if(_isMiniatureSelected) SelectedMiniature.ToggleOutline(false);
             SelectedMiniature = null;
             _isMiniatureSelected = false;
         }
