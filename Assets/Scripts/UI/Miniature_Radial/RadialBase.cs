@@ -9,7 +9,9 @@ namespace UI.Miniature_Radial
     {
         [Header("Title Settings")]
         public string Title;
-        public bool IsTitleDisplayLeft;
+        
+        public enum RadialTitleDisplayDirection { Left, Right }
+        public RadialTitleDisplayDirection TitleDisplayDirection;
 
         [Header("Disabled Settings")] 
         public Color DisabledBaseColour;
@@ -41,6 +43,7 @@ namespace UI.Miniature_Radial
 
         protected virtual void OnEnable()
         {
+            _titleAnimator.SetBool(RightParam, TitleDisplayDirection == RadialTitleDisplayDirection.Right);
             OnUnhighlight();
         }
         #endregion
@@ -71,7 +74,6 @@ namespace UI.Miniature_Radial
         protected virtual void OnInitialise()
         {
             _titleAnimator = transform.GetChild(0).GetComponent<Animator>();
-            if(gameObject.activeInHierarchy) _titleAnimator.SetBool(RightParam, !IsTitleDisplayLeft);
             _titleTMP = transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             _baseImage = transform.GetChild(1).GetComponent<Image>();
             _iconImage = transform.GetChild(2).GetComponent<Image>();

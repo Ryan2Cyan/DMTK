@@ -17,11 +17,13 @@ namespace UI.Miniature_Radial
         {
             if(!_initialised) OnInitialise();
             if (Disabled) return;
-            OnHighlight();
+            
             Toggle = true;
-            _baseImage.color = BaseHighlightedOnColour;
-            _iconImage.color = IconHighlightedOnColour;
+            _baseImage.color = BaseToggleOnColour;
+            _iconImage.color = IconToggleOnColour;
+            if(gameObject.activeInHierarchy) _titleAnimator.SetBool(ActiveParam, false);
         }
+        
         
         public void TurnOff()
         {

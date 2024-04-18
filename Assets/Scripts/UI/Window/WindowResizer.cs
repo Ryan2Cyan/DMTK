@@ -101,11 +101,9 @@ namespace UI.Window
         public void OnMouseEnter()
         {
             if (!_active) return;
-            if (_clicked) return;
             
             ResizerImage.enabled = true;
             ResizerImage.color = NotPressed;
-            _clicked = false;
         }
         
         public void OnMouseExit()

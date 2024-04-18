@@ -4,9 +4,11 @@ using UnityEngine;
 
 namespace UI.Utility
 {
+    [ExecuteAlways]
     public class RectOverflow : MonoBehaviour
     {
-        [Header("Settings")]
+        [Header("Settings")] 
+        public Vector2 ParentSizeDelta;
         public Vector2 ElementSize;
         public Vector2 Spacing;
         public Vector2 Offset;
@@ -33,6 +35,7 @@ namespace UI.Utility
 
         private void Update()
         {
+            RectBounds.sizeDelta = ParentSizeDelta;
             // Calculate bounds:
             RectBounds.GetLocalCorners(_boundsCorners);
             _bounds = new Vector2(_boundsCorners[3].x - _boundsCorners[0].x, _boundsCorners[1].y - _boundsCorners[0].y);
@@ -60,6 +63,8 @@ namespace UI.Utility
         {
             var elementTotalSize = ElementSize + Spacing;
             var halfElementTotalSize = elementTotalSize / 2f;
+            var rows = 0;
+            var columns = 0;
             
             // Calculate rows, columns, and elements that fit within the bounds:
             var currentIndex = 0;
@@ -86,6 +91,7 @@ namespace UI.Utility
                     
                     count.y += halfElementTotalSize.y;
                     if (count.y >= _bounds.y) break;
+                    rows++;
                     count.x = 0f;
                 }
                 else
@@ -98,7 +104,8 @@ namespace UI.Utility
                     count.y = 0f;
                 }
             }
-            
+
+            // RectBounds.sizeDelta = new Vector2(RectBounds.sizeDelta.x, rows * elementTotalSize.y);
             // Disable all elements that don't fit within the bounds:
             if (currentIndex >= RectElements.Count) return;
             for (var i = currentIndex; i < RectElements.Count; i++)

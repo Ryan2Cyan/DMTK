@@ -136,6 +136,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 920870712924954884, guid: 5e5f2c8bc19bb10469266b0ee3ba5742, type: 3}
+      propertyPath: Title
+      value: Monster
+      objectReference: {fileID: 0}
     - target: {fileID: 1508418177212951900, guid: 5e5f2c8bc19bb10469266b0ee3ba5742, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -155,6 +159,10 @@ PrefabInstance:
     - target: {fileID: 4048696123782060356, guid: 5e5f2c8bc19bb10469266b0ee3ba5742, type: 3}
       propertyPath: m_SizeDelta.y
       value: 115
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422197187734017901, guid: 5e5f2c8bc19bb10469266b0ee3ba5742, type: 3}
+      propertyPath: Title
+      value: NPC
       objectReference: {fileID: 0}
     - target: {fileID: 5465648416513601184, guid: 5e5f2c8bc19bb10469266b0ee3ba5742, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -178,7 +186,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6663177817383409764, guid: 5e5f2c8bc19bb10469266b0ee3ba5742, type: 3}
       propertyPath: Title
-      value: Pla
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7299056083441222426, guid: 5e5f2c8bc19bb10469266b0ee3ba5742, type: 3}
+      propertyPath: Title
+      value: Prop
       objectReference: {fileID: 0}
     - target: {fileID: 7534540081136312356, guid: 5e5f2c8bc19bb10469266b0ee3ba5742, type: 3}
       propertyPath: m_SizeDelta.x
