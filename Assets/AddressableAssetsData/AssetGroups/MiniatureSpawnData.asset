@@ -23,20 +23,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - MiniatureSpawnData
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2a74b462dc1591048ba76fcb68643b2f
-    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Ice_Arrows.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MiniatureSpawnData
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 41aecfd1ff4cc194da6cca9c6b6727e6
-    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Pickaxe.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MiniatureSpawnData
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c52813ca152d6ab4eb76e1903374dcb6
-    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Plain_Arrows.asset
+  - m_GUID: 12143657bbc236f47a9246c7fa11768d
+    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Tree.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - MiniatureSpawnData
@@ -47,8 +35,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - MiniatureSpawnData
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 12143657bbc236f47a9246c7fa11768d
-    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Tree.asset
+  - m_GUID: c52813ca152d6ab4eb76e1903374dcb6
+    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Plain_Arrows.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniatureSpawnData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 41aecfd1ff4cc194da6cca9c6b6727e6
+    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Pickaxe.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniatureSpawnData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a74b462dc1591048ba76fcb68643b2f
+    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Ice_Arrows.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - MiniatureSpawnData

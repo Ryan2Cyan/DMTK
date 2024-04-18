@@ -18,6 +18,7 @@ namespace Utility
                 var newObject0 = _available.First();
                 newObject0.Instantiate();
                 _available.Remove(newObject0);
+                _inUse.Add(newObject0);
                 return newObject0;
             }
             
@@ -41,8 +42,13 @@ namespace Utility
 
         public void ReleaseAll()
         {
-            var inUseCount = _inUse.Count;
-            for (var i = 0; i < inUseCount; i++) ReleasePooledObject(_inUse.First());
+            foreach (var pooledObject in _inUse)
+            {
+                if (_available.Contains(pooledObject)) continue;
+                pooledObject.Release();
+                _available.Add(pooledObject);
+            }
+            _inUse.Clear();
         }
     }
 

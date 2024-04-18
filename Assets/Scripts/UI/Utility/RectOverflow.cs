@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace UI.Utility
 {
-    [ExecuteAlways]
     public class RectOverflow : MonoBehaviour
     {
         [Header("Settings")]
@@ -32,29 +31,24 @@ namespace UI.Utility
 
         #region UnityFunctions
 
-        private void OnValidate()
-        {
-                switch (ElementAnchor)
-                {
-                    case Anchor.TopLeft: { _elementAnchor = Vector2.up; } break;
-                    case Anchor.TopCentre: { _elementAnchor = new Vector2(0.5f, 1f); } break;
-                    case Anchor.TopRight: { _elementAnchor = Vector2.one; } break;
-                    case Anchor.MiddleLeft: { _elementAnchor = new Vector2(0f, 0.5f); } break;
-                    case Anchor.MiddleCentre: { _elementAnchor = new Vector2(0.5f, 0.5f); } break;
-                    case Anchor.MiddleRight: { _elementAnchor = new Vector2(1f, 0.5f); } break;
-                    case Anchor.BottomLeft: { _elementAnchor = Vector2.zero; } break;
-                    case Anchor.BottomCentre: { _elementAnchor = new Vector2(0.5f, 0f); } break;
-                    case Anchor.BottomRight: { _elementAnchor = Vector2.right; } break;
-                    default: throw new ArgumentOutOfRangeException();
-                }
-        }
-
         private void Update()
         {
             // Calculate bounds:
             RectBounds.GetLocalCorners(_boundsCorners);
             _bounds = new Vector2(_boundsCorners[3].x - _boundsCorners[0].x, _boundsCorners[1].y - _boundsCorners[0].y);
-            
+            _elementAnchor = ElementAnchor switch
+            {
+                Anchor.TopLeft => Vector2.up,
+                Anchor.TopCentre => new Vector2(0.5f, 1f),
+                Anchor.TopRight => Vector2.one,
+                Anchor.MiddleLeft => new Vector2(0f, 0.5f),
+                Anchor.MiddleCentre => new Vector2(0.5f, 0.5f),
+                Anchor.MiddleRight => new Vector2(1f, 0.5f),
+                Anchor.BottomLeft => Vector2.zero,
+                Anchor.BottomCentre => new Vector2(0.5f, 0f),
+                Anchor.BottomRight => Vector2.right,
+                _ => throw new ArgumentOutOfRangeException()
+            };
             RecalculateDimensions();
         }
 
@@ -75,12 +69,12 @@ namespace UI.Utility
                 // Handle element placement:
                 var currentElement = RectElements[currentIndex];
                 currentElement.gameObject.SetActive(true);
+                currentElement.anchorMin = _elementAnchor;
+                currentElement.anchorMax = _elementAnchor;
                 currentElement.anchoredPosition = new Vector2(
                     RowAlignment == HorizontalAlignment.Left ? -(count.x + Offset.x) : count.x + Offset.x,
                     ColumnAlignment == VerticalAlignment.Down ? -(count.y + Offset.y) : count.y + Offset.y);
                 currentElement.sizeDelta = ElementSize;
-                currentElement.anchorMin = _elementAnchor;
-                currentElement.anchorMax = _elementAnchor;
                 
                 // Calculate next row/column:
                 currentIndex++;
@@ -98,7 +92,7 @@ namespace UI.Utility
                 {
                     count.y += halfElementTotalSize.y;
                     if (!(count.y >= _bounds.y)) continue;
-
+            
                     count.x += halfElementTotalSize.x;
                     if (count.x >= _bounds.x) break;
                     count.y = 0f;
@@ -107,7 +101,10 @@ namespace UI.Utility
             
             // Disable all elements that don't fit within the bounds:
             if (currentIndex >= RectElements.Count) return;
-            for (var i = currentIndex; i < RectElements.Count; i++) RectElements[i].gameObject.SetActive(false);
+            for (var i = currentIndex; i < RectElements.Count; i++)
+            {
+                RectElements[i].gameObject.SetActive(false);
+            }
         }
 
         #endregion
