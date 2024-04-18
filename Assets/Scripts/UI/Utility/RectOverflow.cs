@@ -26,6 +26,7 @@ namespace UI.Utility
         [Header("Components")] 
         public RectTransform RectBounds;
         public List<RectTransform> RectElements;
+        public Vector2Int Dimensions;
 
         private readonly Vector3[] _boundsCorners = new Vector3[4];
         private Vector2 _bounds;
@@ -35,7 +36,6 @@ namespace UI.Utility
 
         private void Update()
         {
-            RectBounds.sizeDelta = ParentSizeDelta;
             // Calculate bounds:
             RectBounds.GetLocalCorners(_boundsCorners);
             _bounds = new Vector2(_boundsCorners[3].x - _boundsCorners[0].x, _boundsCorners[1].y - _boundsCorners[0].y);
@@ -63,8 +63,7 @@ namespace UI.Utility
         {
             var elementTotalSize = ElementSize + Spacing;
             var halfElementTotalSize = elementTotalSize / 2f;
-            var rows = 0;
-            var columns = 0;
+            Dimensions = Vector2Int.zero;
             
             // Calculate rows, columns, and elements that fit within the bounds:
             var currentIndex = 0;
@@ -87,11 +86,18 @@ namespace UI.Utility
                 if (!PrioritiseColumns)
                 {
                     count.x += halfElementTotalSize.x;
-                    if (!(count.x >= _bounds.x)) continue;
+                    if (Dimensions.x == 0) Dimensions.x = 1;
                     
+                    // New row:
+                    if (!(count.x >= _bounds.x)) continue;
                     count.y += halfElementTotalSize.y;
+                    var newRowCount = (int) (count.x / halfElementTotalSize.x);
+                    if (newRowCount > Dimensions.y) Dimensions.y = newRowCount;
+                    
+                    // New column:
                     if (count.y >= _bounds.y) break;
-                    rows++;
+                    if (currentIndex >= RectElements.Count) continue;
+                    Dimensions.x++;
                     count.x = 0f;
                 }
                 else
@@ -105,7 +111,15 @@ namespace UI.Utility
                 }
             }
 
-            // RectBounds.sizeDelta = new Vector2(RectBounds.sizeDelta.x, rows * elementTotalSize.y);
+            if (!PrioritiseColumns)
+            {
+                var newRowCount = (int) (count.x / halfElementTotalSize.x);
+                if (newRowCount > Dimensions.y) Dimensions.y = newRowCount;
+                
+                // var newColumnCount = (int) (count.y / halfElementTotalSize.y);
+                // Dimensions.x = newColumnCount;
+            }
+
             // Disable all elements that don't fit within the bounds:
             if (currentIndex >= RectElements.Count) return;
             for (var i = currentIndex; i < RectElements.Count; i++)
