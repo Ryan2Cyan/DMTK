@@ -60,6 +60,14 @@ PrefabInstance:
       propertyPath: WindowTitle
       value: Miniature Library
       objectReference: {fileID: 0}
+    - target: {fileID: 6877378252221346168, guid: bafa8f7d7da1d6a4dae2973af6f6f945, type: 3}
+      propertyPath: MinimumSize.x
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877378252221346168, guid: bafa8f7d7da1d6a4dae2973af6f6f945, type: 3}
+      propertyPath: MinimumSize.y
+      value: 230
+      objectReference: {fileID: 0}
     - target: {fileID: 7042832177635190300, guid: bafa8f7d7da1d6a4dae2973af6f6f945, type: 3}
       propertyPath: m_Name
       value: DMTK_Miniature_Library

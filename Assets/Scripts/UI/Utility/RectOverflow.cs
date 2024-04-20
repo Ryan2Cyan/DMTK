@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI.Utility
 {
@@ -8,10 +9,11 @@ namespace UI.Utility
     public class RectOverflow : MonoBehaviour
     {
         [Header("Settings")] 
-        public Vector2 ParentSizeDelta;
         public Vector2 ElementSize;
         public Vector2 Spacing;
         public Vector2 Offset;
+        public float StartRectBottom;
+        public bool ResizeToDimensions;
         public bool PrioritiseColumns;
 
         public enum HorizontalAlignment { Left, Right }
@@ -33,7 +35,6 @@ namespace UI.Utility
         private Vector2 _elementAnchor;
 
         #region UnityFunctions
-
         private void Update()
         {
             // Calculate bounds:
@@ -58,7 +59,7 @@ namespace UI.Utility
         #endregion
 
         #region PrivateFunctions
-
+        
         private void RecalculateDimensions()
         {
             var elementTotalSize = ElementSize + Spacing;
@@ -86,18 +87,18 @@ namespace UI.Utility
                 if (!PrioritiseColumns)
                 {
                     count.x += halfElementTotalSize.x;
-                    if (Dimensions.x == 0) Dimensions.x = 1;
+                    if (Dimensions.y == 0) Dimensions.y = 1;
                     
                     // New row:
                     if (!(count.x >= _bounds.x)) continue;
                     count.y += halfElementTotalSize.y;
                     var newRowCount = (int) (count.x / halfElementTotalSize.x);
-                    if (newRowCount > Dimensions.y) Dimensions.y = newRowCount;
+                    if (newRowCount > Dimensions.x) Dimensions.x = newRowCount;
                     
                     // New column:
                     if (count.y >= _bounds.y) break;
                     if (currentIndex >= RectElements.Count) continue;
-                    Dimensions.x++;
+                    Dimensions.y++;
                     count.x = 0f;
                 }
                 else
@@ -114,12 +115,19 @@ namespace UI.Utility
             if (!PrioritiseColumns)
             {
                 var newRowCount = (int) (count.x / halfElementTotalSize.x);
-                if (newRowCount > Dimensions.y) Dimensions.y = newRowCount;
+                if (newRowCount > Dimensions.x) Dimensions.x = newRowCount;
                 
                 // var newColumnCount = (int) (count.y / halfElementTotalSize.y);
                 // Dimensions.x = newColumnCount;
             }
 
+            if (ResizeToDimensions)
+            {
+                var offset = Spacing.y - ElementSize.y;
+                RectBounds.offsetMin = new Vector2(RectBounds.offsetMin.x, StartRectBottom - offset * (Dimensions.y + 1));
+                
+            }
+            
             // Disable all elements that don't fit within the bounds:
             if (currentIndex >= RectElements.Count) return;
             for (var i = currentIndex; i < RectElements.Count; i++)
@@ -127,7 +135,7 @@ namespace UI.Utility
                 RectElements[i].gameObject.SetActive(false);
             }
         }
-
+        
         #endregion
     }
 }
