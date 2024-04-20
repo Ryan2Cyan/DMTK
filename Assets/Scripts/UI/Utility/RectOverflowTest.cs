@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace UI.Utility
 {
@@ -12,6 +10,7 @@ namespace UI.Utility
         public RectTransform ParentRectTransform;
         public List<RectTransform> Elements;
         public float MaxHeight;
+        public Canvas ParentCanvas;
 
         [Header("Element Settings")]
         public Vector2 ElementSize;
@@ -26,35 +25,31 @@ namespace UI.Utility
         public Vector2Int Dimensions;
         private readonly Vector3[] _boundsCorners = new Vector3[4];
 
-        [FormerlySerializedAs("ScaleToMaxColumnCount")] [Header("Settings")] 
+        [Header("Settings")] 
         public bool ScaleYToMaxRowCount;
-        public bool EnableScaling;
 
         [ContextMenu("SetParentPos")]
         public void SetParentPos()
         {
             ParentRectTransform.GetLocalCorners(_elementCorners);
-            ParentStartTopPosition = Mathf.Abs(ParentRectTransform.localPosition.y + _elementCorners[1].y);
-            ParentStartPosition = ParentRectTransform.localPosition.y;
+            var localPosition = ParentRectTransform.localPosition;
+            ParentStartTopPosition = localPosition.y + _elementCorners[1].y;
+            ParentStartPosition = localPosition.y;
         }
         
         private void Update()
         {
             // Calculate bounds:
             ParentRectTransform.GetWorldCorners(_boundsCorners);
-            TopLeft = _boundsCorners[1];
-            Bounds = new Vector2(_boundsCorners[3].x - _boundsCorners[0].x, _boundsCorners[1].y - _boundsCorners[0].y);
+            var scaleFactor = ParentCanvas.scaleFactor;
             
-            // Calculate element size:
-            // if (Elements.Count == 0) return;
-            // Elements[0].GetWorldCorners(_elementCorners);
-            // ElementSize = new Vector2(_elementCorners[3].x - _elementCorners[0].x, _elementCorners[1].y - _elementCorners[0].y);
+            TopLeft = _boundsCorners[1];
+            Bounds = new Vector2(_boundsCorners[3].x - _boundsCorners[0].x, _boundsCorners[1].y - _boundsCorners[0].y) / scaleFactor;
             
             // Calculate dimensions x: rows, y: columns:
             var maxElementSize = ElementSize + Spacing;
             var halfElementSize = maxElementSize / 2f;
             Dimensions = new Vector2Int((int)(Bounds.y / halfElementSize.y), (int)(Bounds.x / halfElementSize.x));
-            // Dimensions = new Vector2Int()
                 
             // Place all elements within confines of the dimensions:
             var elementIndex = 0;
@@ -75,44 +70,43 @@ namespace UI.Utility
                     elementIndex++;
                  
                     // Increment row:
-                    currentElementPosition.x += halfElementSize.x;
+                    currentElementPosition.x += halfElementSize.x * ParentCanvas.scaleFactor;
                     
                     // Increment column: 
                     if (j == Dimensions.y - 1)
                     {
-                        currentElementPosition.y -= halfElementSize.y;
+                        currentElementPosition.y -= halfElementSize.y * ParentCanvas.scaleFactor;
                         MaxHeight += maxElementSize.y;
                     }
                     
                     // All elements are organised, exit:
                     if (elementIndex < Elements.Count) continue;
                     for (var k = elementIndex; k < Elements.Count; k++) Elements[k].gameObject.SetActive(false);
-                    if (ScaleYToMaxRowCount)
-                    {
-                        ParentRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, MaxHeight == 0 ? 1 : MaxHeight);
 
-                        if (EnableScaling)
-                        {
-                            ParentRectTransform.GetLocalCorners(_elementCorners);
-                            var newTop = Mathf.Abs(ParentStartPosition + _elementCorners[1].y);
-                            var position1 = ParentRectTransform.localPosition;
-                            // Debug.Log("ParentStartPos :" + ParentStartPosition + " ParentStartTop :" +
-                            //           ParentStartTopPosition + " New Top: " + newTop + " NewPos: " +
-                            //           (ParentStartPosition - (ParentStartTopPosition - newTop)));
-                            var modifier = ParentStartPosition > 0 ? ParentStartTopPosition - newTop : -(ParentStartTopPosition - newTop);
-                            position1 = new Vector3(position1.x,  ParentStartPosition + modifier, position1.z);
-                            ParentRectTransform.localPosition = position1;
-                        }
-                    }
+                    ScaleWindowToRows();
                     return;
                 }
             }
             
-            if (ScaleYToMaxRowCount)
-            {
-                ParentRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, MaxHeight == 0 ? 1 : MaxHeight);
-            }
             for (var k = elementIndex; k < Elements.Count; k++) Elements[k].gameObject.SetActive(false);
+            ScaleWindowToRows();
+            return;
+
+            void ScaleWindowToRows()
+            {
+                if (!ScaleYToMaxRowCount) return;
+                
+                // Set scale to height of combined rows:
+                ParentRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, MaxHeight == 0 ? 1 : MaxHeight * ParentCanvas.scaleFactor);
+                    
+                // Move rect to align with y-axis point:
+                ParentRectTransform.GetLocalCorners(_elementCorners);
+                var newTop = ParentStartPosition + _elementCorners[1].y;
+                var position1 = ParentRectTransform.localPosition;
+                var moveVector = newTop - ParentStartTopPosition;
+                position1 = new Vector3(position1.x,  ParentStartPosition - moveVector, position1.z);
+                ParentRectTransform.localPosition = position1;
+            }
         }
     }
 }
