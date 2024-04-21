@@ -9,60 +9,83 @@ namespace UI.Utility
         [Header("Components")] 
         public RectTransform ParentRectTransform;
         public List<RectTransform> Elements;
-        public float MaxHeight;
         public Canvas ParentCanvas;
+        public Transform Alignment;
 
         [Header("Element Settings")]
         public Vector2 ElementSize;
         public Vector2 Spacing;
+        
+        
         private readonly Vector3[] _elementCorners = new Vector3[4];
-
-        [Header("Details")] 
-        public float ParentStartTopPosition;
-        public float ParentStartPosition;
-        public Vector2 Bounds;
-        public Vector2 TopLeft;
-        public Vector2Int Dimensions;
         private readonly Vector3[] _boundsCorners = new Vector3[4];
+        private Vector2 _bounds;
+        private Vector2 _maxElementSize;
+        private Vector2 _topLeft;
+        private float _targetYTopPos;
+        private float _parentStartPosition;
+        private float _maxHeight;
 
         [Header("Settings")] 
         public bool ScaleYToMaxRowCount;
 
-        [ContextMenu("SetParentPos")]
-        public void SetParentPos()
+        [ContextMenu("SetStartPosition")]
+        public void SetAlignment()
         {
-            ParentRectTransform.GetLocalCorners(_elementCorners);
-            var localPosition = ParentRectTransform.localPosition;
-            ParentStartTopPosition = localPosition.y + _elementCorners[1].y;
-            ParentStartPosition = localPosition.y;
+            if (Alignment == null) return;
+            _parentStartPosition = ParentRectTransform.localPosition.y;
+            _targetYTopPos = Alignment.localPosition.y;
         }
-        
+
+        #region UnityFunctions
+
+        private void Awake()
+        {
+            SetAlignment();
+        }
+
         private void Update()
         {
+            if (ParentCanvas == null) return;
+            
             // Calculate bounds:
+            var previousBounds = _bounds;
             ParentRectTransform.GetWorldCorners(_boundsCorners);
-            var scaleFactor = ParentCanvas.scaleFactor;
+            _bounds = new Vector2(_boundsCorners[3].x - _boundsCorners[0].x, _boundsCorners[1].y - _boundsCorners[0].y) / ParentCanvas.scaleFactor;
+            _topLeft = _boundsCorners[1];
             
-            TopLeft = _boundsCorners[1];
-            Bounds = new Vector2(_boundsCorners[3].x - _boundsCorners[0].x, _boundsCorners[1].y - _boundsCorners[0].y) / scaleFactor;
+            // Calculate total size of an element:
+            var previousMaxSize = _maxElementSize;
+            _maxElementSize = ElementSize + Spacing;
             
-            // Calculate dimensions x: rows, y: columns:
-            var maxElementSize = ElementSize + Spacing;
-            var halfElementSize = maxElementSize / 2f;
-            Dimensions = new Vector2Int((int)(Bounds.y / halfElementSize.y), (int)(Bounds.x / halfElementSize.x));
-                
+            if(previousBounds != _bounds || previousMaxSize != _maxElementSize) CalculateOverflow();
+        }
+
+        #endregion
+
+        #region PrivateFunctions
+        
+        private void CalculateOverflow()
+        {
+            // Calculate dimensions:
+            var halfElementSize = _maxElementSize / 2f;
+            var dimensions = new Vector2Int(ScaleYToMaxRowCount ? int.MaxValue : (int)(_bounds.y / halfElementSize.y), (int)(_bounds.x / halfElementSize.x));
+            if (dimensions.x < 0 || dimensions.y < 0) return;
+            ScaleWindowToRows();
+            
             // Place all elements within confines of the dimensions:
             var elementIndex = 0;
-            var currentElementPosition = TopLeft;
-            MaxHeight = maxElementSize.y;
+            var currentElementPosition = _topLeft;
+            _maxHeight = _maxElementSize.y;
             
-            for (var i = 0; i < (ScaleYToMaxRowCount ? int.MaxValue : Dimensions.x); i++)
+            for (var i = 0; i < dimensions.x; i++)
             {
                 // Reset row position:
-                currentElementPosition.x = TopLeft.x;
-                if (Dimensions.y == 0) return;
-                for (var j = 0; j < Dimensions.y; j++)
+                currentElementPosition.x = _topLeft.x;
+                if (dimensions.y == 0) return;
+                for (var j = 0; j < dimensions.y; j++)
                 {
+                    // Position element in rect:
                     var currentElement = Elements[elementIndex];
                     currentElement.position = currentElementPosition;
                     currentElement.sizeDelta = ElementSize;
@@ -73,40 +96,45 @@ namespace UI.Utility
                     currentElementPosition.x += halfElementSize.x * ParentCanvas.scaleFactor;
                     
                     // Increment column: 
-                    if (j == Dimensions.y - 1)
+                    if (j == dimensions.y - 1)
                     {
                         currentElementPosition.y -= halfElementSize.y * ParentCanvas.scaleFactor;
-                        MaxHeight += maxElementSize.y;
+                        _maxHeight += _maxElementSize.y;
                     }
                     
                     // All elements are organised, exit:
                     if (elementIndex < Elements.Count) continue;
-                    for (var k = elementIndex; k < Elements.Count; k++) Elements[k].gameObject.SetActive(false);
-
-                    ScaleWindowToRows();
+                    DeactivateRemainingElements();
                     return;
                 }
             }
-            
-            for (var k = elementIndex; k < Elements.Count; k++) Elements[k].gameObject.SetActive(false);
-            ScaleWindowToRows();
+
+            // Filled rect, exit:
+            DeactivateRemainingElements();
             return;
 
+            void DeactivateRemainingElements()
+            {
+                for (var i = elementIndex; i < Elements.Count; i++) Elements[i].gameObject.SetActive(false);
+            }
+            
             void ScaleWindowToRows()
             {
                 if (!ScaleYToMaxRowCount) return;
                 
                 // Set scale to height of combined rows:
-                ParentRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, MaxHeight == 0 ? 1 : MaxHeight * ParentCanvas.scaleFactor);
+                ParentRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _maxHeight == 0 ? 1 : _maxHeight * ParentCanvas.scaleFactor);
                     
                 // Move rect to align with y-axis point:
                 ParentRectTransform.GetLocalCorners(_elementCorners);
-                var newTop = ParentStartPosition + _elementCorners[1].y;
+                var newTop = _parentStartPosition + _elementCorners[1].y;
                 var position1 = ParentRectTransform.localPosition;
-                var moveVector = newTop - ParentStartTopPosition;
-                position1 = new Vector3(position1.x,  ParentStartPosition - moveVector, position1.z);
+                var moveVector = newTop - _targetYTopPos;
+                position1 = new Vector3(position1.x,  _parentStartPosition - moveVector, position1.z);
                 ParentRectTransform.localPosition = position1;
             }
         }
+        
+        #endregion
     }
 }
