@@ -35,14 +35,15 @@ namespace UI.Miniature_Library
                     var newButton = (MiniatureLibraryButton)DMTKLibraryButtonObjectPool.GetPooledObject();
                     newButton.BaseImage.sprite = spawnData.ButtonImage;
                     newButton.MiniatureID = spawnData.Id;
-                    RectOverflowScript.RectElements.Add(newButton.RectTransform);
+                    RectOverflowScript.Elements.Add(newButton.RectTransform);
+                    RectOverflowScript.CalculateOverflow();
                 });
         }
 
         private void OnDisable()
         {
             DMTKLibraryButtonObjectPool.ReleaseAll();
-            RectOverflowScript.RectElements.Clear();
+            RectOverflowScript.Elements.Clear();
             Addressables.Release(_miniDataAsyncHandle);
         }
 

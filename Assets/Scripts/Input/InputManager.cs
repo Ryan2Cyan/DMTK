@@ -16,10 +16,12 @@ namespace Input
         public static event DMTKInputAction OnConserveSizeCancel;
         public static event DMTKInputAction OnTabDown;
         public static event DMTKInputAction OnTabUp;
+        public static event DMTKInputAction OnMouseScroll;
 
         public static event DMTKInputAction OnMouseDrag;
         
         public static Vector2 MousePosition;
+        public static float MouseScroll;
         
         private DMTKActions _inputActions;
 
@@ -67,9 +69,12 @@ namespace Input
         private void Update()
         {
             MousePosition = _inputActions.DMTKPlayer.MousePosition.ReadValue<Vector2>();
-
+            MouseScroll = _inputActions.DMTKPlayer.MouseScroll.ReadValue<float>();
+            
             if (_mouseDownPrevious && _mouseDown) OnMouseDrag?.Invoke();
             _mouseDownPrevious = _mouseDown;
+            
+            if(MouseScroll != 0f) OnMouseScroll?.Invoke();
         }
         
         #endregion

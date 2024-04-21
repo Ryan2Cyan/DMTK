@@ -51,7 +51,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Scroll",
+                    "name": "MouseScroll",
                     "type": "Value",
                     "id": "f8125a06-11ec-4349-acc7-e3dc6f2ddca6",
                     "expectedControlType": "Axis",
@@ -112,7 +112,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Scroll",
+                    "action": "MouseScroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

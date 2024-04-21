@@ -73,7 +73,7 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Scroll"",
+                    ""name"": ""MouseScroll"",
                     ""type"": ""Value"",
                     ""id"": ""f8125a06-11ec-4349-acc7-e3dc6f2ddca6"",
                     ""expectedControlType"": ""Axis"",
@@ -134,7 +134,7 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Scroll"",
+                    ""action"": ""MouseScroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -161,7 +161,7 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
         m_DMTKPlayer_MouseHold = m_DMTKPlayer.FindAction("MouseHold", throwIfNotFound: true);
         m_DMTKPlayer_TabDown = m_DMTKPlayer.FindAction("TabDown", throwIfNotFound: true);
         m_DMTKPlayer_MousePosition = m_DMTKPlayer.FindAction("MousePosition", throwIfNotFound: true);
-        m_DMTKPlayer_Scroll = m_DMTKPlayer.FindAction("Scroll", throwIfNotFound: true);
+        m_DMTKPlayer_MouseScroll = m_DMTKPlayer.FindAction("MouseScroll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -228,7 +228,7 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_DMTKPlayer_MouseHold;
     private readonly InputAction m_DMTKPlayer_TabDown;
     private readonly InputAction m_DMTKPlayer_MousePosition;
-    private readonly InputAction m_DMTKPlayer_Scroll;
+    private readonly InputAction m_DMTKPlayer_MouseScroll;
     public struct DMTKPlayerActions
     {
         private @DMTKActions m_Wrapper;
@@ -238,7 +238,7 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
         public InputAction @MouseHold => m_Wrapper.m_DMTKPlayer_MouseHold;
         public InputAction @TabDown => m_Wrapper.m_DMTKPlayer_TabDown;
         public InputAction @MousePosition => m_Wrapper.m_DMTKPlayer_MousePosition;
-        public InputAction @Scroll => m_Wrapper.m_DMTKPlayer_Scroll;
+        public InputAction @MouseScroll => m_Wrapper.m_DMTKPlayer_MouseScroll;
         public InputActionMap Get() { return m_Wrapper.m_DMTKPlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -263,9 +263,9 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
-            @Scroll.started += instance.OnScroll;
-            @Scroll.performed += instance.OnScroll;
-            @Scroll.canceled += instance.OnScroll;
+            @MouseScroll.started += instance.OnMouseScroll;
+            @MouseScroll.performed += instance.OnMouseScroll;
+            @MouseScroll.canceled += instance.OnMouseScroll;
         }
 
         private void UnregisterCallbacks(IDMTKPlayerActions instance)
@@ -285,9 +285,9 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
-            @Scroll.started -= instance.OnScroll;
-            @Scroll.performed -= instance.OnScroll;
-            @Scroll.canceled -= instance.OnScroll;
+            @MouseScroll.started -= instance.OnMouseScroll;
+            @MouseScroll.performed -= instance.OnMouseScroll;
+            @MouseScroll.canceled -= instance.OnMouseScroll;
         }
 
         public void RemoveCallbacks(IDMTKPlayerActions instance)
@@ -312,6 +312,6 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
         void OnMouseHold(InputAction.CallbackContext context);
         void OnTabDown(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
-        void OnScroll(InputAction.CallbackContext context);
+        void OnMouseScroll(InputAction.CallbackContext context);
     }
 }
