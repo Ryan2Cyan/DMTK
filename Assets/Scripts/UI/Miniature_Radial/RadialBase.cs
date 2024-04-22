@@ -22,6 +22,7 @@ namespace UI.Miniature_Radial
         
         public bool Interactable = true;
         public bool Disabled;
+        public bool DebugActive;
         
         protected Image _baseImage;
         protected Image _iconImage;
@@ -56,12 +57,14 @@ namespace UI.Miniature_Radial
             Disabled = toggle;
             if (toggle)
             {
+                if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Disabled: On");
                 _iconImage.color = DisabledIconColour;
                 _baseImage.color = DisabledBaseColour;
                 UIElementActive = false;
             }
             else
             {
+                if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Disabled: Off");
                 OnUnhighlight();
                 UIElementActive = true;
             }
@@ -83,16 +86,19 @@ namespace UI.Miniature_Radial
         
         protected virtual void OnHighlight()
         {
+            if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Highlight");
             if(gameObject.activeInHierarchy) _titleAnimator.SetBool(ActiveParam, true);
         }
 
         protected virtual void OnUnhighlight()
         {
+            if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Unhighlight");
             if(gameObject.activeInHierarchy) _titleAnimator.SetBool(ActiveParam, false);
         }
 
         protected virtual void OnPress()
         {
+            if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Press");
             OnPressEvent.Invoke();
             _titleAnimator.SetBool(ActiveParam, false);
         }
@@ -119,7 +125,7 @@ namespace UI.Miniature_Radial
 
         public void OnMouseExit()
         {
-            if (!Interactable) return;
+            // if (!Interactable) return;
             OnUnhighlight();
         }
         

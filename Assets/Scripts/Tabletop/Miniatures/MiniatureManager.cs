@@ -5,6 +5,7 @@ using UI;
 using UI.Miniature_Data;
 using UI.Miniature_Radial;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utility;
 
 namespace Tabletop.Miniatures
@@ -25,6 +26,7 @@ namespace Tabletop.Miniatures
         private bool _isMiniatureSelected;
         private bool _isMiniatureGrabbed;
         private bool _uiSelected;
+        public bool UIClicked;
 
         #region UnityFunctions
         
@@ -43,6 +45,7 @@ namespace Tabletop.Miniatures
             InputManager.OnMouseHoldCancelled += OnHoldRelease;
             UIManager.DMTKUISelected += OnUISelected;
             UIManager.DMTKUIDeselected += OnUIDeselected;
+            UIManager.DMTKUIMouseDown += OnUIMouseDown;
         }
 
         private void OnDisable()
@@ -52,11 +55,7 @@ namespace Tabletop.Miniatures
             InputManager.OnMouseHoldCancelled -= OnHoldRelease;
             UIManager.DMTKUISelected -= OnUISelected;
             UIManager.DMTKUIDeselected -= OnUIDeselected;
-        }
-
-        private void FixedUpdate()
-        {
-            RaycastMouseOnUI();
+            UIManager.DMTKUIMouseDown -= OnUIMouseDown;
         }
         
         #endregion
@@ -65,7 +64,18 @@ namespace Tabletop.Miniatures
 
         private void OnMouseUp()
         {
-            if (_uiSelected) return;
+            InputManager.Instance.QueueInputFunction(MouseUp);
+        }
+
+        private void MouseUp()
+        {
+            // Disable radial if clicking anywhere but a UI element:
+            Debug.Log("MouseUp: " + UIClicked);
+            if (Instance.UIClicked)
+            {
+                Instance.UIClicked = false;
+                return;
+            }
             if (SelectedMiniature == null) RadialManager.Instance.Disable();
             else RadialManager.Instance.MiniatureClicked(SelectedMiniature.Data);
         }
@@ -94,7 +104,16 @@ namespace Tabletop.Miniatures
         #endregion
 
         #region ManagerFunctions
-        
+
+        public void OnUpdate()
+        {
+            RaycastMouseOnUI();
+        }
+
+        public void OnLateUpdate()
+        {
+        }
+
         public void RegisterElement(Miniature element)
         {
             RegisteredMiniatures.Add(element);
@@ -119,7 +138,7 @@ namespace Tabletop.Miniatures
                 if (miniature.Collider != hit.collider) continue;
                 if(_isMiniatureSelected) SelectedMiniature.ToggleOutline(false);
                 SelectedMiniature = miniature;
-                SelectedMiniature.ToggleOutline(true);
+                if(!_uiSelected) SelectedMiniature.ToggleOutline(true);
                 _isMiniatureSelected = true;
                 return;
             }
@@ -137,6 +156,11 @@ namespace Tabletop.Miniatures
         private void OnUIDeselected()
         {
             _uiSelected = false;
+        }
+        
+        private void OnUIMouseDown()
+        {
+            UIClicked = true;
         }
         #endregion
     }

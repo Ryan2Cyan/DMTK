@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,8 @@ namespace Input
     public class InputManager : MonoBehaviour
     {
         public static InputManager Instance;
+        public Queue<DMTKInputAction> InputQueue = new();
+        
         public delegate void DMTKInputAction();
         
         public static event DMTKInputAction OnMouseDown;
@@ -79,6 +82,20 @@ namespace Input
         
         #endregion
 
+        #region PublicFunctions
+
+        public void OnUpdate()
+        {
+            while (InputQueue.TryDequeue(out var result)) result.Invoke();                
+        }
+
+        public void QueueInputFunction(DMTKInputAction inputFunction)
+        {
+            InputQueue.Enqueue(inputFunction);
+        }
+
+        #endregion
+        
         #region EventInvokers
 
         private static void MouseDown(InputAction.CallbackContext context)

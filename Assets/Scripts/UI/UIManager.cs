@@ -10,10 +10,12 @@ namespace UI
     {
         public static UIManager Instance;
         public readonly List<UIElement> AllUIElements = new();
+        public bool UIClicked;
         public bool DebugEnabled;
         public delegate void DMTKUIDelegate();
         public static event DMTKUIDelegate DMTKUISelected;
         public static event DMTKUIDelegate DMTKUIDeselected;
+        public static event DMTKUIDelegate DMTKUIMouseDown;
         
         private UIElement _currentUIElementInteraction;
         private PointerEventData _pointerEventData;
@@ -41,16 +43,21 @@ namespace UI
             InputManager.OnMouseDrag -= OnMouseDrag;
         }
 
-        private void Update()
-        {
-            RaycastMouseOnUI();
-        }
-
         #endregion
         
         
         #region ManagerFunctions
         
+        public void OnUpdate()
+        {
+            RaycastMouseOnUI();
+        }
+
+        public void OnLateUpdate()
+        {
+            UIClicked = false;
+        }
+
         public void RegisterElement(UIElement element)
         {
             AllUIElements.Add(element);
@@ -67,17 +74,22 @@ namespace UI
 
         public void OnMouseDown()
         {
-            if(_isUIElementSelected) _currentUIElementInteraction.OnMouseDown();
+            if (!_isUIElementSelected) return;
+            _currentUIElementInteraction.OnMouseDown();
+            DMTKUIMouseDown?.Invoke();
+            UIClicked = true;
         }
         
         public void OnMouseUp()
         {
-            if(_isUIElementSelected) _currentUIElementInteraction.OnMouseUp();
+            if (!_isUIElementSelected) return; 
+            _currentUIElementInteraction.OnMouseUp();
         }
 
         public void OnMouseDrag()
         {
-            if(_isUIElementSelected) _currentUIElementInteraction.OnDrag();
+            if (!_isUIElementSelected) return; 
+            _currentUIElementInteraction.OnDrag();
         }
 
         #endregion
@@ -97,16 +109,16 @@ namespace UI
                 
                 // Check has UIElement and is Active:
                 var newElementUI = result.gameObject.GetComponent<UIElement>();
-                if (newElementUI == null) return;
-                if (!newElementUI.UIElementActive) return;
+                if (newElementUI == null) continue;
+                if (!newElementUI.UIElementActive) continue;
                 
                 // Select new element:
-                if(_isUIElementSelected) _currentUIElementInteraction.OnMouseExit();
+                if (_isUIElementSelected) _currentUIElementInteraction.OnMouseExit();
                 _currentUIElementInteraction = newElementUI;
                 newElementUI.OnMouseEnter();
-                if(!_isUIElementSelected) DMTKUISelected?.Invoke();
+                if (!_isUIElementSelected) DMTKUISelected?.Invoke();
                 _isUIElementSelected = true;
-                if(DebugEnabled) Debug.Log(result.gameObject.name);
+                if (DebugEnabled) Debug.Log(result.gameObject.name);
                 return;
             }
             
