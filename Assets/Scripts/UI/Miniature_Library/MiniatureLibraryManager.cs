@@ -16,15 +16,19 @@ namespace UI.Miniature_Library
         public RectOverflow RectOverflowScript;
         public ObjectPool DMTKLibraryButtonObjectPool; 
         public AssetLabelReference MiniatureSpawnDataLabel;
+        public AssetLabelReference MiniaturePrefabLabel;
         public Transform MiniatureParent;
         
         private AsyncOperationHandle<IList<MiniatureSpawnDataSO>> _miniDataAsyncHandle;  
+        private AsyncOperationHandle<IList<GameObject>> _miniPrefabAsyncHandle;  
         
         #region UnityFunctions
 
         private void Awake()
         {
             Instance = this;
+            _miniPrefabAsyncHandle = Addressables.LoadAssetsAsync<GameObject>(MiniaturePrefabLabel,
+                spawnData => { });
         }
 
         private void OnEnable()

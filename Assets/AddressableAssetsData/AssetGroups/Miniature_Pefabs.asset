@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Miniature_Pefabs
+  m_EditorClassIdentifier: 
+  m_GroupName: Miniature_Pefabs
+  m_Data:
+    m_SerializedData: []
+  m_GUID: decb0a7148510564783f4ee4fe3aa5ef
+  m_SerializeEntries:
+  - m_GUID: 20c946c26a8770f409d74e34e221a0c6
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Barrel_Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniaturePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f3f62acaf16f61428783940797f73b1
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Ice_Arrows Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniaturePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d609daa0ed6e4a1499a9f33c13137d7c
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Miniature_Manager.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniaturePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 631fd806c91402a469974e057726f61a
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Pickaxe_Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniaturePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 690c167d65d6ac24eb95994be4a609c9
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Plain_Arrows_Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniaturePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 276891c393f3ffc4c82d98a8082bcee0
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Sword_Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniaturePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 00380757cd6804d48b542e48e866952f
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Tree_Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniaturePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e1dbf33d35326b54ca35e30d16299faf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 8a61433e918014c46823ce06170b2cef, type: 2}
+    - {fileID: 11400000, guid: 489ef2f905f2d974a9ec323132360b33, type: 2}

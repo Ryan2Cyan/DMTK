@@ -119,6 +119,7 @@ namespace UI.Miniature_Data
 
         private void OnTypeChanged(MiniatureData miniatureData)
         {
+            if (miniatureData != MiniatureData) return;
             ToggleHideAll(miniatureData.Type == MiniatureType.Prop);
         }
         

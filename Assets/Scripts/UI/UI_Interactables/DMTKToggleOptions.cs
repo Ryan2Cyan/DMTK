@@ -19,6 +19,7 @@ namespace UI.UI_Interactables
         public void SelectOption(int index)
         {
             SelectedIndex = index;
+            RadialToggles[SelectedIndex].TurnOn();
             for (var i = 0; i < RadialToggles.Count; i++)
             {
                 if (index == i) continue;

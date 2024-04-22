@@ -81,7 +81,6 @@ namespace UI.Miniature_Radial
         
         public void MiniatureClicked(MiniatureData miniature)
         {
-            if (_currentState != _disabledState) return;
             SelectedMiniData = miniature;
             SetTargetScriptTargets(SelectedMiniData.transform);
             ChangeState(_mainState);

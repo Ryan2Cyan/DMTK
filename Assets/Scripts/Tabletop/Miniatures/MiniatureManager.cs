@@ -74,9 +74,8 @@ namespace Tabletop.Miniatures
         
         private void MouseUp()
         {
-            // Disable radial if clicking anywhere but a UI element:
-            Debug.Log("MouseUp: " + UIManager.Instance.UIInteraction);
             if (UIManager.Instance.UIInteraction) return;
+            
             if (SelectedMiniature == null) RadialManager.Instance.Disable();
             else RadialManager.Instance.MiniatureClicked(SelectedMiniature.Data);
         }

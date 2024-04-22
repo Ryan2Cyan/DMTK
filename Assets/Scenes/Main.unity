@@ -304,8 +304,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0386ec54c8f26cc4b8fc506de897a7a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIClicked: 0
   DebugEnabled: 0
+  UIInteraction: 0
+  UISelected: 0
 --- !u!4 &129980488
 Transform:
   m_ObjectHideFlags: 0
@@ -2963,17 +2964,9 @@ PrefabInstance:
       propertyPath: ParentCanvas
       value: 
       objectReference: {fileID: 849222005}
-    - target: {fileID: 5027895031093655682, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -11.075806
-      objectReference: {fileID: 0}
     - target: {fileID: 8522292722862339406, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
       propertyPath: m_Name
       value: DMTK_Miniature_Library
-      objectReference: {fileID: 0}
-    - target: {fileID: 8522292722862339406, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8678345915620018967, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
       propertyPath: m_Pivot.x
