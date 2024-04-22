@@ -21,7 +21,17 @@ namespace UI.Miniature_Radial
         public int MaxValue;
         public int MinValue;
 
-        [HideInInspector] public int Value;
+        public int Value
+        {
+            get => _value;
+            set
+            {
+                _value = value;
+                UpdateUI();
+            }
+        }
+
+        protected int _value;
         
         private TextMeshProUGUI _valueText;
         public bool _active;
@@ -58,6 +68,12 @@ namespace UI.Miniature_Radial
         protected override void OnPress()
         {
             Value++;
+            UpdateUI();
+            base.OnPress();
+        }
+
+        private void UpdateUI()
+        {
             if (Value > MaxValue) Value = MinValue;
             _valueText.text = Value.ToString();
             _active = Value != MinValue;
@@ -72,7 +88,6 @@ namespace UI.Miniature_Radial
                 _baseImage.color = BaseInactiveColour;
                 _iconImage.color = IconInactiveColour;
             }
-            base.OnPress();
         }
     }
 }

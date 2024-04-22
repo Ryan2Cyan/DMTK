@@ -30,6 +30,8 @@ namespace UI.Miniature_Radial
         private TextMeshProUGUI _titleTMP;
         protected bool _initialised;
         
+        [HideInInspector] public bool Highlighted;
+        
         private static readonly int RightParam = Animator.StringToHash("Right");
         protected static readonly int ActiveParam = Animator.StringToHash("Active");
         
@@ -87,13 +89,19 @@ namespace UI.Miniature_Radial
         protected virtual void OnHighlight()
         {
             if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Highlight");
-            if(gameObject.activeInHierarchy) _titleAnimator.SetBool(ActiveParam, true);
+            
+            if (!gameObject.activeInHierarchy) return;
+            _titleAnimator.SetBool(ActiveParam, true);
+            Highlighted = true;
         }
 
         protected virtual void OnUnhighlight()
         {
             if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Unhighlight");
-            if(gameObject.activeInHierarchy) _titleAnimator.SetBool(ActiveParam, false);
+            
+            if (!gameObject.activeInHierarchy) return;
+            _titleAnimator.SetBool(ActiveParam, false);
+            Highlighted = false;
         }
 
         protected virtual void OnPress()

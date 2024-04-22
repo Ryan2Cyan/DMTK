@@ -31,6 +31,7 @@ namespace UI.Miniature_Radial
         
         [Header("Status Condition Radial Icons")] 
         public RadialInteger ExhaustionRadialIcon;
+        public List<RadialToggle> ToggleStatusConditions;
         
         [HideInInspector] public MiniatureData SelectedMiniData;
 
@@ -124,6 +125,13 @@ namespace UI.Miniature_Radial
 
         public void LoadMiniatureData()
         {
+            // Set status conditions UI:
+            for (var i = 0; i < ToggleStatusConditions.Count; i++)
+            {
+                ToggleStatusConditions[i].Toggle = SelectedMiniData.StatusConditions[(StatusCondition)i];
+            }
+            ExhaustionRadialIcon.Value = SelectedMiniData.ExhaustionLevel;
+            
             // Set hit point UI:
             MaximumHealthKeyboardInput.SetStringValue(SelectedMiniData.MaximumHitPoints.ToString());
             CurrentHealthTMP.text = SelectedMiniData.CurrentHitPoints.ToString();

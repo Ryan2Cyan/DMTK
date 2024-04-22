@@ -15,9 +15,19 @@ namespace UI.Miniature_Radial
         public Color IconToggleOffColour;
         public Color IconHighlightedOnColour;
         public Color IconHighlightedOffColour;
+        
+        public bool Toggle
+        {
+            get => _toggle;
+            set
+            {
+                _toggle = value;
+                if(Highlighted) OnHighlight();
+                else OnUnhighlight();
+            }
+        }
 
-        [HideInInspector] public bool Toggle;
-        [HideInInspector] public bool Highlighted;
+        protected bool _toggle;
         
         #region UnityFunctions
 
@@ -45,7 +55,6 @@ namespace UI.Miniature_Radial
             base.OnHighlight();
             _baseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
             _iconImage.color = Toggle ? IconHighlightedOnColour : IconHighlightedOffColour;
-            Highlighted = true;
         }
 
         protected override void OnUnhighlight()
@@ -54,7 +63,6 @@ namespace UI.Miniature_Radial
             base.OnUnhighlight();
             _baseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
             _iconImage.color = Toggle ? IconToggleOnColour : IconToggleOffColour;
-            Highlighted = false;
         }
 
         protected override void OnPress()

@@ -37,7 +37,10 @@ namespace UI.UI_Interactables
 
         #region InputFunctions
 
-        public void OnMouseUp() { }
+        public void OnMouseUp()
+        {
+            OnPress?.Invoke();
+        }
 
         public void OnMouseEnter()
         {
@@ -54,10 +57,7 @@ namespace UI.UI_Interactables
             
         }
 
-        public virtual void OnMouseDown()
-        {
-            OnPress?.Invoke();
-        }
+        public virtual void OnMouseDown() { }
 
         #endregion
 
