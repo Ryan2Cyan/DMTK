@@ -7,7 +7,8 @@ namespace Input
     public class InputManager : MonoBehaviour
     {
         public static InputManager Instance;
-        public Queue<DMTKInputAction> InputQueue = new();
+        public readonly Queue<DMTKInputAction> UIInputQueue = new();
+        public readonly Queue<DMTKInputAction> MiniatureInputQueue = new();
         
         public delegate void DMTKInputAction();
         
@@ -68,17 +69,6 @@ namespace Input
             _inputActions.DMTKPlayer.TabDown.performed -= TabDown;
             _inputActions.DMTKPlayer.TabDown.canceled -= TabUp;
         }
-
-        private void Update()
-        {
-            MousePosition = _inputActions.DMTKPlayer.MousePosition.ReadValue<Vector2>();
-            MouseScroll = _inputActions.DMTKPlayer.MouseScroll.ReadValue<float>();
-            
-            if (_mouseDownPrevious && _mouseDown) OnMouseDrag?.Invoke();
-            _mouseDownPrevious = _mouseDown;
-            
-            if(MouseScroll != 0f) OnMouseScroll?.Invoke();
-        }
         
         #endregion
 
@@ -86,12 +76,24 @@ namespace Input
 
         public void OnUpdate()
         {
-            while (InputQueue.TryDequeue(out var result)) result.Invoke();                
+            MousePosition = _inputActions.DMTKPlayer.MousePosition.ReadValue<Vector2>();
+            MouseScroll = _inputActions.DMTKPlayer.MouseScroll.ReadValue<float>();
+            if (_mouseDownPrevious && _mouseDown) OnMouseDrag?.Invoke();
+            _mouseDownPrevious = _mouseDown;
+            if(MouseScroll != 0f) OnMouseScroll?.Invoke();
+            
+            while (UIInputQueue.TryDequeue(out var result)) result.Invoke();  
+            while (MiniatureInputQueue.TryDequeue(out var result)) result.Invoke();  
         }
 
-        public void QueueInputFunction(DMTKInputAction inputFunction)
+        public void QueueUIInputFunction(DMTKInputAction inputFunction)
         {
-            InputQueue.Enqueue(inputFunction);
+            UIInputQueue.Enqueue(inputFunction);
+        }
+        
+        public void QueueMiniatureInputFunction(DMTKInputAction inputFunction)
+        {
+            MiniatureInputQueue.Enqueue(inputFunction);
         }
 
         #endregion

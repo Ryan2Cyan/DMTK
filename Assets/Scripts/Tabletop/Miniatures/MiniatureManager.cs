@@ -5,7 +5,6 @@ using UI;
 using UI.Miniature_Data;
 using UI.Miniature_Radial;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utility;
 
 namespace Tabletop.Miniatures
@@ -25,8 +24,6 @@ namespace Tabletop.Miniatures
         
         private bool _isMiniatureSelected;
         private bool _isMiniatureGrabbed;
-        private bool _uiSelected;
-        public bool UIClicked;
 
         #region UnityFunctions
         
@@ -43,9 +40,6 @@ namespace Tabletop.Miniatures
             InputManager.OnMouseUp += OnMouseUp;
             InputManager.OnMouseHold += OnMouseHold;
             InputManager.OnMouseHoldCancelled += OnHoldRelease;
-            UIManager.DMTKUISelected += OnUISelected;
-            UIManager.DMTKUIDeselected += OnUIDeselected;
-            UIManager.DMTKUIMouseDown += OnUIMouseDown;
         }
 
         private void OnDisable()
@@ -53,36 +47,43 @@ namespace Tabletop.Miniatures
             InputManager.OnMouseUp -= OnMouseUp;
             InputManager.OnMouseHold -= OnMouseHold;
             InputManager.OnMouseHoldCancelled -= OnHoldRelease;
-            UIManager.DMTKUISelected -= OnUISelected;
-            UIManager.DMTKUIDeselected -= OnUIDeselected;
-            UIManager.DMTKUIMouseDown -= OnUIMouseDown;
+        }
+        
+        #endregion
+
+        #region InputQueueFunctions
+
+        private void OnMouseUp()
+        {
+            InputManager.Instance.QueueMiniatureInputFunction(MouseUp);
+        }
+
+        private void OnMouseHold()
+        {
+            InputManager.Instance.QueueMiniatureInputFunction(MouseHold);
+        }
+
+        private void OnHoldRelease()
+        {
+            InputManager.Instance.QueueMiniatureInputFunction(HoldRelease);
         }
         
         #endregion
 
         #region InputFunctions
-
-        private void OnMouseUp()
-        {
-            InputManager.Instance.QueueInputFunction(MouseUp);
-        }
-
+        
         private void MouseUp()
         {
             // Disable radial if clicking anywhere but a UI element:
-            Debug.Log("MouseUp: " + UIClicked);
-            if (Instance.UIClicked)
-            {
-                Instance.UIClicked = false;
-                return;
-            }
+            Debug.Log("MouseUp: " + UIManager.Instance.UIInteraction);
+            if (UIManager.Instance.UIInteraction) return;
             if (SelectedMiniature == null) RadialManager.Instance.Disable();
             else RadialManager.Instance.MiniatureClicked(SelectedMiniature.Data);
         }
         
-        private void OnMouseHold()
+        private void MouseHold()
         {
-            if (_uiSelected) return;
+            if (UIManager.Instance.UISelected) return;
             if (!_isMiniatureSelected) return;
             if (_isMiniatureGrabbed) return;
             
@@ -93,7 +94,7 @@ namespace Tabletop.Miniatures
         }
         
         /// <summary> If any miniature is grabbed, release it.</summary>
-        private void OnHoldRelease()
+        private void HoldRelease()
         {
             if (!_isMiniatureGrabbed) return;
             GrabbedMiniature.OnRelease();
@@ -138,7 +139,7 @@ namespace Tabletop.Miniatures
                 if (miniature.Collider != hit.collider) continue;
                 if(_isMiniatureSelected) SelectedMiniature.ToggleOutline(false);
                 SelectedMiniature = miniature;
-                if(!_uiSelected) SelectedMiniature.ToggleOutline(true);
+                if(!UIManager.Instance.UISelected) SelectedMiniature.ToggleOutline(true);
                 _isMiniatureSelected = true;
                 return;
             }
@@ -146,21 +147,6 @@ namespace Tabletop.Miniatures
             if(_isMiniatureSelected) SelectedMiniature.ToggleOutline(false);
             SelectedMiniature = null;
             _isMiniatureSelected = false;
-        }
-
-        private void OnUISelected()
-        {
-            _uiSelected = true;
-        }
-        
-        private void OnUIDeselected()
-        {
-            _uiSelected = false;
-        }
-        
-        private void OnUIMouseDown()
-        {
-            UIClicked = true;
         }
         #endregion
     }

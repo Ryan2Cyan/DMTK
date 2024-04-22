@@ -3,23 +3,25 @@ using General;
 using Input;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace UI
 {
     public class UIManager : MonoBehaviour, IManager<UIElement>
     {
+        [Header("Components")]
         public static UIManager Instance;
         public readonly List<UIElement> AllUIElements = new();
-        public bool UIClicked;
+        
+        [Header("Settings")]
         public bool DebugEnabled;
-        public delegate void DMTKUIDelegate();
-        public static event DMTKUIDelegate DMTKUISelected;
-        public static event DMTKUIDelegate DMTKUIDeselected;
-        public static event DMTKUIDelegate DMTKUIMouseDown;
+        
+        
+        [HideInInspector] public bool UIInteraction;
+        [HideInInspector] public bool UISelected;
         
         private UIElement _currentUIElementInteraction;
         private PointerEventData _pointerEventData;
-        private bool _isUIElementSelected;
         
         #region UnityFunctions
 
@@ -55,7 +57,7 @@ namespace UI
 
         public void OnLateUpdate()
         {
-            UIClicked = false;
+            UIInteraction = false;
         }
 
         public void RegisterElement(UIElement element)
@@ -70,26 +72,46 @@ namespace UI
         
         #endregion
 
-        #region InputFunctions
+        #region InputQueueFunctions
 
         public void OnMouseDown()
         {
-            if (!_isUIElementSelected) return;
-            _currentUIElementInteraction.OnMouseDown();
-            DMTKUIMouseDown?.Invoke();
-            UIClicked = true;
+            InputManager.Instance.QueueUIInputFunction(MouseDown);
         }
-        
+
         public void OnMouseUp()
         {
-            if (!_isUIElementSelected) return; 
-            _currentUIElementInteraction.OnMouseUp();
+            InputManager.Instance.QueueUIInputFunction(MouseUp);
         }
 
         public void OnMouseDrag()
         {
-            if (!_isUIElementSelected) return; 
+            InputManager.Instance.QueueUIInputFunction(MouseDrag);
+        }
+
+        #endregion
+        
+        #region InputFunctions
+
+        private void MouseDown()
+        {
+            if (!UISelected) return;
+            _currentUIElementInteraction.OnMouseDown();
+            UIInteraction = true;
+        }
+
+        private void MouseUp()
+        {
+            if (!UISelected) return; 
+            _currentUIElementInteraction.OnMouseUp();
+            UIInteraction = true;
+        }
+
+        private void MouseDrag()
+        {
+            if (!UISelected) return; 
             _currentUIElementInteraction.OnDrag();
+            UIInteraction = true;
         }
 
         #endregion
@@ -113,20 +135,18 @@ namespace UI
                 if (!newElementUI.UIElementActive) continue;
                 
                 // Select new element:
-                if (_isUIElementSelected) _currentUIElementInteraction.OnMouseExit();
+                if (UISelected) _currentUIElementInteraction.OnMouseExit();
                 _currentUIElementInteraction = newElementUI;
                 newElementUI.OnMouseEnter();
-                if (!_isUIElementSelected) DMTKUISelected?.Invoke();
-                _isUIElementSelected = true;
+                UISelected = true;
                 if (DebugEnabled) Debug.Log(result.gameObject.name);
                 return;
             }
             
             // Cursor is selecting no interactable UI element:
-            if(_isUIElementSelected) _currentUIElementInteraction.OnMouseExit();
+            if(UISelected) _currentUIElementInteraction.OnMouseExit();
             _currentUIElementInteraction = null;
-            if(_isUIElementSelected) DMTKUIDeselected?.Invoke();
-            _isUIElementSelected = false;
+            UISelected = false;
         }
 
         #endregion

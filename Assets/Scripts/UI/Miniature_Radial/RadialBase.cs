@@ -108,13 +108,13 @@ namespace UI.Miniature_Radial
 
         public void OnMouseDown()
         {
-            if (!Interactable) return;
-            OnPress();
+            
         }
 
         public void OnMouseUp()
         {
-            
+            if (!Interactable) return;
+            OnPress();
         }
 
         public void OnMouseEnter()
