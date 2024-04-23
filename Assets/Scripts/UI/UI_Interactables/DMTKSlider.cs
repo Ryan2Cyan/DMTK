@@ -5,6 +5,7 @@ namespace UI.UI_Interactables
     public class DMTKSlider : Slider, UIElement
     {
         public bool UIElementActive { get; set; }
+        public int UIElementPriority { get; set; }
 
         protected override void OnEnable()
         {

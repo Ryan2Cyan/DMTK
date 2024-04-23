@@ -5,7 +5,7 @@ using UnityEngine;
 namespace UI.Utility
 {
     [ExecuteAlways]
-    public class RectOverflow : MonoBehaviour
+    public class RectOverflow : MonoBehaviour, UIElement
     {
         [Header("Components")] 
         public RectTransform ParentRectTransform;
@@ -32,6 +32,9 @@ namespace UI.Utility
         private float _parentStartPosition;
         private float _maxHeight;
         private float _yScrollOffset;
+        
+        public bool UIElementActive { get; set; }
+        public int UIElementPriority { get; set; }
 
         [Header("Vertical Scaling Settings")] 
         public bool ScaleYToMaxRowCount;
@@ -49,16 +52,19 @@ namespace UI.Utility
 
         private void Awake()
         {
+            UIElementPriority = 1;
             CalculateOverflow();
         }
 
         private void OnEnable()
         {
+            UIElementActive = true;
             InputManager.OnMouseScroll += OnMouseScroll;
         }
 
         private void OnDisable()
         {
+            UIElementActive = false;
             InputManager.OnMouseScroll -= OnMouseScroll;
         }
 
@@ -183,5 +189,19 @@ namespace UI.Utility
         }
         
         #endregion
+        
+        public void OnMouseDown() { }
+        public void OnMouseUp() { }
+
+        public void OnMouseEnter()
+        {
+            EnableScrolling = true;
+        }
+
+        public void OnMouseExit()
+        {
+            EnableScrolling = false;
+        }
+        public void OnDrag() { }
     }
 }

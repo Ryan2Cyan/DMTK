@@ -6,6 +6,7 @@ namespace UI.UI_Interactables
     public class DMTKButton : Button, UIElement
     {
         public bool UIElementActive { get; set; }
+        public int UIElementPriority { get; set; }
 
         protected override void OnEnable()
         {

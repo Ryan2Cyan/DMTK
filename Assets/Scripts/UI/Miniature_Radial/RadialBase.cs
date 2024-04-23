@@ -36,10 +36,12 @@ namespace UI.Miniature_Radial
         protected static readonly int ActiveParam = Animator.StringToHash("Active");
         
         public bool UIElementActive { get; set; }
+        public int UIElementPriority { get; set; }
 
         #region UnityFunctions
         protected virtual void Awake()
         {
+            UIElementPriority = 1;
             OnInitialise();
             OnToggleDisable(Disabled);
         }

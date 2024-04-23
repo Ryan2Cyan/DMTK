@@ -2851,7 +2851,7 @@ PrefabInstance:
       propertyPath: MiniatureParent
       value: 
       objectReference: {fileID: 577676057}
-    - target: {fileID: 4556249431893595670, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
+    - target: {fileID: 4993134433878253470, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
       propertyPath: ParentCanvas
       value: 
       objectReference: {fileID: 849222005}

@@ -14,6 +14,7 @@ namespace UI.Miniature_Library
 
         protected override void Awake()
         {
+            UIElementPriority = 2;
             base.Awake();
             RectTransform = GetComponent<RectTransform>();
         }

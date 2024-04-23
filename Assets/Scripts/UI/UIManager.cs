@@ -124,6 +124,9 @@ namespace UI
             _pointerEventData.position = InputManager.MousePosition;
             var results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(_pointerEventData, results);
+            
+            var highestPriority = 0;
+            UIElement selectedElement = null;
             foreach (var result in results)
             {
                 // Check has "Interactable_UI" tag:
@@ -133,20 +136,29 @@ namespace UI
                 var newElementUI = result.gameObject.GetComponent<UIElement>();
                 if (newElementUI == null) continue;
                 if (!newElementUI.UIElementActive) continue;
-                
-                // Select new element:
-                if (UISelected) _currentUIElementInteraction.OnMouseExit();
-                _currentUIElementInteraction = newElementUI;
-                newElementUI.OnMouseEnter();
-                UISelected = true;
-                if (DebugEnabled) Debug.Log(result.gameObject.name);
-                return;
+
+                // If priority is higher, store it:
+                if (newElementUI.UIElementPriority < highestPriority) continue;
+                selectedElement = newElementUI;
+                highestPriority = selectedElement.UIElementPriority;
             }
             
-            // Cursor is selecting no interactable UI element:
-            if(UISelected) _currentUIElementInteraction.OnMouseExit();
-            _currentUIElementInteraction = null;
-            UISelected = false;
+            // Select new element:
+            if (selectedElement != null)
+            {
+                if (UISelected) _currentUIElementInteraction.OnMouseExit();
+                _currentUIElementInteraction = selectedElement;
+                selectedElement.OnMouseEnter();
+                UISelected = true;
+                if (DebugEnabled) Debug.Log(selectedElement);
+            }
+            else
+            {
+                // Cursor is selecting no interactable UI element:
+                if(UISelected) _currentUIElementInteraction.OnMouseExit();
+                _currentUIElementInteraction = null;
+                UISelected = false;   
+            }
         }
 
         #endregion

@@ -9,7 +9,8 @@ namespace UI.Window
     public class ReadKeyboardInput : MonoBehaviour, UIElement
     {
         public bool UIElementActive { get; set; }
-        
+        public int UIElementPriority { get; set; }
+
         [Header("Settings")] 
         public Color ActiveColour;
         public Color InactiveColour;

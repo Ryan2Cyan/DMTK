@@ -15,6 +15,7 @@ namespace UI.UI_Interactables
         [Header("Components")] 
         public Image ButtonOverlayImage;
         public bool UIElementActive { get; set; }
+        public int UIElementPriority { get; set; }
 
         #region UnityFunctions
 
@@ -42,7 +43,7 @@ namespace UI.UI_Interactables
             OnPress?.Invoke();
         }
 
-        public void OnMouseEnter()
+        public virtual void OnMouseEnter()
         {
             ButtonOverlayImage.color = HighlightedColour;
         }

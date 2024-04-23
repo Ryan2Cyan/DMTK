@@ -20,6 +20,7 @@ namespace UI.Window
         private RectTransform _rectTransform;
         
         public bool UIElementActive { get; set; }
+        public int UIElementPriority { get; set; }
 
         #region UnityFunctions
         

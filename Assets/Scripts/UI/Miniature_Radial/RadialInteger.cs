@@ -38,6 +38,7 @@ namespace UI.Miniature_Radial
 
         protected override void Awake()
         {
+            UIElementPriority = 1;
             OnInitialise();
         }
 

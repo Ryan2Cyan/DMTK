@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6124293774091519657}
   - component: {fileID: 5084982157279230484}
-  - component: {fileID: 1741618624714194647}
   - component: {fileID: 8062150948159249769}
   m_Layer: 5
   m_Name: RectOverflow
@@ -47,29 +46,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1504674984928418022}
   m_CullTransparentMesh: 1
---- !u!114 &1741618624714194647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1504674984928418022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9f3697b527f75a4cbe2f8156927f8fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ParentRectTransform: {fileID: 405984666739629478}
-  Elements: []
-  ParentCanvas: {fileID: 0}
-  ElementSize: {x: 100, y: 100}
-  Spacing: {x: 165.5, y: 163}
-  ViewPort: {fileID: 8064987749917682243}
-  Alignment: {fileID: 1104940764180789547}
-  ScrollSpeed: 2000
-  ScrollPadding: 100
-  EnableScrolling: 1
-  ScaleYToMaxRowCount: 1
 --- !u!114 &8062150948159249769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +116,7 @@ GameObject:
   - component: {fileID: 8064987749917682243}
   - component: {fileID: 5153719291473717777}
   - component: {fileID: 5091112164910084692}
+  - component: {fileID: 7087356357733087071}
   m_Layer: 5
   m_Name: Window_Content_Library
   m_TagString: Untagged
@@ -207,6 +184,29 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7087356357733087071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3591629320108260376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9f3697b527f75a4cbe2f8156927f8fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ParentRectTransform: {fileID: 405984666739629478}
+  Elements: []
+  ParentCanvas: {fileID: 0}
+  ElementSize: {x: 100, y: 100}
+  Spacing: {x: 165.5, y: 163}
+  ViewPort: {fileID: 8064987749917682243}
+  Alignment: {fileID: 1104940764180789547}
+  ScrollSpeed: 2000
+  ScrollPadding: 100
+  EnableScrolling: 1
+  ScaleYToMaxRowCount: 1
 --- !u!1 &7911776544228050205
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ namespace UI
     public interface UIElement
     {
         public bool UIElementActive { get; set; }
+        public int UIElementPriority { get; set; }
 
         #region InputFunctions
 

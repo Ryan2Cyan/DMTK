@@ -168,7 +168,7 @@ namespace Tabletop.Miniatures
                 return;
             }
 
-            if(_isMiniatureSelected) SelectedMiniature.ToggleOutline(false);
+            if(_isMiniatureSelected && SelectedMiniature != null) SelectedMiniature.ToggleOutline(false);
             SelectedMiniature = null;
             _isMiniatureSelected = false;
         }

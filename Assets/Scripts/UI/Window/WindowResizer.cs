@@ -55,6 +55,7 @@ namespace UI.Window
         private bool _active;
         
         public bool UIElementActive { get; set; }
+        public int UIElementPriority { get; set; }
 
         #region UnityStateFunctions
 

@@ -237,13 +237,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5040609e15f1a4fb1d3477bc555778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RectOverflowScript: {fileID: 4556249431893595670}
+  RectOverflowScript: {fileID: 4993134433878253470}
   DMTKLibraryButtonObjectPool: {fileID: 5256536174847112616}
   MiniatureSpawnDataLabel:
     m_LabelString: MiniatureSpawnData
   MiniaturePrefabLabel:
     m_LabelString: MiniaturePrefab
-  MiniatureParent: {fileID: 0}
 --- !u!1001 &2814877716402989249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -275,6 +274,10 @@ PrefabInstance:
     - target: {fileID: 3591629320108260376, guid: 44006be0d0728f04dbdfcd80d74ac589, type: 3}
       propertyPath: m_Name
       value: Window_Content_Library
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591629320108260376, guid: 44006be0d0728f04dbdfcd80d74ac589, type: 3}
+      propertyPath: m_TagString
+      value: Interactable_UI
       objectReference: {fileID: 0}
     - target: {fileID: 8064987749917682243, guid: 44006be0d0728f04dbdfcd80d74ac589, type: 3}
       propertyPath: m_Pivot.x
@@ -365,9 +368,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44006be0d0728f04dbdfcd80d74ac589, type: 3}
---- !u!114 &4556249431893595670 stripped
+--- !u!114 &4993134433878253470 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1741618624714194647, guid: 44006be0d0728f04dbdfcd80d74ac589, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7087356357733087071, guid: 44006be0d0728f04dbdfcd80d74ac589, type: 3}
   m_PrefabInstance: {fileID: 2814877716402989249}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

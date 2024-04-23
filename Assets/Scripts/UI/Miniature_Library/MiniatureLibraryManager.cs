@@ -17,7 +17,6 @@ namespace UI.Miniature_Library
         public ObjectPool DMTKLibraryButtonObjectPool; 
         public AssetLabelReference MiniatureSpawnDataLabel;
         public AssetLabelReference MiniaturePrefabLabel;
-        public Transform MiniatureParent;
         
         private AsyncOperationHandle<IList<MiniatureSpawnDataSO>> _miniDataAsyncHandle;  
         private AsyncOperationHandle<IList<GameObject>> _miniPrefabAsyncHandle;  
@@ -29,6 +28,11 @@ namespace UI.Miniature_Library
             Instance = this;
             _miniPrefabAsyncHandle = Addressables.LoadAssetsAsync<GameObject>(MiniaturePrefabLabel,
                 spawnData => { });
+        }
+
+        private void OnDestroy()
+        {
+            Addressables.Release(_miniPrefabAsyncHandle);
         }
 
         private void OnEnable()
