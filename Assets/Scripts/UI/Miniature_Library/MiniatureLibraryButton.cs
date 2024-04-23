@@ -25,7 +25,7 @@ namespace UI.Miniature_Library
 
         public override void OnMouseDown()
         {
-            MiniatureLibraryManager.Instance.SpawnMiniature(MiniatureID);
+            MiniatureLibraryManager.Instance.LocateMiniatureId(MiniatureID);
         }
 
         #endregion

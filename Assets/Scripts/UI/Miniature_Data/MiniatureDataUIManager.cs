@@ -144,7 +144,15 @@ namespace UI.Miniature_Data
         }
         #endregion
 
-        public void Instantiate() { }
-        public void Release() { }
+        public void Instantiate()
+        {
+            gameObject.SetActive(true);
+            if(_animator != null) _animator.SetBool(Enabled, true);
+        }
+
+        public void Release()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

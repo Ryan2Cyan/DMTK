@@ -22,8 +22,11 @@ namespace UI.Miniature_Radial
 
         public void OnStart(RadialManager radialManager)
         {
-            radialManager.MainRadial.MenuAnimator.SetBool(Enabled, true);
             radialManager.EnableWorldSpaceDisplay();
+            var mainRadialAnimator = radialManager.MainRadial.MenuAnimator;
+            mainRadialAnimator.Rebind();
+            mainRadialAnimator.Update(0f);
+            mainRadialAnimator.SetBool(Enabled, true);
             radialManager.MainRadial.cullEventScript.Target = radialManager.SelectedMiniData.transform;
             
             // Update all data to match the selected miniature:

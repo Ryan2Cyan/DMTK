@@ -18,6 +18,11 @@ namespace UI.Utility
 
         private void Update()
         {
+            CalculateWorldSpacePosition();
+        }
+
+        public void CalculateWorldSpacePosition()
+        {
             // Set UI position (as if in world-space):
             var position = WorldSpaceTarget.position + Offset;
             

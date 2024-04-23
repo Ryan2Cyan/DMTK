@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Tabletop.Tabletop;
 using UI.DistanceArrow;
+using UI.Miniature_Data;
 using UnityEngine;
 
 namespace Tabletop.Miniatures
@@ -17,21 +18,13 @@ namespace Tabletop.Miniatures
      
         [NonSerialized] public BoxCollider Collider;
         [HideInInspector] public MiniatureData Data;
+        [HideInInspector] public MiniatureDataUIManager DataUI;
 
         private List<Transform> _childrenTransforms;
         private IEnumerator _currentRoutine;
         private const float _grabbedYOffset = 0.5f;
         private const float _grabExecutionTime = 0.05f;
-
-        #region UnityFunctions
-
-        private void OnDestroy()
-        {
-            MiniatureManager.Instance.UnregisterElement(this);
-        }
-
-        #endregion
-
+        
         #region PublicFunctions
 
         public void Spawn(MiniatureSpawnDataSO spawnData, TabletopCell cell)
@@ -43,6 +36,13 @@ namespace Tabletop.Miniatures
             SetCurrentCell(cell);
             transform.position = new Vector3(CurrentCell.Position.x, 0f, CurrentCell.Position.y);
             MiniatureManager.Instance.RegisterElement(this);
+        }
+
+        public void Despawn()
+        {
+            CurrentCell.SetCellState(CurrentCell.DisabledState);
+            MiniatureManager.Instance.UnregisterElement(this);
+            Destroy(gameObject);
         }
         
         /// <summary> Called when the user selects with left-mouse, moving up on the y-axis.</summary>

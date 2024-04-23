@@ -101,6 +101,9 @@ namespace UI.Miniature_Radial
         public void EnableWorldSpaceDisplay()
         {
             ToggleTargetScripts(true);
+            
+            // Move radials on the frame it's enabled:
+            _uiInWorldSpaceScript.CalculateWorldSpacePosition();
         }
 
         public void DisableWorldSpaceDisplay()

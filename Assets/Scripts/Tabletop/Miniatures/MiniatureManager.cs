@@ -21,6 +21,7 @@ namespace Tabletop.Miniatures
         [Header("Components")]
         public ObjectPool MiniatureDataUIPool;
         public LayerMask MiniatureLayerMask;
+        public Transform MiniatureParent;
         
         private bool _isMiniatureSelected;
         private bool _isMiniatureGrabbed;
@@ -49,6 +50,28 @@ namespace Tabletop.Miniatures
             InputManager.OnMouseHoldCancelled -= OnHoldRelease;
         }
         
+        #endregion
+
+        #region PublicFunctions
+
+        public void SpawnMiniature(MiniatureSpawnDataSO miniatureSpawnData)
+        {
+            // Find available cell on Tabletop:
+            Tabletop.Tabletop.Instance.AssignClosestToGridCentre(out var newCell);
+            if (newCell == null) return;
+            
+            // Spawn miniature:
+            var spawnedMini = Instantiate(miniatureSpawnData.Prefab, MiniatureParent).GetComponent<Miniature>();
+            spawnedMini.Spawn(miniatureSpawnData, newCell);
+        }
+
+        public void DespawnMiniature()
+        {
+            var selectedMiniature = RadialManager.Instance.SelectedMiniData;
+            if (selectedMiniature == null) return;
+            selectedMiniature.GetComponent<Miniature>().Despawn();
+        }
+
         #endregion
 
         #region InputQueueFunctions
@@ -119,10 +142,12 @@ namespace Tabletop.Miniatures
             RegisteredMiniatures.Add(element);
             var miniatureDataUI = (MiniatureDataUIManager)MiniatureDataUIPool.GetPooledObject();
             miniatureDataUI.Instantiate(element.Data);
+            element.DataUI = miniatureDataUI;
         }
 
         public void UnregisterElement(Miniature element)
         {
+            MiniatureDataUIPool.ReleasePooledObject(element.DataUI);
             RegisteredMiniatures.Remove(element);
         }
         

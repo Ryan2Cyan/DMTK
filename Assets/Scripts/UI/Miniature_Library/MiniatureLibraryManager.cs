@@ -55,17 +55,12 @@ namespace UI.Miniature_Library
 
         #region PublicFunctions
 
-        public void SpawnMiniature(string id)
+        public void LocateMiniatureId(string id)
         {
             foreach (var miniData in _miniDataAsyncHandle.Result)
             {
                 if (id != miniData.Id) continue;
-            
-                Tabletop.Tabletop.Tabletop.Instance.AssignClosestToGridCentre(out var newCell);
-                if (newCell == null) continue;
-                
-                var spawnedMini = Instantiate(miniData.Prefab, MiniatureParent).GetComponent<Miniature>();
-                spawnedMini.Spawn(miniData, newCell);
+                MiniatureManager.Instance.SpawnMiniature(miniData);
             }
         }
 
