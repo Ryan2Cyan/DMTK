@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI.Miniature_Radial
 {
@@ -9,13 +10,19 @@ namespace UI.Miniature_Radial
         public Color BaseToggleOffColour;
         public Color BaseHighlightedOnColour;
         public Color BaseHighlightedOffColour;
-        
+        public Image imageTest;
         [Header("Icon Colour Settings")]
         public Color IconToggleOnColour;
         public Color IconToggleOffColour;
         public Color IconHighlightedOnColour;
         public Color IconHighlightedOffColour;
-        
+
+        [Header("Sprite Settings")] 
+        public bool ToggleSprite;
+        public Sprite SpriteToggleOn;
+        public Sprite SpriteToggleOff;
+
+        public float TestInt;
         public bool Toggle
         {
             get => _toggle;
