@@ -7,7 +7,6 @@ namespace UI.Miniature_Radial
 {
     public class RadialBase : MonoBehaviour, UIElement
     {
-        [Header("Title Settings")]
         public string Title;
         
         public enum RadialTitleDisplayDirection { Left, Right }
@@ -24,7 +23,7 @@ namespace UI.Miniature_Radial
         public bool Disabled;
         public bool DebugActive;
         
-        protected Image _baseImage;
+        public Image BaseImage;
         protected Image _iconImage;
         protected Animator _titleAnimator;
         private TextMeshProUGUI _titleTMP;
@@ -63,7 +62,7 @@ namespace UI.Miniature_Radial
             {
                 if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Disabled: On");
                 _iconImage.color = DisabledIconColour;
-                _baseImage.color = DisabledBaseColour;
+                BaseImage.color = DisabledBaseColour;
                 UIElementActive = false;
             }
             else
@@ -82,7 +81,7 @@ namespace UI.Miniature_Radial
         {
             _titleAnimator = transform.GetChild(0).GetComponent<Animator>();
             _titleTMP = transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            _baseImage = transform.GetChild(1).GetComponent<Image>();
+            BaseImage = transform.GetChild(1).GetComponent<Image>();
             _iconImage = transform.GetChild(2).GetComponent<Image>();
             _titleTMP.text = Title;
             _initialised = true;

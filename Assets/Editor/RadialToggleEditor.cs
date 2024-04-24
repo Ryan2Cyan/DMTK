@@ -42,46 +42,65 @@ namespace Editor
     //     }
     // }
     
-    [CustomEditor(typeof(RadialToggle))]
-    [CanEditMultipleObjects]
-    public class RadialToggleEditor2 : UnityEditor.Editor
-    {
-        private RadialToggle _radialToggle;
-        private SerializedProperty _testInt; 
     
+    [CustomEditor(typeof(RadialBase)), CanEditMultipleObjects]
+    public class RadialBaseEditor : UnityEditor.Editor
+    {
+        private RadialBase _radialBase;
+        private SerializedProperty _title;
+        private SerializedProperty _titleDirection;
+
+        private Sprite _circleSprite;
+        private Font _defaultFont;
+        private bool _titleFoldoutToggle;
+        
         private void OnEnable()
         {
-            _radialToggle = (RadialToggle)target;
-            _testInt = serializedObject.FindProperty("TestInt");
+            _radialBase = (RadialBase)target;
+            _title = serializedObject.FindProperty("Title");
+            _titleDirection = serializedObject.FindProperty("TitleDisplayDirection");
+            _circleSprite = Resources.Load<Sprite>("Sprites/Circle");
+            _defaultFont = Resources.Load<Font>("Fonts/Draconis");
         }
     
         public override void OnInspectorGUI()
         {
-            DrawDefaultInspector();
             serializedObject.Update();
+            // Setup:
+            GUI.skin.box.alignment = TextAnchor.MiddleCenter;
+            GUI.skin.box.fontSize = 18;
+            GUI.skin.box.font = _defaultFont;
+            GUI.skin.box.normal.background = EditorUtility.MakeClearTexure(2, 2, Color.clear);
+            
+            // Title settings:
             EditorUtility.Vertical(() =>
             {
-                EditorUtility.Horizontal(() =>
+                EditorUtility.FoldOut(() =>
                 {
-                    EditorGUILayout.LabelField("Icons Icon", GUILayout.MaxWidth(200));
-                    EditorUtility.FlexibleSpace(() =>
+                    EditorUtility.Align(() =>
                     {
-                        if (_radialToggle.imageTest != null)
+                        EditorGUILayout.PropertyField(_title);
+                        EditorGUILayout.PropertyField(_titleDirection);
+                    }, GUILayoutAlignment.Right);
+                    EditorGUILayout.Space();
+                    
+                    EditorGUILayout.Space();
+                    EditorUtility.Horizontal(() =>
+                    {
+                        EditorUtility.Align(() =>
                         {
-                            EditorUtility.Vertical(() =>
-                            {
-                                GUILayout.Box("Highlighted");
-                                GUILayout.Box(AssetPreview.GetAssetPreview(_radialToggle.imageTest.sprite));    
-                            });
-                            EditorUtility.Vertical(() =>
-                            {
-                                GUILayout.Box("Unhighlighted");
-                                GUILayout.Box(AssetPreview.GetAssetPreview(_radialToggle.imageTest.sprite));    
-                            });
-                        }
+                            var isLeft = _radialBase.TitleDisplayDirection == RadialBase.RadialTitleDisplayDirection.Left;
+                            
+                            EditorUtility.TextBox(!isLeft ? "" : _radialBase.Title, 80f, 50f);
+                            EditorUtility.Sprite(_circleSprite, 50f, 50f);
+                            EditorUtility.TextBox(isLeft ? "" : _radialBase.Title, 80f, 50f);
+                            
+                        }, GUILayoutAlignment.Centre); 
                     });
-                });
+                    
+                }, ref _titleFoldoutToggle, "Title Settings"); 
             });
+            
             serializedObject.ApplyModifiedProperties();
         }
     }

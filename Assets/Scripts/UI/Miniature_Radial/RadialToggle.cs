@@ -10,7 +10,7 @@ namespace UI.Miniature_Radial
         public Color BaseToggleOffColour;
         public Color BaseHighlightedOnColour;
         public Color BaseHighlightedOffColour;
-        public Image imageTest;
+        
         [Header("Icon Colour Settings")]
         public Color IconToggleOnColour;
         public Color IconToggleOffColour;
@@ -21,8 +21,7 @@ namespace UI.Miniature_Radial
         public bool ToggleSprite;
         public Sprite SpriteToggleOn;
         public Sprite SpriteToggleOff;
-
-        public float TestInt;
+        
         public bool Toggle
         {
             get => _toggle;
@@ -52,7 +51,7 @@ namespace UI.Miniature_Radial
         {
             if (_initialised) return;
             base.OnInitialise();
-            _baseImage.color = BaseToggleOffColour;
+            BaseImage.color = BaseToggleOffColour;
             _iconImage.color = IconToggleOffColour;
             Toggle = false;
         }
@@ -61,7 +60,7 @@ namespace UI.Miniature_Radial
         {
             if (Disabled) return;
             base.OnHighlight();
-            _baseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
+            BaseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
             _iconImage.color = Toggle ? IconHighlightedOnColour : IconHighlightedOffColour;
         }
 
@@ -69,7 +68,7 @@ namespace UI.Miniature_Radial
         {
             if (Disabled) return;
             base.OnUnhighlight();
-            _baseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
+            BaseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
             _iconImage.color = Toggle ? IconToggleOnColour : IconToggleOffColour;
         }
 
@@ -80,12 +79,12 @@ namespace UI.Miniature_Radial
             Toggle = !Toggle;
             if (Highlighted)
             {
-                _baseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
+                BaseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
                 _iconImage.color = Toggle ? IconHighlightedOnColour : IconHighlightedOffColour;
             }
             else
             {
-                _baseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
+                BaseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
                 _iconImage.color = Toggle ? IconToggleOnColour : IconToggleOffColour;
             }
         }

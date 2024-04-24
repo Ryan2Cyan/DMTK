@@ -48,7 +48,7 @@ namespace UI.Miniature_Radial
             _valueText = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
             _valueText.color = ValueTextColour;
             _valueText.enabled = false;
-            _baseImage.color = BaseInactiveColour;
+            BaseImage.color = BaseInactiveColour;
             _iconImage.color = IconInactiveColour;
         }
 
@@ -56,14 +56,14 @@ namespace UI.Miniature_Radial
         {
             base.OnHighlight();
             _valueText.enabled = true;
-            if (_active) _baseImage.color = BaseActiveHighlightColour;
+            if (_active) BaseImage.color = BaseActiveHighlightColour;
         }
 
         protected override void OnUnhighlight()
         {
             base.OnUnhighlight();
             _valueText.enabled = false;
-            if (_active) _baseImage.color = BaseActiveColour;
+            if (_active) BaseImage.color = BaseActiveColour;
         }
 
         protected override void OnPress()
@@ -81,12 +81,12 @@ namespace UI.Miniature_Radial
 
             if (_active)
             {
-                _baseImage.color = BaseActiveHighlightColour;
+                BaseImage.color = BaseActiveHighlightColour;
                 _iconImage.color = IconActiveColour;
             }
             else
             {
-                _baseImage.color = BaseInactiveColour;
+                BaseImage.color = BaseInactiveColour;
                 _iconImage.color = IconInactiveColour;
             }
         }

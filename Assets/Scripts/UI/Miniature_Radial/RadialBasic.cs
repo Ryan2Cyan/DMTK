@@ -20,7 +20,7 @@ namespace UI.Miniature_Radial
         {
             if (Disabled) return;
             base.OnHighlight();
-            _baseImage.color = BaseHighlightedColour;
+            BaseImage.color = BaseHighlightedColour;
             _iconImage.color = IconHighlightedColour;
         }
 
@@ -28,7 +28,7 @@ namespace UI.Miniature_Radial
         {
             if (Disabled) return;
             base.OnUnhighlight();
-            _baseImage.color = BaseUnhighlightedColour;
+            BaseImage.color = BaseUnhighlightedColour;
             _iconImage.color = IconUnhighlightedColour;
         }
 
@@ -36,7 +36,7 @@ namespace UI.Miniature_Radial
         {
             base.OnPress();
             if (Disabled) return;
-            _baseImage.color = BaseUnhighlightedColour;
+            BaseImage.color = BaseUnhighlightedColour;
             _iconImage.color = IconUnhighlightedColour;
         }
 
