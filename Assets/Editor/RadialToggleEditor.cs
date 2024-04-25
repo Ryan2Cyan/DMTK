@@ -29,10 +29,15 @@ namespace Editor
         protected string _GUItitle;
         
         private RadialBase _radialBase;
+        
+        // Serialised Values:
         private SerializedProperty _title;
         private SerializedProperty _titleDirection;
+        private SerializedProperty _onPressEvent;
         private SerializedProperty _disabledBaseColour;
         private SerializedProperty _disabledIconColour;
+        private SerializedProperty _disableOnEnable;
+        private SerializedProperty _debugActive;
 
         protected List<RadialGUIState> _radialGUIStates = new();
         
@@ -44,26 +49,28 @@ namespace Editor
         
         private bool _titleFoldoutToggle;
         private bool _disableFoldoutToggle;
-        private bool _statesFoldoutToggle;
+        private bool _eventsFoldoutToggle;
+        private bool _debugFoldoutToggle;
         
         protected virtual void OnEnable()
         {
             _GUItitle = "Radial Base";
             _radialBase = (RadialBase)target;
-            _titleFoldoutToggle = true;
-            _disableFoldoutToggle = true;
             
             // Serialised properties:
             _title = serializedObject.FindProperty("Title");
             _titleDirection = serializedObject.FindProperty("TitleDisplayDirection");
+            _onPressEvent = serializedObject.FindProperty("OnPressEvent");
             _disabledBaseColour = serializedObject.FindProperty("DisabledBaseColour");
             _disabledIconColour = serializedObject.FindProperty("DisabledIconColour");
+            _disableOnEnable = serializedObject.FindProperty("DisableOnEnable");
+            _debugActive = serializedObject.FindProperty("DebugActive");
             
             // Style assets:
             _circleSprite = Resources.Load<Sprite>("Sprites/Circle");
             _draconisFont = Resources.Load<Font>("Fonts/Draconis");
             _boxBackground = EditorUtility.MakeClearTexture(2, 2, Color.clear);
-            _foldOutFontSize = 13;
+            _foldOutFontSize = 12;
         }
     
         public override void OnInspectorGUI()
@@ -77,84 +84,134 @@ namespace Editor
 
             EditorUtility.Vertical(() =>
             {
-                // Title settings:
-                EditorUtility.FoldOut(() =>
-                {
-                    EditorUtility.Indent(() =>
-                    {
-                        EditorUtility.Align(() =>
-                        {
-                            EditorGUILayout.PropertyField(_title);
-                            EditorGUILayout.PropertyField(_titleDirection);
-                        }, GUILayoutAlignment.Right);
-                        EditorGUILayout.Space();
-
-                        EditorGUILayout.Space();
-                        EditorUtility.Horizontal(() =>
-                        {
-                            EditorUtility.Align(() =>
-                            {
-                                var isLeft = _radialBase.TitleDisplayDirection ==
-                                             RadialBase.RadialTitleDisplayDirection.Left;
-
-                                EditorUtility.TextBox(!isLeft ? "" : _radialBase.Title, _boxBackground, _draconisFont,
-                                    80f, 50f);
-                                EditorUtility.Sprite(_circleSprite, _boxBackground, 50f, 50f);
-                                EditorUtility.TextBox(isLeft ? "" : _radialBase.Title, _boxBackground, _draconisFont,
-                                    80f, 50f);
-
-                            }, GUILayoutAlignment.Centre);
-                        });
-                    }, 1);
-                    if (_radialBase.Title == "") EditorUtility.Warning("No title field present!");
-                }, ref _titleFoldoutToggle, "Title Settings", _foldOutFontSize);
-
                 // States:
-                EditorUtility.FoldOut(() =>
-                {
-                    EditorUtility.Indent(() =>
-                    {
-                        EditorUtility.Horizontal(() =>
-                        {
-                            EditorUtility.Align(() =>
-                            {
-                                EditorUtility.Vertical(() =>
-                                {
-                                    foreach (var guiState in _radialGUIStates)
-                                    {
-                                        EditorUtility.TextBox(guiState.Title, _boxBackground, _draconisFont, 100f, 20f);
-                                        EditorUtility.SpriteButton(
-                                            EditorUtility.MakeRadialTexture(guiState.BaseColour, _radialBase.IconImage.sprite.texture, guiState.IconColour)
-                                            , guiState.Function, 100f, 50f);
-                                    }
-                                });
-                            }, GUILayoutAlignment.Centre);
-                        });
-                    }, 1);
-                }, ref _statesFoldoutToggle, "Radial States", _foldOutFontSize);
+                RadialStatesSection();
+                
+                // Sections:
+                RadialFoldoutSection(TitleSection, ref _titleFoldoutToggle, "Title Settings");
+                RadialFoldoutSection(DisabledSettingsSection, ref _disableFoldoutToggle, "Disabled Settings");
+                RadialFoldoutSection(EventsSection, ref _eventsFoldoutToggle, "Events Settings");
+                RadialFoldoutSection(DebugSection, ref _debugFoldoutToggle, "Debug Settings");
             });
-            
-            // Disabled settings:
-            EditorUtility.FoldOut(() =>
-            {
-                EditorUtility.Indent(() =>
-                {
-                    EditorGUILayout.PropertyField(_disabledBaseColour);
-                    EditorGUILayout.PropertyField(_disabledIconColour);
-                    EditorGUILayout.Space();
-
-                    EditorGUILayout.Space();
-                }, 1);
-            }, ref _disableFoldoutToggle, "Disabled Settings", _foldOutFontSize);
                 
             _radialGUIStates.Clear();
             serializedObject.ApplyModifiedProperties();
         }
 
+        #region RadialSections
+
+        private void RadialStatesSection()
+        {
+            EditorUtility.Indent(() =>
+            {
+                EditorUtility.Horizontal(() =>
+                {
+                    EditorUtility.Align(() =>
+                    {
+                        EditorUtility.Vertical(() =>
+                        {
+                            foreach (var guiState in _radialGUIStates)
+                            {
+                                EditorUtility.TextBox(guiState.Title, _boxBackground, _draconisFont, 100f, 20f);
+                                EditorUtility.SpriteButton(
+                                    EditorUtility.MakeRadialTexture(guiState.BaseColour, _radialBase.IconImage.sprite.texture, guiState.IconColour)
+                                    , guiState.Function, 100f, 50f);
+                            }
+                        });
+                    }, GUILayoutAlignment.Centre);
+                });
+            }, 1);
+        }
+        
+        protected virtual void DisabledSettingsSection()
+        {
+            EditorGUILayout.PropertyField(_disabledBaseColour);
+            EditorGUILayout.PropertyField(_disabledIconColour);
+            EditorGUILayout.PropertyField(_disableOnEnable);
+        }
+        
+        protected virtual void EventsSection()
+        {
+            EditorGUILayout.PropertyField(_onPressEvent);
+        }
+        
+        protected virtual void DebugSection()
+        {
+            EditorGUILayout.PropertyField(_debugActive);
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
+            
+            EditorUtility.Horizontal(() =>
+            {
+                EditorGUILayout.LabelField("Interactable: ");
+                EditorGUILayout.LabelField(_radialBase.Interactable.ToString());
+            });
+            
+            EditorUtility.Horizontal(() =>
+            {
+                EditorGUILayout.LabelField("Highlighted: ");
+                EditorGUILayout.LabelField(_radialBase.Highlighted.ToString());
+            });
+            
+            EditorUtility.Horizontal(() =>
+            {
+                EditorGUILayout.LabelField("UI Element Active: ");
+                EditorGUILayout.LabelField(_radialBase.UIElementActive.ToString());
+            });
+        }
+
+        protected virtual void TitleSection()
+        {
+            EditorUtility.Align(() =>
+            {
+                EditorGUILayout.PropertyField(_title);
+                EditorGUILayout.PropertyField(_titleDirection);
+            }, GUILayoutAlignment.Right);
+            EditorGUILayout.Space();
+
+            EditorGUILayout.Space();
+            EditorUtility.Horizontal(() =>
+            {
+                EditorUtility.Align(() =>
+                {
+                    var isLeft = _radialBase.TitleDisplayDirection ==
+                                 RadialBase.RadialTitleDisplayDirection.Left;
+
+                    EditorUtility.TextBox(!isLeft ? "" : _radialBase.Title, _boxBackground, _draconisFont,
+                        80f, 50f);
+                    EditorUtility.Sprite(_circleSprite, _boxBackground, 50f, 50f);
+                    EditorUtility.TextBox(isLeft ? "" : _radialBase.Title, _boxBackground, _draconisFont,
+                        80f, 50f);
+
+                }, GUILayoutAlignment.Centre);
+            });
+            if (_radialBase.Title == "") EditorUtility.Warning("No title field present!");
+        }
+        
+        #endregion
+        
+        #region GeneralFunctions
+        
+        protected void RadialFoldoutSection(Action encapsulatedFields, ref bool foldOutToggle, string title)
+        {
+            EditorUtility.FoldOut(() =>
+            {
+                EditorUtility.Indent(() =>
+                {
+                    EditorGUILayout.Space();
+                    encapsulatedFields.Invoke();
+                    EditorGUILayout.Space();
+                    EditorGUILayout.Space();
+                }, 1);
+            }, ref foldOutToggle, title, _foldOutFontSize);
+        }
+        
         protected void AssignGUIStates()
         {
             _radialGUIStates.Add(new RadialGUIState("Disabled", _radialBase.GUIDisable, _radialBase.DisabledBaseColour, _radialBase.DisabledIconColour));
         }
+        
+        #endregion
     }
 
     [CustomEditor(typeof(RadialToggle)), CanEditMultipleObjects]

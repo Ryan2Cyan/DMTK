@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Miniature_Radial
@@ -8,7 +9,6 @@ namespace UI.Miniature_Radial
     public class RadialBase : MonoBehaviour, UIElement
     {
         public string Title;
-        public Renderer BaseRenderer;
         
         public enum RadialTitleDisplayDirection { Left, Right }
         public RadialTitleDisplayDirection TitleDisplayDirection;
@@ -16,18 +16,19 @@ namespace UI.Miniature_Radial
         public Color DisabledBaseColour;
         public Color DisabledIconColour;
         
-        [Header("On Press")] 
         public UnityEvent OnPressEvent;
         
         public bool Interactable = true;
-        public bool Disabled;
+        public bool DisableOnEnable;
         public bool DebugActive;
         
         public Image BaseImage;
         public Image IconImage;
+        
         protected Animator _titleAnimator;
-        private TextMeshProUGUI _titleTMP;
         protected bool _initialised;
+        protected bool _disabled;
+        private TextMeshProUGUI _titleTMP;
         
         [HideInInspector] public bool Highlighted;
         
@@ -42,12 +43,13 @@ namespace UI.Miniature_Radial
         {
             UIElementPriority = 1;
             OnInitialise();
-            OnToggleDisable(Disabled);
+            OnToggleDisable(DisableOnEnable);
         }
 
         protected virtual void OnEnable()
         {
             _titleAnimator.SetBool(RightParam, TitleDisplayDirection == RadialTitleDisplayDirection.Right);
+            if (DisableOnEnable) _disabled = true;
             OnUnhighlight();
         }
         #endregion
@@ -57,7 +59,7 @@ namespace UI.Miniature_Radial
         public void OnToggleDisable(bool toggle)
         {
             if(!_initialised) OnInitialise();
-            Disabled = toggle;
+            _disabled = toggle;
             if (toggle)
             {
                 if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Disabled: On");
@@ -82,7 +84,6 @@ namespace UI.Miniature_Radial
             _titleAnimator = transform.GetChild(0).GetComponent<Animator>();
             _titleTMP = transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             BaseImage = transform.GetChild(1).GetComponent<Image>();
-            BaseRenderer = BaseImage.gameObject.GetComponent<Renderer>();
             IconImage = transform.GetChild(2).GetComponent<Image>();
             _titleTMP.text = Title;
             _initialised = true;
@@ -112,6 +113,7 @@ namespace UI.Miniature_Radial
             OnPressEvent.Invoke();
             _titleAnimator.SetBool(ActiveParam, false);
         }
+        
         #endregion
         
         #region InputFunctions

@@ -27,7 +27,7 @@ namespace UI.Window
         {
             if (SelectedPageIndex == Pages.Count - 1) return;
             
-            if(PreviousRadial.Disabled) PreviousRadial.OnToggleDisable(false);
+            if(PreviousRadial.DisableOnEnable) PreviousRadial.OnToggleDisable(false);
             Pages[SelectedPageIndex].SetActive(false);
             SelectedPageIndex++;
             Pages[SelectedPageIndex].SetActive(true);
@@ -39,7 +39,7 @@ namespace UI.Window
         {
             if (SelectedPageIndex == 0) return;
             
-            if(NextRadial.Disabled) NextRadial.OnToggleDisable(false);
+            if(NextRadial.DisableOnEnable) NextRadial.OnToggleDisable(false);
             Pages[SelectedPageIndex].SetActive(false);
             SelectedPageIndex--;
             Pages[SelectedPageIndex].SetActive(true);

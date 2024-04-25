@@ -55,16 +55,17 @@ namespace Editor
             GUI.skin.label.font = defaultFont;
         }
 
-        public static void FoldOut(Action encapsulatedFields, ref bool toggle, string title, int fontSize)
+        public static void FoldOut(Action encapsulatedFields, ref bool toggle, string title, int fontSize = 12, Font font = null)
         {
-            toggle = EditorUtilityFoldout.FontSize(lambdaToggle =>
+            toggle = EditorUtilityFoldout.Font(lambdaToggle =>
             {
-                lambdaToggle = EditorUtilityFoldout.FontStyle(
-                    lambdaToggle0 => EditorGUILayout.Foldout(lambdaToggle0, title),
-                    lambdaToggle, FontStyle.Bold);
+                lambdaToggle = EditorUtilityFoldout.FontSize(lambdaToggle0 =>
+                {
+                    lambdaToggle0 = EditorUtilityFoldout.FontStyle(lambdaToggle1 => EditorGUILayout.Foldout(lambdaToggle1, title), lambdaToggle0, FontStyle.Bold);
+                    return lambdaToggle0;
+                }, lambdaToggle, fontSize);
                 return lambdaToggle;
-            }, toggle, fontSize);
-
+            }, toggle, font);
             if (toggle) encapsulatedFields.Invoke();
         }
 
@@ -108,8 +109,7 @@ namespace Editor
                                             EditorUtilityBox.TextColour(
                                                 () =>
                                                 {
-                                                    GUILayout.Box(text, GUILayout.Width(width),
-                                                        GUILayout.Height(height));
+                                                    GUILayout.Box(text, GUILayout.Width(width), GUILayout.Height(height));
                                                 }, Color.white);
                                         }, background);
                                 }, font);
@@ -182,6 +182,15 @@ namespace Editor
             EditorStyles.foldout.fontSize = size;
             var result = encapsulatedFields.Invoke(toggle);
             EditorStyles.foldout.fontSize = defaultValue;
+            return result;
+        }
+        
+        public static bool Font(EditorFoldoutDelegate encapsulatedFields, bool toggle, Font font)
+        {
+            var defaultValue = EditorStyles.foldout.font;
+            EditorStyles.foldout.font = font;
+            var result = encapsulatedFields.Invoke(toggle);
+            EditorStyles.foldout.font = defaultValue;
             return result;
         }
     }

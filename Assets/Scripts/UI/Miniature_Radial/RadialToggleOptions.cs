@@ -16,7 +16,7 @@ namespace UI.Miniature_Radial
         public void TurnOn()
         {
             if(!_initialised) OnInitialise();
-            if (Disabled) return;
+            if (DisableOnEnable) return;
             
             Toggle = true;
             BaseImage.color = BaseToggleOnColour;
@@ -28,7 +28,7 @@ namespace UI.Miniature_Radial
         public void TurnOff()
         {
             if(!_initialised) OnInitialise();
-            if (Disabled) return;
+            if (DisableOnEnable) return;
             OnUnhighlight();
             Toggle = false;
             BaseImage.color = BaseToggleOffColour;
@@ -37,7 +37,7 @@ namespace UI.Miniature_Radial
 
         protected override void OnPress()
         {
-            if (Disabled) return;
+            if (DisableOnEnable) return;
             if (Toggle) return;
             
             Toggle = true;
