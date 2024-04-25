@@ -19,7 +19,7 @@ namespace UI.Miniature_Radial
             if (Disabled) return;
             
             Toggle = true;
-            BaseImage.color = BaseToggleOnColour;
+            _baseImage.color = BaseToggleOnColour;
             _iconImage.color = IconToggleOnColour;
             if(gameObject.activeInHierarchy) _titleAnimator.SetBool(ActiveParam, false);
         }
@@ -31,7 +31,7 @@ namespace UI.Miniature_Radial
             if (Disabled) return;
             OnUnhighlight();
             Toggle = false;
-            BaseImage.color = BaseToggleOffColour;
+            _baseImage.color = BaseToggleOffColour;
             _iconImage.color = IconToggleOffColour;
         }
 
@@ -43,12 +43,12 @@ namespace UI.Miniature_Radial
             Toggle = true;
             if (Highlighted)
             {
-                BaseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
+                _baseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
                 _iconImage.color = Toggle ? IconHighlightedOnColour : IconHighlightedOffColour;
             }
             else
             {
-                BaseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
+                _baseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
                 _iconImage.color = Toggle ? IconToggleOnColour : IconToggleOffColour;
             }
 

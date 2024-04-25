@@ -51,7 +51,7 @@ namespace UI.Miniature_Radial
         {
             if (_initialised) return;
             base.OnInitialise();
-            BaseImage.color = BaseToggleOffColour;
+            _baseImage.color = BaseToggleOffColour;
             _iconImage.color = IconToggleOffColour;
             Toggle = false;
         }
@@ -60,7 +60,7 @@ namespace UI.Miniature_Radial
         {
             if (Disabled) return;
             base.OnHighlight();
-            BaseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
+            _baseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
             _iconImage.color = Toggle ? IconHighlightedOnColour : IconHighlightedOffColour;
         }
 
@@ -68,7 +68,7 @@ namespace UI.Miniature_Radial
         {
             if (Disabled) return;
             base.OnUnhighlight();
-            BaseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
+            _baseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
             _iconImage.color = Toggle ? IconToggleOnColour : IconToggleOffColour;
         }
 
@@ -79,12 +79,12 @@ namespace UI.Miniature_Radial
             Toggle = !Toggle;
             if (Highlighted)
             {
-                BaseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
+                _baseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
                 _iconImage.color = Toggle ? IconHighlightedOnColour : IconHighlightedOffColour;
             }
             else
             {
-                BaseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
+                _baseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
                 _iconImage.color = Toggle ? IconToggleOnColour : IconToggleOffColour;
             }
         }

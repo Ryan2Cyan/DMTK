@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Miniature_Radial
@@ -23,7 +24,7 @@ namespace UI.Miniature_Radial
         public bool Disabled;
         public bool DebugActive;
         
-        public Image BaseImage;
+        protected Image _baseImage;
         protected Image _iconImage;
         protected Animator _titleAnimator;
         private TextMeshProUGUI _titleTMP;
@@ -62,7 +63,7 @@ namespace UI.Miniature_Radial
             {
                 if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Disabled: On");
                 _iconImage.color = DisabledIconColour;
-                BaseImage.color = DisabledBaseColour;
+                _baseImage.color = DisabledBaseColour;
                 UIElementActive = false;
             }
             else
@@ -81,7 +82,7 @@ namespace UI.Miniature_Radial
         {
             _titleAnimator = transform.GetChild(0).GetComponent<Animator>();
             _titleTMP = transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            BaseImage = transform.GetChild(1).GetComponent<Image>();
+            _baseImage = transform.GetChild(1).GetComponent<Image>();
             _iconImage = transform.GetChild(2).GetComponent<Image>();
             _titleTMP.text = Title;
             _initialised = true;
