@@ -20,24 +20,24 @@ namespace UI.Miniature_Radial
         {
             if (Disabled) return;
             base.OnHighlight();
-            _baseImage.color = BaseHighlightedColour;
-            _iconImage.color = IconHighlightedColour;
+            BaseImage.color = BaseHighlightedColour;
+            IconImage.color = IconHighlightedColour;
         }
 
         protected override void OnUnhighlight()
         {
             if (Disabled) return;
             base.OnUnhighlight();
-            _baseImage.color = BaseUnhighlightedColour;
-            _iconImage.color = IconUnhighlightedColour;
+            BaseImage.color = BaseUnhighlightedColour;
+            IconImage.color = IconUnhighlightedColour;
         }
 
         protected override void OnPress()
         {
             base.OnPress();
             if (Disabled) return;
-            _baseImage.color = BaseUnhighlightedColour;
-            _iconImage.color = IconUnhighlightedColour;
+            BaseImage.color = BaseUnhighlightedColour;
+            IconImage.color = IconUnhighlightedColour;
         }
 
         #endregion

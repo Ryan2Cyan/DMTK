@@ -1,47 +1,27 @@
+
+using System.Collections.Generic;
 using UI.Miniature_Radial;
+using Unity.Plastic.Antlr3.Runtime.Misc;
 using UnityEditor;
 using UnityEngine;
 
 namespace Editor
 {
-    // [CustomEditor(typeof(RadialToggle))]
-    // public class RadialToggleEditor : UnityEditor.Editor
-    // {
-    //     private RadialToggle _radialToggle;
-    //     private bool _foldOutToggle;
-    //
-    //     private void OnEnable()
-    //     {
-    //         _radialToggle = (RadialToggle)target;
-    //     }
-    //
-    //     public override void OnInspectorGUI()
-    //     {
-    //         // Draw title:
-    //         EditorUtility.Vertical(
-    //             () =>
-    //             {
-    //                 EditorUtility.DrawTitle("Radial Toggle", 15);
-    //                 GUILayout.Label("Toggle: " + _radialToggle.Toggle);
-    //                 
-    //                 // GUI.color = _radialToggle.TestInt > 0 ? Color.red : Color.white;
-    //                 EditorUtility.FoldOut(() => {
-    //                     EditorUtility.Horizontal(() =>
-    //                         {
-    //                             EditorGUILayout.LabelField("Test Int", GUILayout.MaxWidth(50));
-    //                             _radialToggle.TestInt = EditorGUILayout.FloatField(_radialToggle.TestInt);
-    //                             EditorGUILayout.LabelField("Test Int", GUILayout.MaxWidth(50));
-    //                             _radialToggle.TestInt = EditorGUILayout.FloatField(_radialToggle.TestInt);
-    //                         });
-    //                     EditorGUI.ProgressBar(GUILayoutUtility.GetRect(50, 50),_radialToggle.TestInt / 100f, "Test"); 
-    //                     }, ref _foldOutToggle, "Title");
-    //                 
-    //                 if(_radialToggle.SpriteToggleOn == null) EditorUtility.Warning("Toggle on sprite is null.");
-    //                 if(_radialToggle.SpriteToggleOff == null) EditorUtility.Warning("Toggle off sprite is null.");
-    //             });
-    //     }
-    // }
-    
+    public class RadialGUIState
+    {
+        public RadialGUIState(string title, Action function, Color baseColour, Color iconColour)
+        {
+            Title = title;
+            Function = function;
+            BaseColour = baseColour;
+            IconColour = iconColour;
+        }
+        
+        public string Title;
+        public Action Function;
+        public Color BaseColour;
+        public Color IconColour;
+    }
     
     [CustomEditor(typeof(RadialBase)), CanEditMultipleObjects]
     public class RadialBaseEditor : UnityEditor.Editor
@@ -51,36 +31,53 @@ namespace Editor
         private RadialBase _radialBase;
         private SerializedProperty _title;
         private SerializedProperty _titleDirection;
+        private SerializedProperty _disabledBaseColour;
+        private SerializedProperty _disabledIconColour;
+
+        protected List<RadialGUIState> _radialGUIStates = new();
         
         // Style variables:
         private Texture2D _boxBackground;
         private Sprite _circleSprite;
         private Font _draconisFont;
+        private int _foldOutFontSize;
+        
         private bool _titleFoldoutToggle;
+        private bool _disableFoldoutToggle;
+        private bool _statesFoldoutToggle;
         
         protected virtual void OnEnable()
         {
             _GUItitle = "Radial Base";
             _radialBase = (RadialBase)target;
+            _titleFoldoutToggle = true;
+            _disableFoldoutToggle = true;
+            
+            // Serialised properties:
             _title = serializedObject.FindProperty("Title");
             _titleDirection = serializedObject.FindProperty("TitleDisplayDirection");
+            _disabledBaseColour = serializedObject.FindProperty("DisabledBaseColour");
+            _disabledIconColour = serializedObject.FindProperty("DisabledIconColour");
+            
+            // Style assets:
             _circleSprite = Resources.Load<Sprite>("Sprites/Circle");
             _draconisFont = Resources.Load<Font>("Fonts/Draconis");
-            _boxBackground = EditorUtility.MakeClearTexure(2, 2, Color.clear);
-            _titleFoldoutToggle = true;
+            _boxBackground = EditorUtility.MakeClearTexture(2, 2, Color.clear);
+            _foldOutFontSize = 13;
         }
     
         public override void OnInspectorGUI()
         {
-            DrawDefaultInspector();
+            // DrawDefaultInspector();
             serializedObject.Update();
+            AssignGUIStates();
             
-            // Title:
+            // Main title:
             EditorUtility.DrawTitle(_GUItitle, 25, _draconisFont);
-            
-            // Title settings:
+
             EditorUtility.Vertical(() =>
             {
+                // Title settings:
                 EditorUtility.FoldOut(() =>
                 {
                     EditorUtility.Indent(() =>
@@ -91,26 +88,72 @@ namespace Editor
                             EditorGUILayout.PropertyField(_titleDirection);
                         }, GUILayoutAlignment.Right);
                         EditorGUILayout.Space();
-                        
+
                         EditorGUILayout.Space();
                         EditorUtility.Horizontal(() =>
                         {
                             EditorUtility.Align(() =>
                             {
-                                var isLeft = _radialBase.TitleDisplayDirection == RadialBase.RadialTitleDisplayDirection.Left;
-                                
-                                EditorUtility.TextBox(!isLeft ? "" : _radialBase.Title, _boxBackground, _draconisFont, 80f, 50f);
-                                EditorUtility.Sprite(_circleSprite, _boxBackground,50f, 50f);
-                                EditorUtility.TextBox(isLeft ? "" : _radialBase.Title, _boxBackground, _draconisFont, 80f, 50f);
-                                
-                            }, GUILayoutAlignment.Centre); 
+                                var isLeft = _radialBase.TitleDisplayDirection ==
+                                             RadialBase.RadialTitleDisplayDirection.Left;
+
+                                EditorUtility.TextBox(!isLeft ? "" : _radialBase.Title, _boxBackground, _draconisFont,
+                                    80f, 50f);
+                                EditorUtility.Sprite(_circleSprite, _boxBackground, 50f, 50f);
+                                EditorUtility.TextBox(isLeft ? "" : _radialBase.Title, _boxBackground, _draconisFont,
+                                    80f, 50f);
+
+                            }, GUILayoutAlignment.Centre);
                         });
                     }, 1);
-                    if(_radialBase.Title == "") EditorUtility.Warning("No title field present!");
-                }, ref _titleFoldoutToggle, "Title Settings"); 
+                    if (_radialBase.Title == "") EditorUtility.Warning("No title field present!");
+                }, ref _titleFoldoutToggle, "Title Settings", _foldOutFontSize);
+
+                // States:
+                EditorUtility.FoldOut(() =>
+                {
+                    EditorUtility.Indent(() =>
+                    {
+                        EditorUtility.Horizontal(() =>
+                        {
+                            EditorUtility.Align(() =>
+                            {
+                                EditorUtility.Vertical(() =>
+                                {
+                                    foreach (var guiState in _radialGUIStates)
+                                    {
+                                        EditorUtility.TextBox(guiState.Title, _boxBackground, _draconisFont, 100f, 20f);
+                                        EditorUtility.SpriteButton(
+                                            EditorUtility.MakeRadialTexture(guiState.BaseColour, _radialBase.IconImage.sprite.texture, guiState.IconColour)
+                                            , guiState.Function, 100f, 50f);
+                                    }
+                                });
+                            }, GUILayoutAlignment.Centre);
+                        });
+                    }, 1);
+                }, ref _statesFoldoutToggle, "Radial States", _foldOutFontSize);
             });
             
+            // Disabled settings:
+            EditorUtility.FoldOut(() =>
+            {
+                EditorUtility.Indent(() =>
+                {
+                    EditorGUILayout.PropertyField(_disabledBaseColour);
+                    EditorGUILayout.PropertyField(_disabledIconColour);
+                    EditorGUILayout.Space();
+
+                    EditorGUILayout.Space();
+                }, 1);
+            }, ref _disableFoldoutToggle, "Disabled Settings", _foldOutFontSize);
+                
+            _radialGUIStates.Clear();
             serializedObject.ApplyModifiedProperties();
+        }
+
+        protected void AssignGUIStates()
+        {
+            _radialGUIStates.Add(new RadialGUIState("Disabled", _radialBase.GUIDisable, _radialBase.DisabledBaseColour, _radialBase.DisabledIconColour));
         }
     }
 

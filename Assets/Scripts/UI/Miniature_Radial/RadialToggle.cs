@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI.Miniature_Radial
 {
@@ -51,8 +50,8 @@ namespace UI.Miniature_Radial
         {
             if (_initialised) return;
             base.OnInitialise();
-            _baseImage.color = BaseToggleOffColour;
-            _iconImage.color = IconToggleOffColour;
+            BaseImage.color = BaseToggleOffColour;
+            IconImage.color = IconToggleOffColour;
             Toggle = false;
         }
 
@@ -60,16 +59,16 @@ namespace UI.Miniature_Radial
         {
             if (Disabled) return;
             base.OnHighlight();
-            _baseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
-            _iconImage.color = Toggle ? IconHighlightedOnColour : IconHighlightedOffColour;
+            BaseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
+            IconImage.color = Toggle ? IconHighlightedOnColour : IconHighlightedOffColour;
         }
 
         protected override void OnUnhighlight()
         {
             if (Disabled) return;
             base.OnUnhighlight();
-            _baseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
-            _iconImage.color = Toggle ? IconToggleOnColour : IconToggleOffColour;
+            BaseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
+            IconImage.color = Toggle ? IconToggleOnColour : IconToggleOffColour;
         }
 
         protected override void OnPress()
@@ -79,13 +78,13 @@ namespace UI.Miniature_Radial
             Toggle = !Toggle;
             if (Highlighted)
             {
-                _baseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
-                _iconImage.color = Toggle ? IconHighlightedOnColour : IconHighlightedOffColour;
+                BaseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
+                IconImage.color = Toggle ? IconHighlightedOnColour : IconHighlightedOffColour;
             }
             else
             {
-                _baseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
-                _iconImage.color = Toggle ? IconToggleOnColour : IconToggleOffColour;
+                BaseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
+                IconImage.color = Toggle ? IconToggleOnColour : IconToggleOffColour;
             }
         }
 

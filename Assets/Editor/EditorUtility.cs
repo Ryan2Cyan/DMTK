@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 using Action = Unity.Plastic.Antlr3.Runtime.Misc.Action;
@@ -13,7 +12,7 @@ namespace Editor
     }
 
     public static class EditorUtility
-    { 
+    {
         public static void Vertical(Action encapsulatedFields)
         {
             GUILayout.BeginVertical();
@@ -56,12 +55,16 @@ namespace Editor
             GUI.skin.label.font = defaultFont;
         }
 
-        public static void FoldOut(Action encapsulatedFields, ref bool toggle, string title)
+        public static void FoldOut(Action encapsulatedFields, ref bool toggle, string title, int fontSize)
         {
-            toggle = EditorUtilityFoldout.FontStyle(
-                lambdaToggle => EditorGUILayout.Foldout(lambdaToggle, title), 
-                toggle, FontStyle.Bold);
-            
+            toggle = EditorUtilityFoldout.FontSize(lambdaToggle =>
+            {
+                lambdaToggle = EditorUtilityFoldout.FontStyle(
+                    lambdaToggle0 => EditorGUILayout.Foldout(lambdaToggle0, title),
+                    lambdaToggle, FontStyle.Bold);
+                return lambdaToggle;
+            }, toggle, fontSize);
+
             if (toggle) encapsulatedFields.Invoke();
         }
 
@@ -78,6 +81,14 @@ namespace Editor
                         }, background);
                 }, TextAnchor.MiddleCenter);
 
+        }
+
+        public static void SpriteButton(Texture2D texture, Action buttonAction, float width, float height)
+        {
+            if (GUILayout.Button(texture, GUILayout.Width(width), GUILayout.Height(height)))
+            {
+                buttonAction.Invoke();
+            }
         }
 
         public static void TextBox(string text, Texture2D background, Font font, float width, float height)
@@ -97,7 +108,8 @@ namespace Editor
                                             EditorUtilityBox.TextColour(
                                                 () =>
                                                 {
-                                                    GUILayout.Box(text, GUILayout.Width(width), GUILayout.Height(height));
+                                                    GUILayout.Box(text, GUILayout.Width(width),
+                                                        GUILayout.Height(height));
                                                 }, Color.white);
                                         }, background);
                                 }, font);
@@ -111,7 +123,7 @@ namespace Editor
         }
 
         /// <remarks>Source: https://forum.unity.com/threads/change-gui-box-color.174609/ </remarks>
-        public static Texture2D MakeClearTexure(int width, int height, Color col)
+        public static Texture2D MakeClearTexture(int width, int height, Color col)
         {
             var pix = new Color[width * height];
             for (var i = 0; i < pix.Length; ++i) pix[i] = col;
@@ -120,8 +132,37 @@ namespace Editor
             result.Apply();
             return result;
         }
+        
+        public static Texture2D MakeRadialTexture(Color baseColour, Texture2D iconTexture, Color iconColour)
+        {
+            var width = iconTexture.width;
+            var height = iconTexture.height;
+            var pix = new Color[width * height];
+            var iconPix = iconTexture.GetPixels();
+
+            for (var i = 0; i < iconPix.Length; ++i)
+            {
+                pix[i] = iconPix[i].a > 0 ? iconColour : baseColour;
+            }
+
+            var result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
+        }
     }
 
+    public static class EditorUtilityButton
+    {
+        public static void Background(Action encapsulatedFields, Texture2D background)
+        {
+            var defaultValue = GUI.skin.button.normal.background;
+            GUI.skin.button.normal.background = background;
+            encapsulatedFields.Invoke();
+            GUI.skin.button.normal.background = defaultValue;
+        }
+    }
+    
     public static class EditorUtilityFoldout
     {
         public delegate bool EditorFoldoutDelegate(bool toggle);
@@ -132,6 +173,15 @@ namespace Editor
             EditorStyles.foldout.fontStyle = fontStyle;
             var result = encapsulatedFields.Invoke(toggle);
             EditorStyles.foldout.fontStyle = defaultValue;
+            return result;
+        }
+        
+        public static bool FontSize(EditorFoldoutDelegate encapsulatedFields, bool toggle, int size)
+        {
+            var defaultValue = EditorStyles.foldout.fontSize;
+            EditorStyles.foldout.fontSize = size;
+            var result = encapsulatedFields.Invoke(toggle);
+            EditorStyles.foldout.fontSize = defaultValue;
             return result;
         }
     }
