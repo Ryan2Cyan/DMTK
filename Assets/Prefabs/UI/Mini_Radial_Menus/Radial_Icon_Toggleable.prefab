@@ -291,6 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: TItle
   TitleDisplayDirection: 0
+  DefaultIconSprite: {fileID: 0}
   DefaultBaseColour: {r: 1, g: 1, b: 1, a: 1}
   DefaultIconColour: {r: 0, g: 0, b: 0, a: 1}
   DisabledBaseColour: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 1}
@@ -298,11 +299,12 @@ MonoBehaviour:
   OnPressEvent:
     m_PersistentCalls:
       m_Calls: []
+  BaseImage: {fileID: 903746058850782413}
+  IconImage: {fileID: 3497676737591499360}
   Interactable: 0
   DisableOnEnable: 0
   DebugActive: 0
-  BaseImage: {fileID: 903746058850782413}
-  IconImage: {fileID: 3497676737591499360}
+  Disabled: 0
   Highlighted: 0
   ToggleColours: 1
   BaseUnhighlightOnColour: {r: 1, g: 1, b: 1, a: 1}

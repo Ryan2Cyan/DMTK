@@ -59,14 +59,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2061206536, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3457096, g: 0.764151, b: 0.2991723, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -442,25 +442,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f7e4f8fbfcb434eba5f2e0f2dca183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Title: Opinion 1
-  IsTitleDisplayLeft: 1
+  Title: Title
+  TitleDisplayDirection: 0
+  DefaultIconSprite: {fileID: 0}
+  DefaultBaseColour: {r: 1, g: 1, b: 1, a: 1}
+  DefaultIconColour: {r: 0, g: 0, b: 0, a: 1}
   DisabledBaseColour: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 1}
   DisabledIconColour: {r: 0, g: 0, b: 0, a: 1}
   OnPressEvent:
     m_PersistentCalls:
       m_Calls: []
+  BaseImage: {fileID: 5642152501099457697}
+  IconImage: {fileID: 8235973181167467020}
   Interactable: 1
+  DisableOnEnable: 0
+  DebugActive: 0
   Disabled: 0
-  BaseToggleOnColour: {r: 0.34509805, g: 0.7647059, b: 0.29803923, a: 1}
-  BaseToggleOffColour: {r: 0.40784314, g: 0.40784314, b: 0.40784314, a: 1}
-  BaseHighlightedOnColour: {r: 0, g: 0, b: 0, a: 1}
-  BaseHighlightedOffColour: {r: 0, g: 0, b: 0, a: 1}
-  IconToggleOnColour: {r: 0, g: 0, b: 0, a: 1}
-  IconToggleOffColour: {r: 0, g: 0, b: 0, a: 1}
-  IconHighlightedOnColour: {r: 1, g: 1, b: 1, a: 1}
-  IconHighlightedOffColour: {r: 0.44313726, g: 0.44313726, b: 0.44313726, a: 1}
-  Toggle: 0
   Highlighted: 0
+  ToggleColours: 1
+  BaseUnhighlightOnColour: {r: 1, g: 1, b: 1, a: 1}
+  BaseUnhighlightOffColour: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 1}
+  BaseHighlightOnColour: {r: 0, g: 0, b: 0, a: 1}
+  BaseHighlightOffColour: {r: 0, g: 0, b: 0, a: 1}
+  IconUnhighlightOnColour: {r: 0, g: 0, b: 0, a: 1}
+  IconUnhighlightOffColour: {r: 0, g: 0, b: 0, a: 1}
+  IconHighlightOnColour: {r: 1, g: 1, b: 1, a: 1}
+  IconHighlightOffColour: {r: 0.54901963, g: 0.54901963, b: 0.54901963, a: 1}
+  ToggleSprite: 0
+  SpriteToggleOn: {fileID: 0}
+  SpriteToggleOff: {fileID: 0}
 --- !u!95 &5919144895705239559
 Animator:
   serializedVersion: 5
