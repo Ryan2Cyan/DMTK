@@ -55,7 +55,7 @@ namespace UI.Miniature_Radial
 
         protected override void OnHighlight()
         {
-            if (_disabled) return;
+            if (Disabled) return;
             base.OnHighlight();
             BaseImage.color = Toggle ? BaseHighlightOnColour : BaseHighlightOffColour;
             IconImage.color = Toggle ? IconHighlightOnColour : IconHighlightOffColour;
@@ -63,7 +63,7 @@ namespace UI.Miniature_Radial
 
         protected override void OnUnhighlight()
         {
-            if (_disabled) return;
+            if (Disabled) return;
             base.OnUnhighlight();
             BaseImage.color = Toggle ? BaseUnhighlightOnColour : BaseUnhighlightOffColour;
             IconImage.color = Toggle ? IconUnhighlightOnColour : IconUnhighlightOffColour;
@@ -71,7 +71,7 @@ namespace UI.Miniature_Radial
 
         protected override void OnPress()
         {
-            if (_disabled) return;
+            if (Disabled) return;
             base.OnPress();
             Toggle = !Toggle;
             if (Highlighted)

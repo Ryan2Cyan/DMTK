@@ -12,6 +12,8 @@ namespace UI.Miniature_Radial
         public enum RadialTitleDisplayDirection { Left, Right }
         public RadialTitleDisplayDirection TitleDisplayDirection;
 
+        public Sprite DefaultIconSprite;
+        
         public Color DefaultBaseColour;
         public Color DefaultIconColour;
         
@@ -20,16 +22,16 @@ namespace UI.Miniature_Radial
         
         public UnityEvent OnPressEvent;
         
-        public bool Interactable = true;
-        public bool DisableOnEnable;
-        public bool DebugActive;
-        
         public Image BaseImage;
         public Image IconImage;
         
+        public bool Interactable = true;
+        public bool DisableOnEnable;
+        public bool DebugActive;
+        public bool Disabled;
+        
         protected Animator _titleAnimator;
         protected bool _initialised;
-        protected bool _disabled;
         private TextMeshProUGUI _titleTMP;
         
         [HideInInspector] public bool Highlighted;
@@ -51,7 +53,7 @@ namespace UI.Miniature_Radial
         protected virtual void OnEnable()
         {
             _titleAnimator.SetBool(RightParam, TitleDisplayDirection == RadialTitleDisplayDirection.Right);
-            if (DisableOnEnable) _disabled = true;
+            if (DisableOnEnable) Disabled = true;
             OnUnhighlight();
         }
         #endregion
@@ -61,7 +63,7 @@ namespace UI.Miniature_Radial
         public void OnToggleDisable(bool toggle)
         {
             if(!_initialised) OnInitialise();
-            _disabled = toggle;
+            Disabled = toggle;
             if (toggle)
             {
                 if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Disabled: On");
@@ -86,7 +88,10 @@ namespace UI.Miniature_Radial
             _titleAnimator = transform.GetChild(0).GetComponent<Animator>();
             _titleTMP = transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             BaseImage = transform.GetChild(1).GetComponent<Image>();
+            BaseImage.color = DefaultBaseColour;
             IconImage = transform.GetChild(2).GetComponent<Image>();
+            IconImage.sprite = DefaultIconSprite;
+            IconImage.color = DefaultIconColour;
             _titleTMP.text = Title;
             _initialised = true;
         }

@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using UI.Miniature_Radial;
@@ -38,6 +37,7 @@ namespace Editor
         private SerializedProperty _title;
         private SerializedProperty _titleDirection;
         private SerializedProperty _onPressEvent;
+        private SerializedProperty _defaultIconSprite;
         private SerializedProperty _defaultBaseColour;
         private SerializedProperty _defaultIconColour;
         private SerializedProperty _disabledBaseColour;
@@ -64,6 +64,7 @@ namespace Editor
             _title = serializedObject.FindProperty("Title");
             _titleDirection = serializedObject.FindProperty("TitleDisplayDirection");
             _onPressEvent = serializedObject.FindProperty("OnPressEvent");
+            _defaultIconSprite = serializedObject.FindProperty("DefaultIconSprite");
             _defaultBaseColour = serializedObject.FindProperty("DefaultBaseColour");
             _defaultIconColour = serializedObject.FindProperty("DefaultIconColour");
             _disabledBaseColour = serializedObject.FindProperty("DisabledBaseColour");
@@ -85,11 +86,16 @@ namespace Editor
             
             // Main title:
             EditorUtility.DrawTitle(_GUItitle, 25, _draconisFont);
-
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
+            
             EditorUtility.Vertical(() =>
             {
                 // States:
                 RadialStatesSection();
+                
+                EditorGUILayout.Space();
+                EditorGUILayout.Space();
                 
                 // Sections:
                 ExecuteRadialSections();
@@ -139,8 +145,13 @@ namespace Editor
         
         protected virtual void DefaultSettingsSection()
         {
+            GUILayout.Label("Colours");
             EditorGUILayout.PropertyField(_defaultBaseColour);
             EditorGUILayout.PropertyField(_defaultIconColour);
+            EditorGUILayout.Space();
+            GUILayout.Label("Sprites");
+            EditorGUILayout.PropertyField(_defaultIconSprite);
+            if(_radialBase.DefaultIconSprite == null) EditorUtility.Warning("Default Icon Sprite not assigned!");
         }
         
         protected virtual void DisabledSettingsSection()
@@ -160,6 +171,12 @@ namespace Editor
             EditorGUILayout.PropertyField(_debugActive);
             EditorGUILayout.Space();
             EditorGUILayout.Space();
+            
+            EditorUtility.Horizontal(() =>
+            {
+                EditorGUILayout.LabelField("Interactable: ");
+                EditorGUILayout.LabelField(_radialBase.Disabled.ToString());
+            });
             
             EditorUtility.Horizontal(() =>
             {
@@ -240,6 +257,7 @@ namespace Editor
     {
         private RadialToggle _radialToggle;
         
+        private SerializedProperty _toggleColours;
         private SerializedProperty _baseOffHighlightColour;
         private SerializedProperty _baseOffUnhighlightColour;
         private SerializedProperty _baseOnHighlightColour;
@@ -250,6 +268,7 @@ namespace Editor
         private SerializedProperty _iconOnHighlightColour;
         private SerializedProperty _iconOnUnhighlightColour;
         
+        private SerializedProperty _toggleSprite;
         private SerializedProperty _spriteToggleOn;
         private SerializedProperty _spriteToggleOff;
         
@@ -262,6 +281,7 @@ namespace Editor
             _radialToggle = (RadialToggle)target;
             
             // Serialized properties:
+            _toggleColours = serializedObject.FindProperty("ToggleColours");
             _baseOffHighlightColour = serializedObject.FindProperty("BaseHighlightOffColour");
             _baseOffUnhighlightColour = serializedObject.FindProperty("BaseUnhighlightOffColour");
             _baseOnHighlightColour = serializedObject.FindProperty("BaseHighlightOnColour");
@@ -272,6 +292,7 @@ namespace Editor
             _iconOnHighlightColour = serializedObject.FindProperty("IconHighlightOnColour");
             _iconOnUnhighlightColour = serializedObject.FindProperty("IconUnhighlightOnColour");
             
+            _toggleSprite = serializedObject.FindProperty("ToggleSprite");
             _spriteToggleOn = serializedObject.FindProperty("SpriteToggleOn");
             _spriteToggleOff = serializedObject.FindProperty("SpriteToggleOff");
         }
@@ -281,16 +302,16 @@ namespace Editor
             base.AssignGUIStates();
             var useSprites = _radialToggle.ToggleSprite;
             var useColours = _radialToggle.ToggleColours;
-            _radialGUIStates.Add(new RadialGUIState("Toggle Off (UH)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseUnhighlightOffColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconUnhighlightOffColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.SpriteToggleOff : _radialToggle.IconImage.sprite));
-            _radialGUIStates.Add(new RadialGUIState("Toggle On (UH)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseUnhighlightOnColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconUnhighlightOnColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.SpriteToggleOn : _radialToggle.IconImage.sprite));
-            _radialGUIStates.Add(new RadialGUIState("Toggle Off (H)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseHighlightOffColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconHighlightOffColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.SpriteToggleOff : _radialToggle.IconImage.sprite));
-            _radialGUIStates.Add(new RadialGUIState("Toggle On (H)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseHighlightOnColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconHighlightOnColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.SpriteToggleOn : _radialToggle.IconImage.sprite));
+            _radialGUIStates.Add(new RadialGUIState("Toggle Off (UH)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseUnhighlightOffColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconUnhighlightOffColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.SpriteToggleOff : _radialToggle.DefaultIconSprite));
+            _radialGUIStates.Add(new RadialGUIState("Toggle On (UH)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseUnhighlightOnColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconUnhighlightOnColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.SpriteToggleOn : _radialToggle.DefaultIconSprite));
+            _radialGUIStates.Add(new RadialGUIState("Toggle Off (H)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseHighlightOffColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconHighlightOffColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.SpriteToggleOff : _radialToggle.DefaultIconSprite));
+            _radialGUIStates.Add(new RadialGUIState("Toggle On (H)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseHighlightOnColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconHighlightOnColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.SpriteToggleOn : _radialToggle.DefaultIconSprite));
         }
         
         protected virtual void ToggleSection()
         {
-            _radialToggle.ToggleColours = GUILayout.Toggle(_radialToggle.ToggleColours, "Use Colours");
-            if(_radialToggle.ToggleColours) 
+            _toggleColours.boolValue = GUILayout.Toggle(_toggleColours.boolValue, "Use Colours");
+            if(_toggleColours.boolValue) 
             {
                 EditorGUILayout.Space();
                 EditorUtility.Indent(() =>
@@ -327,8 +348,8 @@ namespace Editor
                 }, 1);
             }
             
-            _radialToggle.ToggleSprite = GUILayout.Toggle(_radialToggle.ToggleSprite, "Use Icon Sprites");
-            if (_radialToggle.ToggleSprite)
+            _toggleSprite.boolValue = GUILayout.Toggle(_toggleSprite.boolValue, "Use Icon Sprites");
+            if (_toggleSprite.boolValue)
             {
                 EditorGUILayout.Space();
                 EditorUtility.Indent(() =>
@@ -336,7 +357,19 @@ namespace Editor
                     EditorGUILayout.PropertyField(_spriteToggleOff);
                     EditorGUILayout.PropertyField(_spriteToggleOn);
                 }, 1);
+                if(_radialToggle.SpriteToggleOff == null) EditorUtility.Warning("Toggle Off Sprite not assigned!");
+                if(_radialToggle.SpriteToggleOn == null) EditorUtility.Warning("Toggle On Sprite not assigned!");
             }
+        }
+
+        protected override void DebugSection()
+        {
+            base.DebugSection();
+            EditorUtility.Horizontal(() =>
+            {
+                EditorGUILayout.LabelField("Toggle: ");
+                EditorGUILayout.LabelField(_radialToggle.Toggle.ToString());
+            });
         }
 
         protected override void ExecuteRadialSections()
