@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Miniature_Radial
@@ -12,6 +11,9 @@ namespace UI.Miniature_Radial
         
         public enum RadialTitleDisplayDirection { Left, Right }
         public RadialTitleDisplayDirection TitleDisplayDirection;
+
+        public Color DefaultBaseColour;
+        public Color DefaultIconColour;
         
         public Color DisabledBaseColour;
         public Color DisabledIconColour;
@@ -63,8 +65,8 @@ namespace UI.Miniature_Radial
             if (toggle)
             {
                 if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Disabled: On");
-                IconImage.color = DisabledIconColour;
                 BaseImage.color = DisabledBaseColour;
+                IconImage.color = DisabledIconColour;
                 UIElementActive = false;
             }
             else
@@ -143,16 +145,18 @@ namespace UI.Miniature_Radial
         
         public void OnDrag() { }
 
+        #endregion
 
         #region GUIFunctions
 
-        public void GUIDisable()
+        [ExecuteAlways]
+        public void SetGUI(Color baseColour, Color iconColour, Sprite iconSprite)
         {
-            IconImage.color = DisabledIconColour;
-            BaseImage.color = DisabledBaseColour;
+            BaseImage.color = baseColour;
+            IconImage.color = iconColour;
+            IconImage.sprite = iconSprite;
         }
-
-        #endregion
+        
         #endregion
     }
 }

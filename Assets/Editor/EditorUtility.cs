@@ -91,8 +91,19 @@ namespace Editor
                 buttonAction.Invoke();
             }
         }
+        
+        public static void TextButton(string text, Action buttonAction, Font font, int fontSize, float width, float height)
+        {
+            EditorUtilityBox.FontSize(() =>
+            {
+                EditorUtilityButton.Font(() =>
+                {
+                    if (GUILayout.Button(text, GUILayout.Width(width), GUILayout.Height(height))) buttonAction.Invoke();
+                }, font); 
+            }, fontSize);
+        }
 
-        public static void TextBox(string text, Texture2D background, Font font, float width, float height)
+        public static void TextBox(string text, Texture2D background, Font font, int fontSize, float width, float height)
         {
             EditorUtilityBox.Alignment(
                 () =>
@@ -113,7 +124,7 @@ namespace Editor
                                                 }, Color.white);
                                         }, background);
                                 }, font);
-                        }, 18);
+                        }, fontSize);
                 }, TextAnchor.MiddleCenter);
         }
 
@@ -160,6 +171,22 @@ namespace Editor
             GUI.skin.button.normal.background = background;
             encapsulatedFields.Invoke();
             GUI.skin.button.normal.background = defaultValue;
+        }
+        
+        public static void Font(Action encapsulatedFields, Font font)
+        {
+            var defaultValue = GUI.skin.button.font;
+            GUI.skin.button.font = font;
+            encapsulatedFields.Invoke();
+            GUI.skin.button.font = defaultValue;
+        }
+        
+        public static void FontSize(Action encapsulatedFields, int fontSize)
+        {
+            var defaultValue = GUI.skin.button.fontSize;
+            GUI.skin.button.fontSize = fontSize;
+            encapsulatedFields.Invoke();
+            GUI.skin.button.fontSize = defaultValue;
         }
     }
     

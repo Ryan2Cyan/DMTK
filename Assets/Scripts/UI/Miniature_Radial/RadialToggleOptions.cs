@@ -19,8 +19,8 @@ namespace UI.Miniature_Radial
             if (DisableOnEnable) return;
             
             Toggle = true;
-            BaseImage.color = BaseToggleOnColour;
-            IconImage.color = IconToggleOnColour;
+            BaseImage.color = BaseUnhighlightOnColour;
+            IconImage.color = IconUnhighlightOnColour;
             if(gameObject.activeInHierarchy) _titleAnimator.SetBool(ActiveParam, false);
         }
         
@@ -31,8 +31,8 @@ namespace UI.Miniature_Radial
             if (DisableOnEnable) return;
             OnUnhighlight();
             Toggle = false;
-            BaseImage.color = BaseToggleOffColour;
-            IconImage.color = IconToggleOffColour;
+            BaseImage.color = BaseUnhighlightOffColour;
+            IconImage.color = IconUnhighlightOffColour;
         }
 
         protected override void OnPress()
@@ -43,13 +43,13 @@ namespace UI.Miniature_Radial
             Toggle = true;
             if (Highlighted)
             {
-                BaseImage.color = Toggle ? BaseHighlightedOnColour : BaseHighlightedOffColour;
-                IconImage.color = Toggle ? IconHighlightedOnColour : IconHighlightedOffColour;
+                BaseImage.color = Toggle ? BaseHighlightOnColour : BaseHighlightOffColour;
+                IconImage.color = Toggle ? IconHighlightOnColour : IconHighlightOffColour;
             }
             else
             {
-                BaseImage.color = Toggle ? BaseToggleOnColour : BaseToggleOffColour;
-                IconImage.color = Toggle ? IconToggleOnColour : IconToggleOffColour;
+                BaseImage.color = Toggle ? BaseUnhighlightOnColour : BaseUnhighlightOffColour;
+                IconImage.color = Toggle ? IconUnhighlightOnColour : IconUnhighlightOffColour;
             }
 
             OnPressEvent.Invoke();
