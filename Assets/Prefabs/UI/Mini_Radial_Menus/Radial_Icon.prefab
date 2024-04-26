@@ -266,16 +266,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0543bd7dcd8fb5e42b77a923d145ea6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Title: 
+  Title: Title
   TitleDisplayDirection: 0
+  DefaultIconSprite: {fileID: 0}
+  DefaultBaseColour: {r: 1, g: 1, b: 1, a: 1}
+  DefaultIconColour: {r: 0, g: 0, b: 0, a: 1}
   DisabledBaseColour: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
   DisabledIconColour: {r: 0, g: 0, b: 0, a: 1}
   OnPressEvent:
     m_PersistentCalls:
       m_Calls: []
+  BaseImage: {fileID: 6520506556998479341}
+  IconImage: {fileID: 3039244933758628664}
   Interactable: 0
-  Disabled: 0
+  DisableOnEnable: 0
   DebugActive: 0
+  Disabled: 0
   Highlighted: 0
   BaseHighlightedColour: {r: 0, g: 0, b: 0, a: 1}
   BaseUnhighlightedColour: {r: 1, g: 1, b: 1, a: 1}

@@ -1092,6 +1092,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1380687028443571711, guid: c6bd119b1d4faa749b2e6ae42e7c9ced, type: 3}
+      propertyPath: DisableOnEnable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1380687028443571711, guid: c6bd119b1d4faa749b2e6ae42e7c9ced, type: 3}
       propertyPath: DefaultIconSprite
       value: 
       objectReference: {fileID: 1621569125, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
@@ -1842,6 +1846,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -51769439, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
     - target: {fileID: 194453687768903790, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
+      propertyPath: DefaultIconSprite
+      value: 
+      objectReference: {fileID: 1619799427, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
+    - target: {fileID: 194453687768903790, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
       propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 5964618351455806729}
@@ -1851,7 +1859,7 @@ PrefabInstance:
       objectReference: {fileID: 1900858402, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
     - target: {fileID: 433894120624447166, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
       propertyPath: TitleDisplayDirection
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 433894120624447166, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
       propertyPath: BaseUnhighlightOnColour.b
@@ -1911,7 +1919,7 @@ PrefabInstance:
       objectReference: {fileID: 916361706, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
     - target: {fileID: 930570050368757523, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
       propertyPath: TitleDisplayDirection
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 930570050368757523, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
       propertyPath: BaseUnhighlightOnColour.b
@@ -2142,6 +2150,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1551642853, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
     - target: {fileID: 2754309406210981222, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
+      propertyPath: TitleDisplayDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2754309406210981222, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
       propertyPath: BaseUnhighlightOnColour.b
       value: 0.42745098
       objectReference: {fileID: 0}
@@ -2190,6 +2202,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -2061206536, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
     - target: {fileID: 3355761829374757030, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
+      propertyPath: TitleDisplayDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355761829374757030, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
       propertyPath: BaseUnhighlightOnColour.b
       value: 0.78039217
       objectReference: {fileID: 0}
@@ -2237,6 +2253,10 @@ PrefabInstance:
       propertyPath: DefaultIconSprite
       value: 
       objectReference: {fileID: -326816971, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
+    - target: {fileID: 3406246152351189367, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
+      propertyPath: TitleDisplayDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3406246152351189367, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
       propertyPath: BaseUnhighlightOnColour.b
       value: 0.4392157
@@ -2298,6 +2318,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -1448092142, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
     - target: {fileID: 4536231556169603323, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
+      propertyPath: TitleDisplayDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4536231556169603323, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
       propertyPath: BaseUnhighlightOnColour.b
       value: 0.79607844
       objectReference: {fileID: 0}
@@ -2357,6 +2381,10 @@ PrefabInstance:
       propertyPath: DefaultIconSprite
       value: 
       objectReference: {fileID: -1962341772, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
+    - target: {fileID: 4959480144759230802, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
+      propertyPath: TitleDisplayDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4959480144759230802, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
       propertyPath: BaseUnhighlightOnColour.b
       value: 0.92941177
@@ -2459,7 +2487,7 @@ PrefabInstance:
       objectReference: {fileID: -1089173959, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
     - target: {fileID: 7851219782579493929, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
       propertyPath: TitleDisplayDirection
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7851219782579493929, guid: 3b04f82f6996ec240aac8973927fcd91, type: 3}
       propertyPath: BaseUnhighlightOnColour.b

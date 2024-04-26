@@ -5,19 +5,15 @@ namespace UI.Miniature_Radial
 {
     public class RadialInteger : RadialBase
     {
-        [Header("Base Colour Settings")]
         public Color BaseActiveColour;
         public Color BaseActiveHighlightColour;
         public Color BaseInactiveColour;
         
-        [Header("Icon Colour Settings")]
         public Color IconActiveColour;
         public Color IconInactiveColour;
         
-        [Header("Value Text Colour Settings")] 
         public Color ValueTextColour;
         
-        [Header("Settings")] 
         public int MaxValue;
         public int MinValue;
 
@@ -34,7 +30,7 @@ namespace UI.Miniature_Radial
         protected int _value;
         
         private TextMeshProUGUI _valueText;
-        public bool _active;
+        public bool Active;
 
         protected override void Awake()
         {
@@ -56,14 +52,14 @@ namespace UI.Miniature_Radial
         {
             base.OnHighlight();
             _valueText.enabled = true;
-            if (_active) BaseImage.color = BaseActiveHighlightColour;
+            if (Active) BaseImage.color = BaseActiveHighlightColour;
         }
 
         protected override void OnUnhighlight()
         {
             base.OnUnhighlight();
             _valueText.enabled = false;
-            if (_active) BaseImage.color = BaseActiveColour;
+            if (Active) BaseImage.color = BaseActiveColour;
         }
 
         protected override void OnPress()
@@ -77,9 +73,9 @@ namespace UI.Miniature_Radial
         {
             if (Value > MaxValue) Value = MinValue;
             _valueText.text = Value.ToString();
-            _active = Value != MinValue;
+            Active = Value != MinValue;
 
-            if (_active)
+            if (Active)
             {
                 BaseImage.color = BaseActiveHighlightColour;
                 IconImage.color = IconActiveColour;

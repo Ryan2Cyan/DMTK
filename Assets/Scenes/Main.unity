@@ -565,17 +565,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bafa8f7d7da1d6a4dae2973af6f6f945, type: 3}
---- !u!114 &235956842 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6073174063350202856, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-  m_PrefabInstance: {fileID: 4478004329768686495}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &256372023 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8522292722862339406, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
@@ -1864,17 +1853,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cac843af5b50e14da92cfc73d0d8f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1389268881 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5964618351455806729, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-  m_PrefabInstance: {fileID: 4478004329768686495}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c999cb035726fe745bb11de549fbcee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1584478963
 GameObject:
   m_ObjectHideFlags: 0
@@ -2259,17 +2237,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8041110306602588229, guid: bafa8f7d7da1d6a4dae2973af6f6f945, type: 3}
   m_PrefabInstance: {fileID: 204213719}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1710026024 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7514468822865598277, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-  m_PrefabInstance: {fileID: 4478004329768686495}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1922680079
 GameObject:
   m_ObjectHideFlags: 0
@@ -3569,210 +3536,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 849222002}
     m_Modifications:
-    - target: {fileID: 456767570021165370, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
+    - target: {fileID: 523154546152362246, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: DefaultIconSprite
       value: 
-      objectReference: {fileID: -51769439, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 456767570021165370, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DisabledIconColour.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 456767570021165370, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DisabledIconColour.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 456767570021165370, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DisabledIconColour.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 456767570021165370, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: TitleDisplayDirection
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 994809095756886801, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: -60399005, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
+      objectReference: {fileID: -2011052693, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
     - target: {fileID: 1364818028996758710, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: Camera
       value: 
       objectReference: {fileID: 1997536654}
-    - target: {fileID: 1484978886280778189, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: Title
-      value: Deafened
-      objectReference: {fileID: 0}
-    - target: {fileID: 1484978886280778189, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: SpriteToggleOn
-      value: 
-      objectReference: {fileID: 916361706, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 1484978886280778189, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: SpriteToggleOff
-      value: 
-      objectReference: {fileID: -1962341772, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 1484978886280778189, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: -1089173959, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 1484978886280778189, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: TitleDisplayDirection
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1517443374569111744, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: -2093797198, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 1604295813362044693, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: BaseImage
-      value: 
-      objectReference: {fileID: 235956842}
-    - target: {fileID: 1604295813362044693, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: IconImage
-      value: 
-      objectReference: {fileID: 1710026024}
-    - target: {fileID: 1604295813362044693, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: SpriteToggleOn
-      value: 
-      objectReference: {fileID: 21300000, guid: df1d699504ca2a14c897eb6ad4da2394, type: 3}
-    - target: {fileID: 1604295813362044693, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: SpriteToggleOff
-      value: 
-      objectReference: {fileID: -1042453958, guid: b6f3c255bb17802419988808ab4a4345, type: 3}
-    - target: {fileID: 1604295813362044693, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: 1118974271, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 3393335572224137733, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: 1674627106, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 3407979702498122784, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: -2061206536, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 3935099630827224547, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: -1260362484, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 4376665738155990198, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: -1962341772, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
     - target: {fileID: 4565207228514304246, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: m_Name
       value: Radial_Menus
-      objectReference: {fileID: 0}
-    - target: {fileID: 4565207228514304246, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4687711380922007675, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: Camera
       value: 
       objectReference: {fileID: 1997536654}
-    - target: {fileID: 5088355329100158239, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: -1448092142, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: 1777669119, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1377784575}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 1389268881}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DespawnMiniature
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ChangeState_UnityEvent
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Tabletop.Miniatures.MiniatureManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: UI.Miniature_Radial.RadialManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 6268053265362027842, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: -2061206536, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 6268053265362027842, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DisabledIconColour.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6268053265362027842, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DisabledIconColour.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6268053265362027842, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DisabledIconColour.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6268053265362027842, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: TitleDisplayDirection
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6281391674236863635, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: -326816971, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
     - target: {fileID: 6427044870019938228, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: Camera
       value: 
       objectReference: {fileID: 1997536654}
-    - target: {fileID: 6503416917487875204, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: 1621569125, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 6798134611725250690, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: 1551642853, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 7116371031967351908, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: 1401317681, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 7116371031967351908, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: TitleDisplayDirection
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7519921067566324856, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3856,50 +3643,6 @@ PrefabInstance:
     - target: {fileID: 7519921067566324856, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7711378260927961232, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_Color.b
-      value: 0.5471698
-      objectReference: {fileID: 0}
-    - target: {fileID: 7711378260927961232, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_Color.g
-      value: 0.5471698
-      objectReference: {fileID: 0}
-    - target: {fileID: 7711378260927961232, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_Color.r
-      value: 0.5471698
-      objectReference: {fileID: 0}
-    - target: {fileID: 8396005073448850167, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: 916361706, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 8396005073448850167, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DisabledIconColour.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8396005073448850167, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DisabledIconColour.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8396005073448850167, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DisabledIconColour.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8396005073448850167, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: TitleDisplayDirection
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9109399693571412826, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: ToggleSprite
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9109399693571412826, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: DefaultIconSprite
-      value: 
-      objectReference: {fileID: 1900858402, guid: 0a7cb69597f1f454687d0b46bd3b3ff9, type: 3}
-    - target: {fileID: 9109399693571412826, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: TitleDisplayDirection
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

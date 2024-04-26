@@ -56,15 +56,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb1ca2d62bcab74587f0151c89a9bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Title: Test
-  IsTitleDisplayLeft: 0
+  Title: Title
+  TitleDisplayDirection: 0
+  DefaultIconSprite: {fileID: 0}
+  DefaultBaseColour: {r: 1, g: 1, b: 1, a: 1}
+  DefaultIconColour: {r: 0, g: 0, b: 0, a: 1}
   DisabledBaseColour: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 1}
   DisabledIconColour: {r: 0, g: 0, b: 0, a: 1}
   OnPressEvent:
     m_PersistentCalls:
       m_Calls: []
+  BaseImage: {fileID: 3559900179599717337}
+  IconImage: {fileID: 8233963993161257702}
   Interactable: 1
+  DisableOnEnable: 0
+  DebugActive: 0
   Disabled: 0
+  Highlighted: 0
   BaseActiveColour: {r: 0.8784314, g: 0.92941177, b: 0.42745098, a: 1}
   BaseActiveHighlightColour: {r: 0.5660378, g: 0.5546792, b: 0.32306874, a: 1}
   BaseInactiveColour: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
@@ -73,8 +81,7 @@ MonoBehaviour:
   ValueTextColour: {r: 1, g: 1, b: 1, a: 1}
   MaxValue: 6
   MinValue: 0
-  Value: 0
-  _active: 0
+  Active: 0
 --- !u!95 &5802194297075649769
 Animator:
   serializedVersion: 5
