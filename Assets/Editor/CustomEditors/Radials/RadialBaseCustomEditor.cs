@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Action = Unity.Plastic.Antlr3.Runtime.Misc.Action;
 
-namespace Editor
+namespace Editor.CustomEditors.Radials
 {
     public static class RadialGlobalSettings
     {
@@ -46,6 +46,7 @@ namespace Editor
         private RadialBase _radialBase;
         
         // Serialised Values:
+        private SerializedProperty _useTitle;
         private SerializedProperty _title;
         private SerializedProperty _titleDirection;
         private SerializedProperty _onPressEvent;
@@ -73,6 +74,7 @@ namespace Editor
             _radialBase.IconImage = _radialBase.transform.GetChild(2).GetComponent<Image>();
             
             // Serialised properties:
+            _useTitle = serializedObject.FindProperty("UseTitle");
             _title = serializedObject.FindProperty("Title");
             _titleDirection = serializedObject.FindProperty("TitleDisplayDirection");
             _onPressEvent = serializedObject.FindProperty("OnPressEvent");
@@ -211,6 +213,9 @@ namespace Editor
 
         protected virtual void TitleSection()
         {
+            _useTitle.boolValue = GUILayout.Toggle(_useTitle.boolValue, "Use Title");
+            if (!_useTitle.boolValue) return;
+            
             EditorUtility.Align(() =>
             {
                 EditorGUILayout.PropertyField(_title);

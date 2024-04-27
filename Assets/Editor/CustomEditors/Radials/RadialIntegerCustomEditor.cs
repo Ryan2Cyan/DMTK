@@ -1,7 +1,7 @@
 using UI.Miniature_Radial;
 using UnityEditor;
 
-namespace Editor
+namespace Editor.CustomEditors.Radials
 {
     [CustomEditor(typeof(RadialInteger)), CanEditMultipleObjects]
     public class RadialIntegerCustomEditor : RadialBaseCustomEditor

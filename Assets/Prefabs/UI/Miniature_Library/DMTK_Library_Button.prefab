@@ -136,12 +136,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae32bc2c481b08e46b6bd002a7b7f569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseColours: 1
   UnhighlightedColour: {r: 1, g: 1, b: 1, a: 0}
   HighlightedColour: {r: 0, g: 0, b: 0, a: 0.5058824}
   OnPress:
     m_PersistentCalls:
       m_Calls: []
-  ButtonOverlayImage: {fileID: 3912656738432760129}
+  Image: {fileID: 3912656738432760129}
   BaseImage: {fileID: 5349999017958917921}
   MiniatureID: 
   RectTransform: {fileID: 0}

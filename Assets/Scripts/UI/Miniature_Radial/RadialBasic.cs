@@ -6,11 +6,15 @@ namespace UI.Miniature_Radial
     /// on a radial icon will have a different effect depending on it's event.</summary>
     public class RadialBasic : RadialBase
     {
+        public bool UseColour;
         public Color BaseHighlightedColour;
         public Color BaseUnhighlightedColour;
-        
         public Color IconHighlightedColour;
         public Color IconUnhighlightedColour;
+        
+        public bool UseSprites;
+        public Sprite IconHighlightedSprite;
+        public Sprite IconUnhighlightedSprite;
         
         #region ProtectedFunctions
 
@@ -18,24 +22,40 @@ namespace UI.Miniature_Radial
         {
             if (Disabled) return;
             base.OnHighlight();
-            BaseImage.color = BaseHighlightedColour;
-            IconImage.color = IconHighlightedColour;
+
+            if (UseColour)
+            {
+                BaseImage.color = BaseHighlightedColour;
+                IconImage.color = IconHighlightedColour;
+            }
+            
+            if (UseSprites) IconImage.sprite = IconHighlightedSprite;
         }
 
         protected override void OnUnhighlight()
         {
             if (Disabled) return;
             base.OnUnhighlight();
-            BaseImage.color = BaseUnhighlightedColour;
-            IconImage.color = IconUnhighlightedColour;
+            if (UseColour)
+            {
+                BaseImage.color = BaseUnhighlightedColour;
+                IconImage.color = IconUnhighlightedColour;
+            }
+
+            if (UseSprites) IconImage.sprite = IconUnhighlightedSprite;
         }
 
         protected override void OnPress()
         {
             if (Disabled) return;
             base.OnPress();
-            BaseImage.color = BaseUnhighlightedColour;
-            IconImage.color = IconUnhighlightedColour;
+            if (UseColour)
+            {
+                BaseImage.color = BaseUnhighlightedColour;
+                IconImage.color = IconUnhighlightedColour;
+            }
+            
+            if (UseSprites) IconImage.sprite = IconUnhighlightedSprite;
         }
 
         #endregion

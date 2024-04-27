@@ -5,15 +5,16 @@ using Utility;
 
 namespace UI.UI_Interactables
 {
-    public class DMTKSimpleButton : MonoBehaviour, UIElement, IPooledObject
+    public class SimpleButton : MonoBehaviour, UIElement, IPooledObject
     {
-        [Header("Settings")] 
+        public bool UseColours;
         public Color UnhighlightedColour;
         public Color HighlightedColour;
+        
         public UnityEvent OnPress;
-
-        [Header("Components")] 
-        public Image ButtonOverlayImage;
+        
+        public Image Image;
+        
         public bool UIElementActive { get; set; }
         public int UIElementPriority { get; set; }
 
@@ -21,7 +22,7 @@ namespace UI.UI_Interactables
 
         protected virtual void Awake()
         {
-            ButtonOverlayImage.color = UnhighlightedColour;
+            Image.color = UnhighlightedColour;
         }
 
         private void OnEnable()
@@ -45,12 +46,12 @@ namespace UI.UI_Interactables
 
         public virtual void OnMouseEnter()
         {
-            ButtonOverlayImage.color = HighlightedColour;
+            if(UseColours) Image.color = HighlightedColour;
         }
 
         public void OnMouseExit()
         {
-            ButtonOverlayImage.color = UnhighlightedColour;
+            if(UseColours) Image.color = UnhighlightedColour;
         }
 
         public void OnDrag()

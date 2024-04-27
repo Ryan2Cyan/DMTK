@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace UI.Miniature_Library
 {
-    public class MiniatureLibraryButton : DMTKSimpleButton
+    public class MiniatureLibraryButton : SimpleButton
     {
         public Image BaseImage;
         [HideInInspector] public string MiniatureID;

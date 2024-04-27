@@ -2,7 +2,7 @@ using UI.Miniature_Radial;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor
+namespace Editor.CustomEditors.Radials
 {
     [CustomEditor(typeof(RadialToggle)), CanEditMultipleObjects]
     public class RadialToggleCustomCustomEditor : RadialBaseCustomEditor

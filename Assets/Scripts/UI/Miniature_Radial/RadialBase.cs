@@ -7,6 +7,7 @@ namespace UI.Miniature_Radial
 {
     public class RadialBase : MonoBehaviour, UIElement
     {
+        public bool UseTitle;
         public string Title;
         
         public enum RadialTitleDisplayDirection { Left, Right }
@@ -48,11 +49,12 @@ namespace UI.Miniature_Radial
             UIElementPriority = 1;
             OnInitialise();
             OnToggleDisable(DisableOnEnable);
+            Interactable = true;
         }
 
         protected virtual void OnEnable()
         {
-            _titleAnimator.SetBool(RightParam, TitleDisplayDirection == RadialTitleDisplayDirection.Right);
+            if(UseTitle) _titleAnimator.SetBool(RightParam, TitleDisplayDirection == RadialTitleDisplayDirection.Right);
             if (DisableOnEnable) Disabled = true;
             OnUnhighlight();
         }
@@ -85,14 +87,18 @@ namespace UI.Miniature_Radial
 
         protected virtual void OnInitialise()
         {
-            _titleAnimator = transform.GetChild(0).GetComponent<Animator>();
-            _titleTMP = transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            if (UseTitle)
+            {
+                _titleAnimator = transform.GetChild(0).GetComponent<Animator>();
+                _titleTMP = transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                _titleTMP.text = Title;
+            }
+
             BaseImage = transform.GetChild(1).GetComponent<Image>();
             BaseImage.color = DefaultBaseColour;
             IconImage = transform.GetChild(2).GetComponent<Image>();
             IconImage.sprite = DefaultIconSprite;
             IconImage.color = DefaultIconColour;
-            _titleTMP.text = Title;
             _initialised = true;
         }
         
@@ -101,7 +107,7 @@ namespace UI.Miniature_Radial
             if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Highlight");
             
             if (!gameObject.activeInHierarchy) return;
-            _titleAnimator.SetBool(ActiveParam, true);
+            if(UseTitle) _titleAnimator.SetBool(ActiveParam, true);
             Highlighted = true;
         }
 
@@ -110,15 +116,15 @@ namespace UI.Miniature_Radial
             if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Unhighlight");
             
             if (!gameObject.activeInHierarchy) return;
-            _titleAnimator.SetBool(ActiveParam, false);
+            if(UseTitle) _titleAnimator.SetBool(ActiveParam, false);
             Highlighted = false;
         }
 
         protected virtual void OnPress()
         {
             if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Press");
+            if(UseTitle) _titleAnimator.SetBool(ActiveParam, false);
             OnPressEvent.Invoke();
-            _titleAnimator.SetBool(ActiveParam, false);
         }
         
         #endregion

@@ -442,6 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f7e4f8fbfcb434eba5f2e0f2dca183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseTitle: 1
   Title: Title
   TitleDisplayDirection: 0
   DefaultIconSprite: {fileID: 0}

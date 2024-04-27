@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0543bd7dcd8fb5e42b77a923d145ea6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseTitle: 1
   Title: Title
   TitleDisplayDirection: 0
   DefaultIconSprite: {fileID: 0}
@@ -283,10 +284,14 @@ MonoBehaviour:
   DebugActive: 0
   Disabled: 0
   Highlighted: 0
+  UseColour: 1
   BaseHighlightedColour: {r: 0, g: 0, b: 0, a: 1}
   BaseUnhighlightedColour: {r: 1, g: 1, b: 1, a: 1}
   IconHighlightedColour: {r: 1, g: 1, b: 1, a: 1}
   IconUnhighlightedColour: {r: 0, g: 0, b: 0, a: 1}
+  UseSprites: 0
+  IconHighlightedSprite: {fileID: 0}
+  IconUnhighlightedSprite: {fileID: 0}
 --- !u!95 &7915865428953606247
 Animator:
   serializedVersion: 5
