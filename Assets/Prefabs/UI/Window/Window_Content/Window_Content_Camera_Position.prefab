@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2300146051553066872}
   - component: {fileID: 1366324411896571061}
   - component: {fileID: 7308434922966679006}
+  - component: {fileID: 7717140631936581469}
   m_Layer: 5
   m_Name: Window_Content_Camera_Position
   m_TagString: Untagged
@@ -32,7 +33,6 @@ RectTransform:
   m_Children:
   - {fileID: 1304877434489657545}
   - {fileID: 6031126497659973199}
-  - {fileID: 2069050289185314234}
   m_Father: {fileID: 0}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -79,6 +79,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7717140631936581469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58717470416496525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2456312ab1e0b45b2b0fcda78f0584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActivateUIOnEnable: 1
 --- !u!1 &1324282626288271767
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,19 +327,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4213810033219402717}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1416199508427221765}
-  m_Father: {fileID: 2300146051553066872}
+  m_Father: {fileID: 6031126497659973199}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0.0000019073, y: -10.038}
+  m_SizeDelta: {x: 195.04, y: 200.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5533692217184562164
 GameObject:
@@ -357,7 +370,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2069050289185314234}
   m_Father: {fileID: 2300146051553066872}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -426,7 +440,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1904340119745586219, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1962380765933688288, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
       propertyPath: m_Name
@@ -449,6 +463,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5656914106250707504, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
+      propertyPath: Title
+      value: Back-Front
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656914106250707504, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
+      propertyPath: UseSprites
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656914106250707504, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
       propertyPath: ToggleSprite
       value: 1
       objectReference: {fileID: 0}
@@ -465,6 +487,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -2145064022, guid: d867cac714a1f2f45aa961897b3e429a, type: 3}
     - target: {fileID: 5656914106250707504, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
+      propertyPath: DefaultIconSprite
+      value: 
+      objectReference: {fileID: -61447158, guid: d867cac714a1f2f45aa961897b3e429a, type: 3}
+    - target: {fileID: 5656914106250707504, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
+      propertyPath: ToggleTrueOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656914106250707504, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
       propertyPath: DefaultIconColour.b
       value: 1
       objectReference: {fileID: 0}
@@ -476,6 +506,26 @@ PrefabInstance:
       propertyPath: DefaultIconColour.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5656914106250707504, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
+      propertyPath: IconOnHighlightSprite
+      value: 
+      objectReference: {fileID: 322640888, guid: d867cac714a1f2f45aa961897b3e429a, type: 3}
+    - target: {fileID: 5656914106250707504, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
+      propertyPath: TitleDisplayDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656914106250707504, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
+      propertyPath: IconOffHighlightSprite
+      value: 
+      objectReference: {fileID: -2145064022, guid: d867cac714a1f2f45aa961897b3e429a, type: 3}
+    - target: {fileID: 5656914106250707504, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
+      propertyPath: IconOnUnhighlightSprite
+      value: 
+      objectReference: {fileID: -61447158, guid: d867cac714a1f2f45aa961897b3e429a, type: 3}
+    - target: {fileID: 5656914106250707504, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
+      propertyPath: IconOffUnhighlightSprite
+      value: 
+      objectReference: {fileID: -1661713596, guid: d867cac714a1f2f45aa961897b3e429a, type: 3}
     - target: {fileID: 5720106508454902043, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -554,11 +604,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5720106508454902043, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 98.2
+      value: 93.2
       objectReference: {fileID: 0}
     - target: {fileID: 5720106508454902043, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 48.8
+      value: 71.8
       objectReference: {fileID: 0}
     - target: {fileID: 5720106508454902043, guid: aca47010024a2e044a3e24d0d41598b8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

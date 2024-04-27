@@ -4,7 +4,9 @@ namespace UI.Miniature_Radial
 {
     public class RadialToggle : RadialBase
     {
-        public bool ToggleColours;
+        public bool ToggleTrueOnAwake;
+        
+        public bool UseColours;
         public Color BaseUnhighlightOnColour;
         public Color BaseUnhighlightOffColour;
         public Color BaseHighlightOnColour;
@@ -15,9 +17,11 @@ namespace UI.Miniature_Radial
         public Color IconHighlightOnColour;
         public Color IconHighlightOffColour;
         
-        public bool ToggleSprite;
-        public Sprite SpriteToggleOn;
-        public Sprite SpriteToggleOff;
+        public bool UseSprites;
+        public Sprite IconOnHighlightSprite;
+        public Sprite IconOnUnhighlightSprite;
+        public Sprite IconOffHighlightSprite;
+        public Sprite IconOffUnhighlightSprite;
         
         public bool Toggle
         {
@@ -30,13 +34,14 @@ namespace UI.Miniature_Radial
             }
         }
 
-        protected bool _toggle;
+        private bool _toggle;
         
         #region UnityFunctions
 
         protected override void Awake()
         {
             UIElementPriority = 1;
+            Interactable = true;
             OnInitialise();
         }
 
@@ -48,25 +53,44 @@ namespace UI.Miniature_Radial
         {
             if (_initialised) return;
             base.OnInitialise();
-            BaseImage.color = BaseUnhighlightOffColour;
-            IconImage.color = IconUnhighlightOffColour;
-            Toggle = false;
+            
+            if (UseColours)
+            {
+                BaseImage.color = ToggleTrueOnAwake ? BaseUnhighlightOnColour : BaseUnhighlightOffColour;
+                IconImage.color = ToggleTrueOnAwake ? IconUnhighlightOnColour : IconUnhighlightOffColour;   
+            }
+            
+            if (UseSprites) IconImage.sprite = ToggleTrueOnAwake ? IconOnUnhighlightSprite : IconOffUnhighlightSprite;
+            
+            Toggle = ToggleTrueOnAwake;
         }
 
         protected override void OnHighlight()
         {
             if (Disabled) return;
             base.OnHighlight();
-            BaseImage.color = Toggle ? BaseHighlightOnColour : BaseHighlightOffColour;
-            IconImage.color = Toggle ? IconHighlightOnColour : IconHighlightOffColour;
+            
+            if (UseColours)
+            {
+                BaseImage.color = Toggle ? BaseHighlightOnColour : BaseHighlightOffColour;
+                IconImage.color = Toggle ? IconHighlightOnColour : IconHighlightOffColour;   
+            }
+            
+            if (UseSprites) IconImage.sprite = Toggle ? IconOnHighlightSprite : IconOffHighlightSprite;
         }
 
         protected override void OnUnhighlight()
         {
             if (Disabled) return;
             base.OnUnhighlight();
-            BaseImage.color = Toggle ? BaseUnhighlightOnColour : BaseUnhighlightOffColour;
-            IconImage.color = Toggle ? IconUnhighlightOnColour : IconUnhighlightOffColour;
+
+            if (UseColours)
+            {
+                BaseImage.color = Toggle ? BaseUnhighlightOnColour : BaseUnhighlightOffColour;
+                IconImage.color = Toggle ? IconUnhighlightOnColour : IconUnhighlightOffColour;   
+            }
+            
+            if (UseSprites) IconImage.sprite = Toggle ? IconOnUnhighlightSprite : IconOffUnhighlightSprite;
         }
 
         protected override void OnPress()
@@ -74,15 +98,25 @@ namespace UI.Miniature_Radial
             if (Disabled) return;
             base.OnPress();
             Toggle = !Toggle;
+            
             if (Highlighted)
             {
-                BaseImage.color = Toggle ? BaseHighlightOnColour : BaseHighlightOffColour;
-                IconImage.color = Toggle ? IconHighlightOnColour : IconHighlightOffColour;
+                if (UseColours)
+                {
+                    BaseImage.color = Toggle ? BaseHighlightOnColour : BaseHighlightOffColour;
+                    IconImage.color = Toggle ? IconHighlightOnColour : IconHighlightOffColour;
+                }
+                if (UseSprites) IconImage.sprite = Toggle ? IconOnHighlightSprite : IconOffHighlightSprite;
             }
             else
             {
-                BaseImage.color = Toggle ? BaseUnhighlightOnColour : BaseUnhighlightOffColour;
-                IconImage.color = Toggle ? IconUnhighlightOnColour : IconUnhighlightOffColour;
+                if (UseColours)
+                {
+                    BaseImage.color = Toggle ? BaseUnhighlightOnColour : BaseUnhighlightOffColour;
+                    IconImage.color = Toggle ? IconUnhighlightOnColour : IconUnhighlightOffColour;    
+                }
+                
+                if (UseSprites) IconImage.sprite = Toggle ? IconOnUnhighlightSprite : IconOffUnhighlightSprite;
             }
         }
 

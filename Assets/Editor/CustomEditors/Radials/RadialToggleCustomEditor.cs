@@ -9,7 +9,8 @@ namespace Editor.CustomEditors.Radials
     {
         private RadialToggle _radialToggle;
         
-        private SerializedProperty _toggleColours;
+        private SerializedProperty _toggleTrueOnAwake;
+        private SerializedProperty _useColours;
         private SerializedProperty _baseOffHighlightColour;
         private SerializedProperty _baseOffUnhighlightColour;
         private SerializedProperty _baseOnHighlightColour;
@@ -20,9 +21,11 @@ namespace Editor.CustomEditors.Radials
         private SerializedProperty _iconOnHighlightColour;
         private SerializedProperty _iconOnUnhighlightColour;
         
-        private SerializedProperty _toggleSprite;
-        private SerializedProperty _spriteToggleOn;
-        private SerializedProperty _spriteToggleOff;
+        private SerializedProperty _useSprites;
+        private SerializedProperty _iconOnHighlightSprite;
+        private SerializedProperty _iconOnUnhighlightSprite;
+        private SerializedProperty _iconOffHighlightSprite;
+        private SerializedProperty _iconOffUnhighlightSprite;
 
         protected override void OnEnable()
         {
@@ -31,7 +34,9 @@ namespace Editor.CustomEditors.Radials
             _radialToggle = (RadialToggle)target;
             
             // Serialized properties:
-            _toggleColours = serializedObject.FindProperty("ToggleColours");
+            _toggleTrueOnAwake = serializedObject.FindProperty("ToggleTrueOnAwake");
+            
+            _useColours = serializedObject.FindProperty("UseColours");
             _baseOffHighlightColour = serializedObject.FindProperty("BaseHighlightOffColour");
             _baseOffUnhighlightColour = serializedObject.FindProperty("BaseUnhighlightOffColour");
             _baseOnHighlightColour = serializedObject.FindProperty("BaseHighlightOnColour");
@@ -42,26 +47,32 @@ namespace Editor.CustomEditors.Radials
             _iconOnHighlightColour = serializedObject.FindProperty("IconHighlightOnColour");
             _iconOnUnhighlightColour = serializedObject.FindProperty("IconUnhighlightOnColour");
             
-            _toggleSprite = serializedObject.FindProperty("ToggleSprite");
-            _spriteToggleOn = serializedObject.FindProperty("SpriteToggleOn");
-            _spriteToggleOff = serializedObject.FindProperty("SpriteToggleOff");
+            _useSprites = serializedObject.FindProperty("UseSprites");
+            _iconOnHighlightSprite = serializedObject.FindProperty("IconOnHighlightSprite");
+            _iconOnUnhighlightSprite = serializedObject.FindProperty("IconOnUnhighlightSprite");
+            _iconOffHighlightSprite = serializedObject.FindProperty("IconOffHighlightSprite");
+            _iconOffUnhighlightSprite = serializedObject.FindProperty("IconOffUnhighlightSprite");
         }
         
         protected override void AssignGUIStates()
         {
             base.AssignGUIStates();
-            var useSprites = _radialToggle.ToggleSprite;
-            var useColours = _radialToggle.ToggleColours;
-            _radialGUIStates.Add(new RadialGUIState("Toggle Off (UH)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseUnhighlightOffColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconUnhighlightOffColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.SpriteToggleOff : _radialToggle.DefaultIconSprite));
-            _radialGUIStates.Add(new RadialGUIState("Toggle On (UH)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseUnhighlightOnColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconUnhighlightOnColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.SpriteToggleOn : _radialToggle.DefaultIconSprite));
-            _radialGUIStates.Add(new RadialGUIState("Toggle Off (H)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseHighlightOffColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconHighlightOffColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.SpriteToggleOff : _radialToggle.DefaultIconSprite));
-            _radialGUIStates.Add(new RadialGUIState("Toggle On (H)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseHighlightOnColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconHighlightOnColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.SpriteToggleOn : _radialToggle.DefaultIconSprite));
+            var useSprites = _radialToggle.UseSprites;
+            var useColours = _radialToggle.UseColours;
+            _radialGUIStates.Add(new RadialGUIState("Toggle Off (UH)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseUnhighlightOffColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconUnhighlightOffColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.IconOffUnhighlightSprite : _radialToggle.DefaultIconSprite));
+            _radialGUIStates.Add(new RadialGUIState("Toggle On (UH)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseUnhighlightOnColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconUnhighlightOnColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.IconOnUnhighlightSprite : _radialToggle.DefaultIconSprite));
+            _radialGUIStates.Add(new RadialGUIState("Toggle Off (H)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseHighlightOffColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconHighlightOffColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.IconOffHighlightSprite : _radialToggle.DefaultIconSprite));
+            _radialGUIStates.Add(new RadialGUIState("Toggle On (H)", _radialToggle.SetGUI, useColours ? _radialToggle.BaseHighlightOnColour : _radialToggle.DefaultBaseColour, useColours ? _radialToggle.IconHighlightOnColour : _radialToggle.DefaultIconColour, useSprites ? _radialToggle.IconOnHighlightSprite : _radialToggle.DefaultIconSprite));
         }
         
         protected virtual void ToggleSection()
         {
-            _toggleColours.boolValue = GUILayout.Toggle(_toggleColours.boolValue, "Use Colours");
-            if(_toggleColours.boolValue) 
+            _toggleTrueOnAwake.boolValue = GUILayout.Toggle(_toggleTrueOnAwake.boolValue, "Toggle On On Awake");
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
+            
+            _useColours.boolValue = GUILayout.Toggle(_useColours.boolValue, "Use Colours");
+            if(_useColours.boolValue) 
             {
                 EditorGUILayout.Space();
                 EditorUtility.Indent(() =>
@@ -98,18 +109,22 @@ namespace Editor.CustomEditors.Radials
                 }, 1);
             }
             
-            _toggleSprite.boolValue = GUILayout.Toggle(_toggleSprite.boolValue, "Use Icon Sprites");
-            if (_toggleSprite.boolValue)
+            _useSprites.boolValue = GUILayout.Toggle(_useSprites.boolValue, "Use Icon Sprites");
+            if (!_useSprites.boolValue) return;
+            
+            EditorGUILayout.Space();
+            EditorUtility.Indent(() =>
             {
-                EditorGUILayout.Space();
-                EditorUtility.Indent(() =>
-                {
-                    EditorGUILayout.PropertyField(_spriteToggleOff);
-                    EditorGUILayout.PropertyField(_spriteToggleOn);
-                }, 1);
-                if(_radialToggle.SpriteToggleOff == null) EditorUtility.Warning("Toggle Off Sprite not assigned!");
-                if(_radialToggle.SpriteToggleOn == null) EditorUtility.Warning("Toggle On Sprite not assigned!");
-            }
+                EditorGUILayout.PropertyField(_iconOnHighlightSprite);
+                EditorGUILayout.PropertyField(_iconOnUnhighlightSprite);
+                EditorGUILayout.PropertyField(_iconOffHighlightSprite);
+                EditorGUILayout.PropertyField(_iconOffUnhighlightSprite);
+            }, 1);
+            
+            if(_radialToggle.IconOnHighlightSprite == null) EditorUtility.Warning("Icon On Highlight sprite not assigned!");
+            if(_radialToggle.IconOnUnhighlightSprite == null) EditorUtility.Warning("Icon On Unhighlight sprite not assigned!");
+            if(_radialToggle.IconOffHighlightSprite == null) EditorUtility.Warning("Icon Off Highlight sprite not assigned!");
+            if(_radialToggle.IconOffUnhighlightSprite == null) EditorUtility.Warning("Icon Off Unhighlight sprite not assigned!");
         }
 
         protected override void DebugSection()

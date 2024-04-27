@@ -100,6 +100,7 @@ namespace UI.Miniature_Radial
             IconImage.sprite = DefaultIconSprite;
             IconImage.color = DefaultIconColour;
             _initialised = true;
+            _initialised = true;
         }
         
         protected virtual void OnHighlight()

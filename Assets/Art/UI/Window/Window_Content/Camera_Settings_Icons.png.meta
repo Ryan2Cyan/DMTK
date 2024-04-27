@@ -131,7 +131,7 @@ TextureImporter:
         width: 265
         height: 272
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -144,15 +144,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Camera_Settings_Icons_On
+      name: Camera_Settings_Icons_On_Unhighlight
       rect:
         serializedVersion: 2
         x: 277
-        y: 107
+        y: 51
         width: 47
         height: 47
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -165,15 +165,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Camera_Settings_Icons_Highlight
+      name: Camera_Settings_Icons_On_Highlight
       rect:
         serializedVersion: 2
         x: 277
-        y: 163
+        y: 107
         width: 47
         height: 47
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -186,11 +186,32 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Camera_Settings_Icons_Off
+      name: Camera_Settings_Icons_Off_Highlight
       rect:
         serializedVersion: 2
         x: 277
-        y: 220
+        y: 165
+        width: 47
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c06f826e9c4b9794588bac6beeecdc9c
+      internalID: -2145064022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Camera_Settings_Icons_Off_Unhighlight
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 219
         width: 47
         height: 47
       alignment: 0
@@ -200,8 +221,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c06f826e9c4b9794588bac6beeecdc9c
-      internalID: -2145064022
+      spriteID: aebf771383941ad4bba0ee2b15d1ca66
+      internalID: -1661713596
       vertices: []
       indices: 
       edges: []
@@ -218,9 +239,10 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Camera_Settings_Icons_Cube: 122806683
-      Camera_Settings_Icons_Highlight: 322640888
-      Camera_Settings_Icons_Off: -2145064022
-      Camera_Settings_Icons_On: -61447158
+      Camera_Settings_Icons_Off_Highlight: -2145064022
+      Camera_Settings_Icons_Off_Unhighlight: -1661713596
+      Camera_Settings_Icons_On_Highlight: 322640888
+      Camera_Settings_Icons_On_Unhighlight: -61447158
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
