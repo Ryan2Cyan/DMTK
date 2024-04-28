@@ -4,8 +4,6 @@ namespace UI.Miniature_Radial
 {
     public class RadialToggle : RadialBase
     {
-        public bool ToggleTrueOnAwake;
-        
         public bool UseColours;
         public Color BaseUnhighlightOnColour;
         public Color BaseUnhighlightOffColour;
@@ -22,6 +20,9 @@ namespace UI.Miniature_Radial
         public Sprite IconOnUnhighlightSprite;
         public Sprite IconOffHighlightSprite;
         public Sprite IconOffUnhighlightSprite;
+
+        public bool ToggleTrueOnAwake;
+        public bool ToggleOption;
         
         public bool Toggle
         {
@@ -53,15 +54,18 @@ namespace UI.Miniature_Radial
         {
             if (_initialised) return;
             base.OnInitialise();
-            
-            if (UseColours)
+
+            if (!ToggleOption)
             {
-                BaseImage.color = ToggleTrueOnAwake ? BaseUnhighlightOnColour : BaseUnhighlightOffColour;
-                IconImage.color = ToggleTrueOnAwake ? IconUnhighlightOnColour : IconUnhighlightOffColour;   
+                if (UseColours)
+                {
+                    BaseImage.color = ToggleTrueOnAwake ? BaseUnhighlightOnColour : BaseUnhighlightOffColour;
+                    IconImage.color = ToggleTrueOnAwake ? IconUnhighlightOnColour : IconUnhighlightOffColour;
+                }
+
+                if (UseSprites) IconImage.sprite = ToggleTrueOnAwake ? IconOnUnhighlightSprite : IconOffUnhighlightSprite;
             }
-            
-            if (UseSprites) IconImage.sprite = ToggleTrueOnAwake ? IconOnUnhighlightSprite : IconOffUnhighlightSprite;
-            
+
             Toggle = ToggleTrueOnAwake;
         }
 
@@ -96,7 +100,11 @@ namespace UI.Miniature_Radial
         protected override void OnPress()
         {
             if (Disabled) return;
-            base.OnPress();
+            
+            if(DebugActive) Debug.Log("Radial [" + gameObject.name + "] Press");
+            OnPressEvent.Invoke();
+            if (ToggleOption) return;
+            
             Toggle = !Toggle;
             
             if (Highlighted)
@@ -118,6 +126,46 @@ namespace UI.Miniature_Radial
                 
                 if (UseSprites) IconImage.sprite = Toggle ? IconOnUnhighlightSprite : IconOffUnhighlightSprite;
             }
+        }
+
+        #endregion
+
+        #region ToggleOptionFunctions
+
+        public void TurnOn()
+        {
+            if (Disabled) return;
+            if(!_initialised) OnInitialise();
+
+            if (UseTitle)
+            {
+                if(gameObject.activeInHierarchy && !Toggle) _titleAnimator.SetBool(ActiveParam, false);
+            }
+            Toggle = true;
+            if (UseColours)
+            {
+                BaseImage.color = Highlighted ? BaseHighlightOnColour : BaseUnhighlightOnColour;
+                IconImage.color = Highlighted ? IconHighlightOnColour : IconUnhighlightOnColour;   
+            }
+            if (UseSprites) IconImage.sprite = Highlighted ? IconOnHighlightSprite : IconOnUnhighlightSprite;
+        }
+        
+        
+        public void TurnOff()
+        {
+            if (Disabled) return;
+            if(!_initialised) OnInitialise();
+            
+            OnUnhighlight();
+            Toggle = false;
+
+            if (UseColours)
+            {
+                BaseImage.color = Highlighted ? BaseHighlightOffColour : BaseUnhighlightOffColour;
+                IconImage.color = Highlighted ? IconHighlightOffColour : IconUnhighlightOffColour;   
+            }
+
+            if (UseSprites) IconImage.sprite = Highlighted ? IconOffHighlightSprite : IconOffUnhighlightSprite;
         }
 
         #endregion
