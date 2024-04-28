@@ -54,13 +54,10 @@ namespace UI.Miniature_Data
         public void Instantiate(MiniatureData miniatureData)
         {
             MiniatureData = miniatureData;
-            var mainCamera = Camera.main;
             _cullImageComponentsScript = GetComponent<CullTMPComponents>();
             _cullImageComponentsScript.Target = MiniatureData.transform;
-            _cullImageComponentsScript.Camera = mainCamera;
             _displayUIInWorldSpace = GetComponent<DisplayUIInWorldSpace>();
             _displayUIInWorldSpace.WorldSpaceTarget = MiniatureData.transform;
-            _displayUIInWorldSpace.Camera = mainCamera;
             _animator = GetComponent<Animator>();
             _animator.SetBool(Enabled, true);
             

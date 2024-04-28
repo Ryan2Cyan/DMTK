@@ -1,3 +1,4 @@
+using Camera;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,9 +27,9 @@ namespace Utility
         /// <returns>Hit intersection information if hit, otherwise empty data.</returns>
         public static RaycastHit PhysicsMouseRayCast()
         {
-            var mainCamera = Camera.main;
+            var mainCamera = CameraManager.Instance.MainCamera;
             if (!mainCamera) return new RaycastHit();
-            return Physics.Raycast(mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue()), out var hit) ? hit : new RaycastHit();
+            return Physics.Raycast(CameraManager.Instance.MainCamera.ScreenPointToRay(Mouse.current.position.ReadValue()), out var hit) ? hit : new RaycastHit();
         }
         
         /// <summary>Physics ray cast on current mouse position.</summary>
@@ -36,9 +37,9 @@ namespace Utility
         /// <returns>Hit intersection information if hit, otherwise empty data.</returns>
         public static RaycastHit PhysicsMouseRayCast(LayerMask layerMask)
         {
-            var mainCamera = Camera.main;
+            var mainCamera = CameraManager.Instance.MainCamera;
             if (!mainCamera) return new RaycastHit();
-            return Physics.Raycast(mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue()), out var hit, 100f, layerMask) ? hit : new RaycastHit();
+            return Physics.Raycast(mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue()), out var hit, Mathf.Infinity, layerMask) ? hit : new RaycastHit();
         }
     }
 }
