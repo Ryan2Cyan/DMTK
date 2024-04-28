@@ -49,7 +49,7 @@ namespace UI.UI_Interactables
             if(UseColours) Image.color = HighlightedColour;
         }
 
-        public void OnMouseExit()
+        public virtual void OnMouseExit()
         {
             if(UseColours) Image.color = UnhighlightedColour;
         }

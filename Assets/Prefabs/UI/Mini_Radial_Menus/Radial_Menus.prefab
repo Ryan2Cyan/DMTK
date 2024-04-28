@@ -131,7 +131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10729876a30cbb64bb62bae83811c5ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 0}
   WorldSpaceTarget: {fileID: 0}
   UIElementTransforms:
   - {fileID: 8873699652338811339}
@@ -179,7 +178,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   Offset: {x: 0, y: 1, z: 0}
-  MaxDistance: 20
+  MaxDistance: 40
   MaxScale: 1.5
 --- !u!1001 &2331789043267657620
 PrefabInstance:
@@ -303,11 +302,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5172372292881250852, guid: b1770c00c674ab2459ed15881fd56abd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -16.317
+      value: 0.00002861
       objectReference: {fileID: 0}
     - target: {fileID: 5172372292881250852, guid: b1770c00c674ab2459ed15881fd56abd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -26.85
+      value: 357
       objectReference: {fileID: 0}
     - target: {fileID: 5172372292881250852, guid: b1770c00c674ab2459ed15881fd56abd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -697,6 +696,10 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2289604977958754690, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
+      propertyPath: Title
+      value: Prop
+      objectReference: {fileID: 0}
     - target: {fileID: 2623138132070155653, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
       propertyPath: m_Color.a
       value: 1
@@ -704,6 +707,10 @@ PrefabInstance:
     - target: {fileID: 2623138132070155653, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
       propertyPath: m_Color.r
       value: 0.9098039
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862024252725728704, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
+      propertyPath: Title
+      value: Monster
       objectReference: {fileID: 0}
     - target: {fileID: 3591491732165224729, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
       propertyPath: DefaultIconSprite
@@ -720,6 +727,10 @@ PrefabInstance:
     - target: {fileID: 3591491732165224729, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
       propertyPath: BaseUnhighlightOnColour.r
       value: 0.9098039
+      objectReference: {fileID: 0}
+    - target: {fileID: 3717620322623699128, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
+      propertyPath: Title
+      value: NPC
       objectReference: {fileID: 0}
     - target: {fileID: 3928552399508958158, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
       propertyPath: OnOptionSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -843,11 +854,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5773659492038217565, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 501
+      value: 582
       objectReference: {fileID: 0}
     - target: {fileID: 5773659492038217565, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -121
+      value: 245
       objectReference: {fileID: 0}
     - target: {fileID: 5773659492038217565, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -883,7 +894,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6776440806709752068, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7018931862833762425, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
       propertyPath: DefaultIconSprite
@@ -900,6 +911,10 @@ PrefabInstance:
     - target: {fileID: 7018931862833762425, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
       propertyPath: BaseUnhighlightOnColour.r
       value: 0.34117648
+      objectReference: {fileID: 0}
+    - target: {fileID: 7835102051411391381, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
+      propertyPath: Title
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8208760093168513334, guid: 8ff23099d881ba84ba71be0cae436662, type: 3}
       propertyPath: m_Sprite
@@ -1517,7 +1532,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb977d18d9e22ab46a290767bad050ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 0}
   Target: {fileID: 0}
   OnCullEvent:
     m_PersistentCalls:
@@ -1725,11 +1739,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9072350770452413952, guid: cc92cc73ba6fcbf4a9165640759cfc42, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9072350770452413952, guid: cc92cc73ba6fcbf4a9165640759cfc42, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3061,7 +3075,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb977d18d9e22ab46a290767bad050ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 0}
   Target: {fileID: 0}
   OnCullEvent:
     m_PersistentCalls:

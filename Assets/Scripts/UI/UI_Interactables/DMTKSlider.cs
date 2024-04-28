@@ -11,6 +11,7 @@ namespace UI.UI_Interactables
         {
             base.OnEnable();
             UIElementActive = true;
+            UIElementPriority = 1;
         }
 
         protected override void OnDisable()

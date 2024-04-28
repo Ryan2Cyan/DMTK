@@ -175,7 +175,7 @@ namespace UI.Utility
             
             // Calculate how much distance can be scrolled:
             ViewPort.GetWorldCorners(_rectCorners);
-            var maxScrollHeight = _bounds.y - (_rectCorners[1].y - _rectCorners[0].y) * 2f + ScrollPadding;
+            var maxScrollHeight = (_bounds.y - (_rectCorners[1].y - _rectCorners[0].y) * 2f + ScrollPadding) / ParentCanvas.scaleFactor;
             if (maxScrollHeight <= 0f) return;
             
             // Increment scroll:

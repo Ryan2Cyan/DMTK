@@ -33,6 +33,7 @@ namespace UI.Window
         private void OnEnable()
         {
             UIElementActive = true;
+            UIElementPriority = 1;
         }
 
         private void OnDisable()

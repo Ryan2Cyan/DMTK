@@ -55,7 +55,8 @@ namespace Tabletop.Miniatures
 
         private void Awake()
         {
-            if (MaximumHitPoints <= 0) MaximumHitPoints = 100;
+            MaximumHitPoints = 100;
+            CurrentHitPoints = MaximumHitPoints / 2;
             if (Label == "") Label = "No Name";
         }
 

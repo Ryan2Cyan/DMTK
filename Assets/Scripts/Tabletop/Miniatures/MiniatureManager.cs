@@ -78,6 +78,7 @@ namespace Tabletop.Miniatures
 
         private void OnMouseUp()
         {
+            if (_isMiniatureGrabbed) return;
             InputManager.Instance.QueueMiniatureInputFunction(MouseUp);
         }
 

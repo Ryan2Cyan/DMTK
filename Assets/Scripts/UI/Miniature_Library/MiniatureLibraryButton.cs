@@ -29,6 +29,17 @@ namespace UI.Miniature_Library
             MiniatureLibraryManager.Instance.LocateMiniatureId(MiniatureID);
         }
 
+        public override void OnMouseEnter()
+        {
+            base.OnMouseEnter();
+            MiniatureLibraryManager.Instance.RectOverflowScript.EnableScrolling = true;
+        }
+
+        public override void OnMouseExit()
+        {
+            base.OnMouseExit();
+        }
+
         #endregion
     }
 }
