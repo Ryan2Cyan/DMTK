@@ -43,7 +43,7 @@ namespace UI.Utility
 
             foreach (var uiElementTransform in UIElementTransforms)
             {
-                if(!_camera.orthographic) uiElementTransform.position = RectTransformUtility.WorldToScreenPoint(_camera, position);
+                uiElementTransform.position = RectTransformUtility.WorldToScreenPoint(_camera, position);
                 uiElementTransform.localScale = new Vector3(scale, scale, scale);
             }
         }

@@ -493,7 +493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 407126424dee7f445b81353b066ed108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 0}
   Target: {fileID: 0}
 --- !u!114 &6773687090785785023
 MonoBehaviour:
@@ -507,7 +506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10729876a30cbb64bb62bae83811c5ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 0}
   WorldSpaceTarget: {fileID: 0}
   UIElementTransforms:
   - {fileID: 1650465440947611842}
@@ -554,7 +552,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   Offset: {x: 0, y: 1, z: 0}
-  MaxDistance: 20
+  MaxDistance: 40
   MaxScale: 2
 --- !u!95 &2374129806745914214
 Animator:
