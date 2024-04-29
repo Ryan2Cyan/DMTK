@@ -144,7 +144,11 @@ namespace UI.Miniature_Data
         public void Instantiate()
         {
             gameObject.SetActive(true);
-            if(_animator != null) _animator.SetBool(Enabled, true);
+            if (_animator != null)
+            {
+                _animator.Rebind();
+                _animator.Update(0f);
+            }
         }
 
         public void Release()

@@ -65,6 +65,12 @@ namespace Tabletop.Miniatures
             spawnedMini.Spawn(miniatureSpawnData, newCell);
         }
 
+        [ContextMenu("DespawnAll")]
+        public void DespawnAll()
+        {
+            while (RegisteredMiniatures.Count > 0) RegisteredMiniatures[0].Despawn();
+        }
+        
         public void DespawnMiniature()
         {
             var selectedMiniature = RadialManager.Instance.SelectedMiniData;

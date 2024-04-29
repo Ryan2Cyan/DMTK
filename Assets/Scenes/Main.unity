@@ -3001,25 +3001,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1196726372}
     m_Modifications:
-    - target: {fileID: 33939872375925580, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
-      propertyPath: MiniatureParent
+    - target: {fileID: 4140904363743001305, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
+      propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 577676057}
+      objectReference: {fileID: 1377784575}
     - target: {fileID: 4993134433878253470, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
       propertyPath: ParentCanvas
       value: 
       objectReference: {fileID: 849222005}
-    - target: {fileID: 4993134433878253470, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
-      propertyPath: ScrollPadding
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 8522292722862339406, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
       propertyPath: m_Name
       value: DMTK_Miniature_Library
-      objectReference: {fileID: 0}
-    - target: {fileID: 8522292722862339406, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8678345915620018967, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
       propertyPath: m_Pivot.x
