@@ -3019,7 +3019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8522292722862339406, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8678345915620018967, guid: 6c91859a25696fa4588a4c53c9018f1e, type: 3}
       propertyPath: m_Pivot.x
@@ -3118,33 +3118,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 849222002}
     m_Modifications:
-    - target: {fileID: 1251393119781252619, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1251393119781252619, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1592875961616759197, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_margin.z
-      value: -77.489716
-      objectReference: {fileID: 0}
     - target: {fileID: 4565207228514304246, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: m_Name
       value: Radial_Menus
-      objectReference: {fileID: 0}
-    - target: {fileID: 4741405591107194709, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4741405591107194709, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4741405591107194709, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5718093989509091640, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: OnPressEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -3232,10 +3208,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7519921067566324856, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7615922598294772713, guid: ca4a67f44da13a64d9175e6d027fb6f8, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

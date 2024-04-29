@@ -59,6 +59,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - MiniaturePrefab
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c9ac93ccd0265241ab0c0053db72a54
+    m_Address: Assets/Prefabs/Tabletop/Miniatures/Gnorp_Mini.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e1dbf33d35326b54ca35e30d16299faf, type: 2}
   m_SchemaSet:

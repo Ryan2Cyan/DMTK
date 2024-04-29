@@ -53,6 +53,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - MiniatureSpawnData
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb52ba076122c9240aa9aebe4bd9bbea
+    m_Address: Assets/Miniature_Data/MiniatureSpawnData_Gnorp.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniatureSpawnData
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e1dbf33d35326b54ca35e30d16299faf, type: 2}
   m_SchemaSet:
