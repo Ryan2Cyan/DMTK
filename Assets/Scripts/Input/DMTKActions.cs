@@ -109,7 +109,7 @@ public partial class @DMTKActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""da07cb64-c313-464f-9eb6-04da24d17817"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": ""Hold(duration=0.1,pressPoint=0.2)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MouseHold"",
