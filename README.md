@@ -1,4 +1,8 @@
 # Dungeon Master's Toolkit (DMTK)
+<p align="center">
+  <img src="Assets/Art/DMTK_Logos/IP_DMTK_Logo_2.png" width=350>
+</p>
+
 Digital Dungeons and Dragons (D&D) tabletop simulation software aiming to replicate the basic functions and traditional </br>
 benefits of a real-world tabletop and miniatures. Primary goals include: (1) simplistic user interface, and (2) supplementary </br>
 approach. </br>
