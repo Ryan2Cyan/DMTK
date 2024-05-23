@@ -18,6 +18,7 @@ namespace UI
         
         
         [HideInInspector] public bool UIInteraction;
+        
         [HideInInspector] public bool UISelected;
         
         private UIElement _currentUIElementInteraction;

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UI
+namespace UI.Window
 {
     /// <summary> Changes the colour of a button's TMP Texts depending on whether the user's cursor is
     /// hovering over it or not. </summary>
